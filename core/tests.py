@@ -210,3 +210,7 @@ class InterfaceLanguageTests(TestCase):
 
         self.assertContains(directory_response, "Search professionals")
         self.assertContains(directory_response, "Apply filters")
+        self.assertContains(directory_response, 'action="/i18n/setlang/"', count=1)
+        self.assertContains(directory_response, 'name="language" value="pt"')
+        self.assertContains(directory_response, 'name="language" value="fr"')
+        self.assertContains(directory_response, 'name="language" value="en"')

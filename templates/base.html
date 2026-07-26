@@ -1,6 +1,7 @@
 {% load static i18n %}
 <!-- impeccable-disable single-font -- Outfit é a família única definida no design system Kalitica -->
 {% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
 <!doctype html>
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
@@ -40,7 +41,7 @@
           {% if request.user.membership.can_access_network %}
           <nav class="member-primary-nav" aria-label="Rede Kalitica"><a href="{% url 'accounts:dashboard' %}">{% translate "Painel" %}</a><a href="{% url 'search' %}">{% translate "Directório" %}</a><a href="{% url 'area-list' %}">{% translate "Áreas" %}</a><a href="{% url 'interactions:favorites' %}">{% translate "Favoritos" %}</a><a href="{% url 'interactions:contacts' %}">{% translate "Mensagens" %}</a><a href="{% url 'interactions:notifications' %}">{% translate "Notificações" %}</a></nav>
           {% else %}<nav class="member-primary-nav" aria-label="Conta Kalitica"><a href="{% url 'memberships:dashboard' %}">{% translate "A minha candidatura" %}</a><a href="{% url 'accounts:dashboard' %}">{% translate "A minha conta" %}</a></nav>{% endif %}
-          <div class="member-account"><a class="member-avatar" href="{% url 'accounts:dashboard' %}" aria-label="Abrir conta">{{ request.user.first_name|first|default:"K" }}</a><button type="button" data-member-menu aria-expanded="false" aria-controls="member-mobile-nav"><i class="bi bi-list" aria-hidden="true"></i><span class="visually-hidden">Abrir menu</span></button></div>
+          <div class="member-account"><form class="member-language-switch" action="{% url 'set_language' %}" method="post">{% csrf_token %}<input type="hidden" name="next" value="{{ request.path }}">{% for code, name in LANGUAGES %}<button type="submit" name="language" value="{{ code }}"{% if LANGUAGE_CODE == code %} aria-current="true"{% endif %}>{{ code|upper }}</button>{% endfor %}</form><a class="member-avatar" href="{% url 'accounts:dashboard' %}" aria-label="Abrir conta">{{ request.user.first_name|first|default:"K" }}</a><button type="button" data-member-menu aria-expanded="false" aria-controls="member-mobile-nav"><i class="bi bi-list" aria-hidden="true"></i><span class="visually-hidden">{% translate "Abrir menu" %}</span></button></div>
         {% else %}<nav class="member-primary-nav"><a href="{% url 'accounts:login' %}">{% translate "Entrar" %}</a></nav>{% endif %}
       </div>
       {% if request.user.is_authenticated %}<div class="member-mobile-nav" id="member-mobile-nav" data-member-mobile-nav>{% if request.user.membership.can_access_network %}<a href="{% url 'accounts:dashboard' %}">{% translate "Painel" %}</a><a href="{% url 'search' %}">{% translate "Directório" %}</a><a href="{% url 'area-list' %}">{% translate "Áreas" %}</a><a href="{% url 'interactions:favorites' %}">{% translate "Favoritos" %}</a><a href="{% url 'interactions:contacts' %}">{% translate "Mensagens" %}</a><a href="{% url 'interactions:notifications' %}">{% translate "Notificações" %}</a>{% else %}<a href="{% url 'memberships:dashboard' %}">{% translate "A minha candidatura" %}</a><a href="{% url 'accounts:dashboard' %}">{% translate "A minha conta" %}</a>{% endif %}<form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button type="submit">{% translate "Sair" %}</button></form></div>{% endif %}
