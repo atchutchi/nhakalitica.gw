@@ -35,6 +35,18 @@ class Membership(models.Model):
     )
     relationship_note = models.TextField(blank=True)
     motivation = models.TextField(blank=True)
+    accepts_code_of_conduct = models.BooleanField(
+        _("Aceita o código de conduta"),
+        default=False,
+    )
+    accepts_privacy = models.BooleanField(
+        _("Aceita a política de privacidade"),
+        default=False,
+    )
+    confirms_truth = models.BooleanField(
+        _("Confirma a veracidade da candidatura"),
+        default=False,
+    )
     status = models.CharField(
         max_length=24,
         choices=Status.choices,
@@ -51,6 +63,13 @@ class Membership(models.Model):
     @property
     def can_access_network(self):
         return self.status == self.Status.APPROVED
+
+    @property
+    def can_edit_application(self):
+        return self.status in {
+            self.Status.DRAFT,
+            self.Status.CORRECTIONS_REQUIRED,
+        }
 
     def __str__(self):
         return f"{self.user.email} · {self.get_status_display()}"

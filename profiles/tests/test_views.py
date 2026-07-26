@@ -11,12 +11,11 @@ class ProfileViewTests(TestCase):
             email="maria@example.com",
             password="PalavraPasseSegura2026!",
         )
-        Membership.objects.create(
-            user=self.user,
-            member_type=Membership.Type.EFFECTIVE,
-            relationship=Membership.Relationship.CITIZEN,
-            status=Membership.Status.APPROVED,
-        )
+        membership = self.user.membership
+        membership.member_type = Membership.Type.EFFECTIVE
+        membership.relationship = Membership.Relationship.CITIZEN
+        membership.status = Membership.Status.APPROVED
+        membership.save()
 
     def test_edit_requires_authentication(self):
         response = self.client.get("/perfil/editar/")

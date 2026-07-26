@@ -40,12 +40,11 @@ class SeoAndOperationsTests(TestCase):
         sector = Sector.objects.create(name="Tecnologia", slug="tecnologia")
         self.area = Area.objects.create(sector=sector, name="Software", slug="software")
         owner = get_user_model().objects.create_user(email="seo@example.com", password="test-pass")
-        Membership.objects.create(
-            user=owner,
-            member_type=Membership.Type.EFFECTIVE,
-            relationship=Membership.Relationship.CITIZEN,
-            status=Membership.Status.APPROVED,
-        )
+        membership = owner.membership
+        membership.member_type = Membership.Type.EFFECTIVE
+        membership.relationship = Membership.Relationship.CITIZEN
+        membership.status = Membership.Status.APPROVED
+        membership.save()
         self.profile = owner.profile
         self.profile.public_name = "Pessoa Pública"
         self.profile.professional_title = "Programadora"

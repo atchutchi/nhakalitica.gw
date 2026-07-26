@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Rever candidatura{% endblock %}
+
+{% block content %}
+<main class="container page-section">
+  <p class="eyebrow">Adesão à Kalitica</p>
+  <h1>Rever e confirmar</h1>
+  {% if submission_errors %}
+    <div role="alert">
+      <p>Antes de submeter:</p>
+      <ul>
+        {% for error in submission_errors %}<li>{{ error }}</li>{% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+  <dl>
+    <dt>Tipo de adesão</dt><dd>{{ membership.get_member_type_display|default:"Por preencher" }}</dd>
+    <dt>Ligação à Guiné-Bissau</dt><dd>{{ membership.get_relationship_display|default:"Por preencher" }}</dd>
+    <dt>Motivação</dt><dd>{{ membership.motivation|default:"Por preencher" }}</dd>
+  </dl>
+  <a class="button" href="{% url 'memberships:edit' %}">Editar candidatura</a>
+  <form method="post" action="{% url 'memberships:submit' %}">
+    {% csrf_token %}
+    <button class="button button-primary" type="submit"{% if submission_errors %} disabled{% endif %}>Submeter candidatura</button>
+  </form>
+</main>
+{% endblock %}

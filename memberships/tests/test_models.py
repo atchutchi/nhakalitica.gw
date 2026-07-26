@@ -10,13 +10,13 @@ class MembershipModelTests(TestCase):
             email=f"{member_type}-{status}@example.com",
             password="safe-password-123",
         )
-        return Membership.objects.create(
-            user=user,
-            member_type=member_type,
-            relationship=Membership.Relationship.CITIZEN,
-            relationship_note="Cidadão da Guiné-Bissau.",
-            status=status,
-        )
+        membership = user.membership
+        membership.member_type = member_type
+        membership.relationship = Membership.Relationship.CITIZEN
+        membership.relationship_note = "Cidadão da Guiné-Bissau."
+        membership.status = status
+        membership.save()
+        return membership
 
     def test_approved_membership_opens_network_for_both_types(self):
         for member_type in [Membership.Type.EFFECTIVE, Membership.Type.OBSERVER]:

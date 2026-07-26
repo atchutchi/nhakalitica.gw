@@ -11,12 +11,11 @@ class PrivateNetworkAccessTests(TestCase):
             email=email,
             password="Segura2026!",
         )
-        Membership.objects.create(
-            user=user,
-            member_type=Membership.Type.EFFECTIVE,
-            relationship=Membership.Relationship.CITIZEN,
-            status=status,
-        )
+        membership = user.membership
+        membership.member_type = Membership.Type.EFFECTIVE
+        membership.relationship = Membership.Relationship.CITIZEN
+        membership.status = status
+        membership.save()
         return user
 
     def test_anonymous_visitor_is_sent_to_login(self):

@@ -17,13 +17,12 @@ class MembershipTransitionTests(TestCase):
             password="safe-password-123",
             is_staff=True,
         )
-        self.membership = Membership.objects.create(
-            user=self.user,
-            member_type=Membership.Type.EFFECTIVE,
-            relationship=Membership.Relationship.DIASPORA,
-            relationship_note="Membro da diáspora guineense.",
-            status=Membership.Status.UNDER_REVIEW,
-        )
+        self.membership = self.user.membership
+        self.membership.member_type = Membership.Type.EFFECTIVE
+        self.membership.relationship = Membership.Relationship.DIASPORA
+        self.membership.relationship_note = "Membro da diáspora guineense."
+        self.membership.status = Membership.Status.UNDER_REVIEW
+        self.membership.save()
 
     def test_refusal_requires_note(self):
         with self.assertRaisesMessage(ValidationError, "justificação"):

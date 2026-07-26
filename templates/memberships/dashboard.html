@@ -12,6 +12,10 @@
     <a class="button button-primary" href="{% url 'search' %}">Explorar a rede</a>
   {% else %}
     <p>A pesquisa e os perfis da rede ficam disponíveis após a aprovação da tua adesão.</p>
+    {% if membership.can_edit_application %}
+      <a class="button button-primary" href="{% url 'memberships:edit' %}">Continuar candidatura</a>
+      <a class="button" href="{% url 'memberships:review' %}">Rever candidatura</a>
+    {% endif %}
   {% endif %}
 </main>
 {% endblock %}

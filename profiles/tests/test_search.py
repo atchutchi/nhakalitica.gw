@@ -15,12 +15,11 @@ class PublicSearchTests(TestCase):
             email="viewer@example.com",
             password="Segura2026!",
         )
-        Membership.objects.create(
-            user=viewer,
-            member_type=Membership.Type.EFFECTIVE,
-            relationship=Membership.Relationship.CITIZEN,
-            status=Membership.Status.APPROVED,
-        )
+        membership = viewer.membership
+        membership.member_type = Membership.Type.EFFECTIVE
+        membership.relationship = Membership.Relationship.CITIZEN
+        membership.status = Membership.Status.APPROVED
+        membership.save()
         self.client.force_login(viewer)
         self.sector = Sector.objects.create(name="Tecnologia", slug="tecnologia")
         self.area = Area.objects.create(

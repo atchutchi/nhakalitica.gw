@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Editar candidatura{% endblock %}
+
+{% block content %}
+<main class="container page-section">
+  <p class="eyebrow">Adesão à Kalitica</p>
+  <h1>Prepara a tua candidatura</h1>
+  <p>Podes guardar o rascunho e continuar mais tarde.</p>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="button button-primary" type="submit">Guardar rascunho</button>
+  </form>
+</main>
+{% endblock %}

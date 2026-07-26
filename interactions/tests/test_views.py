@@ -28,12 +28,11 @@ class InteractionViewTests(TestCase):
         self.owner = user_model.objects.create_user(email="owner@example.com", password="test-pass")
         self.other_user = user_model.objects.create_user(email="other@example.com", password="test-pass")
         for user in (self.user, self.owner, self.other_user):
-            Membership.objects.create(
-                user=user,
-                member_type=Membership.Type.EFFECTIVE,
-                relationship=Membership.Relationship.CITIZEN,
-                status=Membership.Status.APPROVED,
-            )
+            membership = user.membership
+            membership.member_type = Membership.Type.EFFECTIVE
+            membership.relationship = Membership.Relationship.CITIZEN
+            membership.status = Membership.Status.APPROVED
+            membership.save()
         self.profile = self.owner.profile
         self.profile.public_name = "Profissional Público"
         self.profile.status = Profile.Status.APPROVED
