@@ -1,5 +1,6 @@
 .superpowers/
 .impeccable/live/
+.playwright-cli/
 .github/skills/
 .github/hooks/
 

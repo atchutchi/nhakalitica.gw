@@ -1,3 +1,6 @@
+from pathlib import Path
+
+from django.conf import settings
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
@@ -33,6 +36,16 @@ class HomeViewTests(TestCase):
 
 
 class PublicVisualContractTests(TestCase):
+    def test_public_brand_assets_are_not_clipped_and_hero_mark_is_prominent(self):
+        public_css = (Path(settings.BASE_DIR) / "static" / "css" / "public.css").read_text(
+            encoding="utf-8"
+        )
+
+        self.assertIn(".public-brand {", public_css)
+        self.assertIn("overflow: visible;", public_css)
+        self.assertIn("transform: none;", public_css)
+        self.assertIn("width: clamp(680px, 58vw, 760px);", public_css)
+
     def test_home_uses_kalitica_public_shell(self):
         response = self.client.get(reverse("home"))
 

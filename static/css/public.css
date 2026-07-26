@@ -45,24 +45,25 @@
 
 .public-nav-wrap {
   display: flex;
-  min-height: 76px;
+  min-height: 102px;
   align-items: center;
   gap: 28px;
 }
 
 .public-brand {
   display: block;
-  width: 164px;
-  height: 58px;
-  overflow: hidden;
+  width: 168px;
+  height: auto;
+  overflow: visible;
   flex: 0 0 auto;
 }
 
 .public-brand img {
-  width: 164px;
-  height: 92px;
+  display: block;
+  width: 168px;
+  height: auto;
   object-fit: contain;
-  transform: translateY(-17px);
+  transform: none;
 }
 
 .public-menu {
@@ -129,12 +130,12 @@
   line-height: 1.55;
 }
 .hero-network-actions { display: flex; gap: 14px; margin-top: 30px; }
-.hero-leaf-mark { position: relative; height: 350px; overflow: hidden; }
+.hero-leaf-mark { position: relative; height: 370px; overflow: hidden; }
 .hero-leaf-mark img {
   position: absolute;
-  top: -4px;
+  top: -12px;
   left: 50%;
-  width: 520px;
+  width: clamp(680px, 58vw, 760px);
   max-width: none;
   transform: translateX(-50%);
   clip-path: inset(0 0 45% 0);
@@ -222,22 +223,23 @@
 
 @media (max-width: 980px) {
   .public-menu-toggle { display: inline-grid; width: 44px; height: 44px; margin-left: auto; place-items: center; border: 1px solid var(--color-border); border-radius: var(--radius-control); color: var(--color-navy); background: #fff; font-size: 24px; }
-  .public-menu { position: absolute; top: 110px; right: 20px; left: 20px; display: none; padding: 20px; border: 1px solid var(--color-border); background: #fff; box-shadow: 0 8px 16px rgba(11,61,97,.12); }
+  .public-menu { position: absolute; top: 136px; right: 20px; left: 20px; display: none; padding: 20px; border: 1px solid var(--color-border); background: #fff; box-shadow: 0 8px 16px rgba(11,61,97,.12); }
   .public-menu.is-open { display: grid; gap: 18px; }
   .public-links, .public-actions { align-items: stretch; flex-direction: column; }
   .public-links a { display: flex; min-height: 44px; align-items: center; }
   .hero-network-grid, .mission-grid { grid-template-columns: 1fr; }
-  .hero-leaf-mark { height: 260px; }
+  .hero-leaf-mark { height: 300px; }
+  .hero-leaf-mark img { width: clamp(600px, 78vw, 680px); }
   .audience-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 700px) {
   .public-container { width: min(100% - 28px, 1180px); }
   .public-language-bar { display: none; }
-  .public-nav-wrap { min-height: 68px; }
-  .public-menu { top: 68px; right: 14px; left: 14px; }
-  .public-brand { width: 132px; height: 52px; }
-  .public-brand img { width: 132px; height: 76px; transform: translateY(-12px); }
+  .public-nav-wrap { min-height: 84px; }
+  .public-menu { top: 84px; right: 14px; left: 14px; }
+  .public-brand { width: 128px; height: auto; }
+  .public-brand img { width: 128px; height: auto; transform: none; }
   .hero-network { padding-top: 42px; }
   .hero-network-grid { gap: 24px; }
   .hero-network-copy h1 { font-size: clamp(2.35rem, 12vw, 3.4rem); }
