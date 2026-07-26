@@ -2,9 +2,58 @@ from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.utils import timezone
 
+from memberships.models import Membership
+from memberships.services import transition_membership
 from profiles.models import Profile, ProfileRevision
 
 from .models import AuditLog
+
+
+MEMBERSHIP_NOTIFICATION_TITLES = {
+    Membership.Status.UNDER_REVIEW: "Candidatura em análise",
+    Membership.Status.CORRECTIONS_REQUIRED: "Correcções solicitadas",
+    Membership.Status.APPROVED: "Adesão aprovada",
+    Membership.Status.REFUSED: "Decisão sobre a adesão",
+    Membership.Status.SUSPENDED: "Adesão suspensa",
+}
+MEMBERSHIP_MODERATION_TARGETS = frozenset(MEMBERSHIP_NOTIFICATION_TITLES)
+
+
+@transaction.atomic
+def moderate_membership(membership, actor, target_status, note=""):
+    from interactions.models import Notification
+
+    if target_status not in MEMBERSHIP_MODERATION_TARGETS:
+        raise ValidationError("Decisão de adesão inválida.")
+    locked_membership = Membership.objects.select_for_update().select_related("user").get(
+        pk=membership.pk
+    )
+    previous_status = locked_membership.status
+    decision = transition_membership(
+        locked_membership,
+        actor,
+        target_status,
+        note,
+    )
+    AuditLog.objects.create(
+        actor=actor,
+        action=f"membership.{target_status}",
+        target_type="membership",
+        target_id=str(locked_membership.pk),
+        metadata={
+            "previous_status": previous_status,
+            "new_status": target_status,
+            "decision_id": decision.pk,
+        },
+    )
+    Notification.objects.create(
+        user=locked_membership.user,
+        type=f"membership_{target_status}",
+        title=MEMBERSHIP_NOTIFICATION_TITLES[target_status],
+        body=note.strip(),
+        link="/adesao/",
+    )
+    return decision
 
 
 ACTION_CONFIG = {
@@ -68,6 +117,17 @@ def moderate_profile(profile, actor, action, reason=""):
     }
     locked_profile.status = Profile.Status.APPROVED if keeps_previous_public_version else config["status"]
     locked_profile.is_public = action == "approve" or keeps_previous_public_version
+    if action == "approve":
+        locked_profile.review_status = Profile.ReviewStatus.APPROVED
+        locked_profile.is_discoverable = locked_profile.consent_profile_public
+    elif keeps_previous_public_version:
+        locked_profile.review_status = Profile.ReviewStatus.APPROVED
+    elif action in {"reject", "request_changes", "suspend"}:
+        locked_profile.review_status = Profile.ReviewStatus.CORRECTIONS_REQUIRED
+        locked_profile.is_discoverable = False
+    elif action == "restore":
+        locked_profile.review_status = Profile.ReviewStatus.DRAFT
+        locked_profile.is_discoverable = False
     locked_profile.review_note = clean_reason
     locked_profile.reviewed_by = actor
     locked_profile.reviewed_at = now
@@ -81,6 +141,8 @@ def moderate_profile(profile, actor, action, reason=""):
         update_fields=(
             "status",
             "is_public",
+            "review_status",
+            "is_discoverable",
             "review_note",
             "reviewed_by",
             "reviewed_at",

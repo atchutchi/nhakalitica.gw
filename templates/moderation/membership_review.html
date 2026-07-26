@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Rever adesão | Administração Kalitica{% endblock %}
+
+{% block content %}
+<main class="admin-section">
+  <div class="container narrow-container">
+    <a href="{% url 'moderation:membership-list' %}">Voltar à fila</a>
+    <span class="eyebrow">Revisão de adesão</span>
+    <h1>{{ membership.user.get_full_name|default:membership.user.email }}</h1>
+    <dl>
+      <dt>Tipo</dt><dd>{{ membership.get_member_type_display }}</dd>
+      <dt>Ligação à Guiné-Bissau</dt><dd>{{ membership.get_relationship_display }}</dd>
+      <dt>Explicação</dt><dd>{{ membership.relationship_note|default:"Não aplicável" }}</dd>
+      <dt>Motivação</dt><dd>{{ membership.motivation }}</dd>
+      <dt>Estado</dt><dd>{{ membership.get_status_display }}</dd>
+    </dl>
+    {% if error %}<p class="alert alert-danger" role="alert">{{ error }}</p>{% endif %}
+    {% if actions %}
+      <form method="post">
+        {% csrf_token %}
+        <label for="membership-note">Nota da decisão</label>
+        <textarea id="membership-note" name="note" rows="5"></textarea>
+        <div class="admin-actions">
+          {% for value, label in actions %}<button type="submit" name="action" value="{{ value }}">{{ label }}</button>{% endfor %}
+        </div>
+      </form>
+    {% else %}<p>Não existem decisões disponíveis para este estado.</p>{% endif %}
+    <section>
+      <h2>Histórico</h2>
+      {% for decision in membership.decisions.all %}<p>{{ decision.created_at|date:"d/m/Y H:i" }} · {{ decision.get_to_status_display }} · {{ decision.actor|default:"Sistema" }}{% if decision.note %}<br>{{ decision.note }}{% endif %}</p>{% empty %}<p>Sem decisões anteriores.</p>{% endfor %}
+    </section>
+  </div>
+</main>
+{% endblock %}

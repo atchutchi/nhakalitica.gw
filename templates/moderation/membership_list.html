@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Adesões | Administração Kalitica{% endblock %}
+
+{% block content %}
+<main class="admin-section">
+  <div class="container">
+    <div class="admin-heading">
+      <div><span class="eyebrow">Administração Kalitica</span><h1>Candidaturas de adesão</h1></div>
+      <a href="{% url 'moderation:dashboard' %}">Voltar ao painel</a>
+    </div>
+    <form method="get">
+      <label for="membership-status">Estado</label>
+      <select id="membership-status" name="status" onchange="this.form.submit()">
+        <option value="">Todos</option>
+        {% for value, label in status_choices %}<option value="{{ value }}"{% if selected_status == value %} selected{% endif %}>{{ label }}</option>{% endfor %}
+      </select>
+      <noscript><button type="submit">Filtrar</button></noscript>
+    </form>
+    <section class="admin-panel">
+      {% for membership in memberships %}
+        <a class="admin-list-row" href="{% url 'moderation:membership-review' membership.pk %}">
+          <span><strong>{{ membership.user.get_full_name|default:membership.user.email }}</strong><small>{{ membership.get_member_type_display|default:"Tipo por preencher" }}</small></span>
+          <span>{{ membership.get_status_display }}</span>
+        </a>
+      {% empty %}<p>Não existem candidaturas neste estado.</p>{% endfor %}
+    </section>
+  </div>
+</main>
+{% endblock %}

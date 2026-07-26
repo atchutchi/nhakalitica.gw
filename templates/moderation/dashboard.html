@@ -21,6 +21,19 @@
             <article class="metric-card"><span>Suspensos</span><strong>{{ counts.suspended|default:0 }}</strong></article>
         </section>
 
+        <section class="admin-panel" aria-labelledby="membership-pending-title">
+            <div class="section-row">
+                <div><span class="step-number">Adesões</span><h2 id="membership-pending-title">Candidaturas pendentes</h2></div>
+                <a href="{% url 'moderation:membership-list' %}">Ver todas</a>
+            </div>
+            {% for membership in pending_memberships %}
+                <a class="admin-list-row" href="{% url 'moderation:membership-review' membership.pk %}">
+                    <span><strong>{{ membership.user.get_full_name|default:membership.user.email }}</strong><small>{{ membership.get_member_type_display|default:"Tipo por preencher" }}</small></span>
+                    <span>{{ membership.get_status_display }}</span>
+                </a>
+            {% empty %}<p class="empty-inline">Não existem candidaturas pendentes.</p>{% endfor %}
+        </section>
+
         <section class="admin-panel" aria-labelledby="pending-title">
             <div class="section-row">
                 <div><span class="step-number">Prioridade</span><h2 id="pending-title">Perfis pendentes</h2></div>
@@ -37,6 +50,7 @@
         </section>
 
         <nav class="admin-shortcuts" aria-label="Ferramentas administrativas">
+            <a href="{% url 'moderation:membership-list' %}">Gerir adesões</a>
             <a href="{% url 'moderation:report-list' %}">Analisar denúncias</a>
             <a href="{% url 'admin:accounts_user_changelist' %}">Gerir utilizadores</a>
             <a href="{% url 'admin:taxonomy_sector_changelist' %}">Gerir taxonomia</a>

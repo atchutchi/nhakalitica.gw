@@ -6,10 +6,18 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
 
+from memberships.models import Membership
+from memberships.services import VALID_TRANSITIONS
 from profiles.models import Profile
 
 from .models import AuditLog
-from .services import ACTION_CONFIG, moderate_profile, moderate_report
+from .services import (
+    ACTION_CONFIG,
+    MEMBERSHIP_MODERATION_TARGETS,
+    moderate_membership,
+    moderate_profile,
+    moderate_report,
+)
 
 
 def staff_required(view):
@@ -26,13 +34,78 @@ def staff_required(view):
 @staff_required
 def dashboard(request):
     counts = {item["status"]: item["total"] for item in Profile.objects.values("status").annotate(total=Count("id"))}
+    membership_counts = {
+        item["status"]: item["total"]
+        for item in Membership.objects.values("status").annotate(total=Count("id"))
+    }
     context = {
         "counts": counts,
+        "membership_counts": membership_counts,
+        "pending_memberships": Membership.objects.filter(
+            status__in=(Membership.Status.SUBMITTED, Membership.Status.UNDER_REVIEW)
+        ).select_related("user").order_by("submitted_at", "updated_at")[:8],
         "pending_profiles": Profile.objects.filter(status=Profile.Status.PENDING)
         .select_related("user")
         .order_by("updated_at")[:8],
     }
     return render(request, "moderation/dashboard.html", context)
+
+
+@staff_required
+def membership_list(request):
+    selected_status = request.GET.get("status", Membership.Status.SUBMITTED)
+    valid_statuses = {value for value, _label in Membership.Status.choices}
+    memberships = Membership.objects.select_related("user").order_by("submitted_at", "updated_at")
+    if selected_status in valid_statuses:
+        memberships = memberships.filter(status=selected_status)
+    else:
+        selected_status = ""
+    return render(
+        request,
+        "moderation/membership_list.html",
+        {
+            "memberships": memberships,
+            "selected_status": selected_status,
+            "status_choices": Membership.Status.choices,
+        },
+    )
+
+
+@staff_required
+def membership_review(request, pk):
+    membership = get_object_or_404(
+        Membership.objects.select_related("user", "user__profile").prefetch_related("decisions__actor"),
+        pk=pk,
+    )
+    error = ""
+    if request.method == "POST":
+        try:
+            moderate_membership(
+                membership,
+                request.user,
+                request.POST.get("action", ""),
+                request.POST.get("note", ""),
+            )
+        except (ValidationError, KeyError) as exception:
+            error = (
+                exception.messages[0]
+                if isinstance(exception, ValidationError)
+                else "Decisão de adesão inválida."
+            )
+        else:
+            messages.success(request, "Decisão de adesão registada.")
+            return redirect("moderation:membership-list")
+    allowed_actions = VALID_TRANSITIONS.get(membership.status, set()) & MEMBERSHIP_MODERATION_TARGETS
+    actions = [
+        (status, label)
+        for status, label in Membership.Status.choices
+        if status in allowed_actions
+    ]
+    return render(
+        request,
+        "moderation/membership_review.html",
+        {"membership": membership, "actions": actions, "error": error},
+    )
 
 
 @staff_required
