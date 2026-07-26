@@ -11,7 +11,7 @@
       <form method="post" novalidate>{% csrf_token %}
         {% for field in form %}<div class="auth-field"><label for="{{ field.id_for_label }}">{{ field.label }}</label><div class="auth-input-wrap">{{ field }}{% if field.name == 'password' %}<button type="button" data-password-toggle aria-label="Mostrar palavra-passe"><i class="bi bi-eye" aria-hidden="true"></i></button>{% endif %}</div>{% for error in field.errors %}<p class="auth-error">{{ error }}</p>{% endfor %}</div>{% endfor %}
         {% for error in form.non_field_errors %}<p class="auth-error" role="alert">{{ error }}</p>{% endfor %}
-        <div class="auth-form-row"><label><input type="checkbox" name="remember"> {% translate "Manter sessão iniciada" %}</label><a href="{% url 'accounts:password_reset' %}">{% translate "Esqueceu a palavra-passe?" %}</a></div>
+        <div class="auth-form-row"><label><input type="checkbox" name="remember"> {% translate "Manter sessão iniciada" %}</label><a href="{% url 'accounts:password_reset' %}">{% translate "Esqueceste-te da palavra-passe?" %}</a></div>
         <button class="k-btn k-btn-primary auth-submit" type="submit">{% translate "Entrar" %}</button>
       </form>
       <p class="auth-switch">{% translate "Ainda não tens conta?" %} <a href="{% url 'accounts:signup' %}">{% translate "Criar conta" %}</a></p>

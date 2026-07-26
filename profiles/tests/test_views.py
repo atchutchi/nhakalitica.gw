@@ -25,6 +25,18 @@ class ProfileViewTests(TestCase):
 
         self.assertRedirects(response, "/conta/entrar/?next=/perfil/editar/")
 
+    def test_profile_privacy_note_uses_complete_portuguese_sentence(self):
+        profile = self.user.profile
+        profile.public_name = "Maria Sambu"
+        profile.review_status = Profile.ReviewStatus.APPROVED
+        profile.is_discoverable = True
+        profile.save()
+        self.client.force_login(self.user)
+
+        response = self.client.get(f"/profissionais/{profile.slug}/")
+
+        self.assertContains(response, "depois de o pedido de contacto ser aceite")
+
     def test_user_can_update_own_profile(self):
         self.client.force_login(self.user)
 

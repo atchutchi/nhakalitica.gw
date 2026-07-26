@@ -107,11 +107,11 @@ msgstr "Welcome back to Kalitica."
 msgid "Manter sessão iniciada"
 msgstr "Keep me signed in"
 
-msgid "Esqueceu a palavra-passe?"
+msgid "Esqueceste-te da palavra-passe?"
 msgstr "Forgot your password?"
 
 msgid "Ainda não tens conta?"
-msgstr "Do not have an account yet?"
+msgstr "Don't have an account yet?"
 
 msgid "Criar conta"
 msgstr "Create account"
@@ -137,7 +137,7 @@ msgstr "The professional network of Guinea-Bissau."
 msgid "A nossa missão"
 msgstr "Our mission"
 
-msgid "A Kalitica Networking Society é a rede profissional privada que promove conexões significativas, colaboração e desenvolvimento entre profissionais ligados à Guiné-Bissau."
+msgid "A Kalitica Networking Society é a rede profissional privada que promove ligações significativas, colaboração e desenvolvimento entre profissionais ligados à Guiné-Bissau."
 msgstr "Kalitica Networking Society is the private professional network that promotes meaningful connections, collaboration and development among professionals connected to Guinea-Bissau."
 
 msgid "Acreditamos no poder da nossa comunidade para impulsionar ideias, projectos e oportunidades com impacto positivo no país e no mundo."
@@ -146,7 +146,7 @@ msgstr "We believe in the power of our community to advance ideas, projects and 
 msgid "Ligamos talentos"
 msgstr "We connect talent"
 
-msgid "Conectamos profissionais para criar pontes e oportunidades."
+msgid "Ligamos profissionais para criar pontes e oportunidades."
 msgstr "We connect professionals to create bridges and opportunities."
 
 msgid "Promovemos colaboração"
@@ -269,7 +269,7 @@ msgstr "Follow community activities"
 msgid "Participação em grupos e colaboração"
 msgstr "Group participation and collaboration"
 
-msgid "A Kalitica é uma rede privada. Todas as adesões são sujeitas a aprovação manual."
+msgid "A Kalitica é uma rede privada. Todas as adesões estão sujeitas a aprovação manual."
 msgstr "Kalitica is a private network. Every membership is subject to manual approval."
 
 msgid "Perfil profissional"
@@ -419,8 +419,8 @@ msgstr "Enter your email and we will send instructions to reset your password."
 msgid "Enviar instruções"
 msgstr "Send instructions"
 
-msgid "Lembrou-se da palavra-passe?"
-msgstr "Remembered your password?"
+msgid "Lembraste-te da palavra-passe?"
+msgstr "Remember your password?"
 
 msgid "Plataforma privada para profissionais na Guiné-Bissau, na diáspora guineense e profissionais com ligação relevante ao país."
 msgstr "A private platform for professionals in Guinea-Bissau, the Bissau-Guinean diaspora and professionals with a relevant connection to the country."

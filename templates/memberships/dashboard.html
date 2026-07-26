@@ -9,7 +9,7 @@
   <div class="next-step-card"><h3>Próximos passos</h3><ul><li>Aceder à rede profissional como membro</li><li>Concluir e rever o perfil profissional</li><li>Submeter o perfil para revisão antes da publicação</li></ul></div>
   <a class="k-btn k-btn-primary" href="{% url 'search' %}">{% translate "Explorar a rede" %} <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
 </section>
-<aside class="independent-review-note"><i class="bi bi-lock" aria-hidden="true"></i><p><strong>Processos separados</strong>A aprovação da adesão e a publicação do perfil são processos independentes. O perfil só aparece na rede depois de revisão própria.</p></aside>
+<aside class="independent-review-note"><i class="bi bi-lock" aria-hidden="true"></i><p><strong>Processos separados</strong>A aprovação da adesão e a publicação do perfil são processos independentes. O perfil só aparece na rede depois de uma revisão específica.</p></aside>
 {% elif membership.status == "corrections_required" %}
 <section class="decision-panel decision-corrections">
   <i class="bi bi-exclamation-triangle" aria-hidden="true"></i><h2>{% translate "Correcções necessárias" %}</h2><p>{% translate "A tua candidatura requer algumas correcções antes de voltar à equipa." %}</p>
@@ -23,7 +23,7 @@
     <li class="is-complete"><i class="bi bi-check-circle-fill" aria-hidden="true"></i><div><strong>Candidatura submetida</strong><span>{% if membership.submitted_at %}{{ membership.submitted_at|date:"d/m/Y, H:i" }}{% endif %}</span></div></li>
     <li class="is-current"><i class="bi bi-circle-fill" aria-hidden="true"></i><div><strong>Em análise</strong><span>A tua candidatura está a ser revista pela equipa Kalitica.</span></div></li>
     <li><i class="bi bi-circle" aria-hidden="true"></i><div><strong>Decisão da adesão</strong><span>Receberás a decisão por email.</span></div></li>
-    <li><i class="bi bi-circle" aria-hidden="true"></i><div><strong>Publicação do perfil</strong><span>É um processo separado e exige revisão própria.</span></div></li>
+    <li><i class="bi bi-circle" aria-hidden="true"></i><div><strong>Publicação do perfil</strong><span>É um processo separado e exige uma revisão específica.</span></div></li>
   </ol>
   <div class="onboarding-info"><strong>Durante a análise</strong><p>Não terás acesso ao directório de membros. Serás notificado por email sobre qualquer actualização.</p></div>
 </section>

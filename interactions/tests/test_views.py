@@ -493,6 +493,8 @@ class InteractionViewTests(TestCase):
         self.assertContains(response, "Lista privada")
         self.assertContains(response, 'class="member-shell')
         self.assertContains(response, "Comparar membros")
+        self.assertContains(response, "Adicionado há")
+        self.assertNotContains(response, "atrás")
         self.assertNotContains(response, "Exportar CSV")
 
     def test_favorites_page_includes_public_profile_with_changes_pending(self):

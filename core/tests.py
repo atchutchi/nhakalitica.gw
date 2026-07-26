@@ -75,6 +75,18 @@ class PublicVisualContractTests(TestCase):
         self.assertContains(response, 'value="fr"')
         self.assertContains(response, 'value="en"')
 
+    def test_public_copy_uses_consistent_european_portuguese(self):
+        about_response = self.client.get(reverse("about"))
+        membership_response = self.client.get(reverse("membership-types"))
+        login_response = self.client.get(reverse("accounts:login"))
+        reset_response = self.client.get(reverse("accounts:password_reset"))
+
+        self.assertContains(about_response, "ligações significativas")
+        self.assertContains(about_response, "Ligamos profissionais")
+        self.assertContains(membership_response, "Todas as adesões estão sujeitas")
+        self.assertContains(login_response, "Esqueceste-te da palavra-passe?")
+        self.assertContains(reset_response, "Lembraste-te da palavra-passe?")
+
 
 class SeoAndOperationsTests(TestCase):
     def setUp(self):
@@ -183,6 +195,15 @@ class InterfaceLanguageTests(TestCase):
         self.assertContains(response, '<html lang="en">')
         self.assertContains(response, "Welcome back to Kalitica.")
         self.assertContains(response, ">Sign in<")
+
+    def test_english_authentication_copy_is_natural(self):
+        self.select_language("en", "/conta/entrar/")
+
+        login_response = self.client.get("/conta/entrar/")
+        reset_response = self.client.get("/conta/recuperar-palavra-passe/")
+
+        self.assertContains(login_response, "Don't have an account yet?")
+        self.assertContains(reset_response, "Remember your password?")
 
     def test_language_selection_persists_across_pages(self):
         self.select_language("fr")

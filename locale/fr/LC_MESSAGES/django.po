@@ -107,7 +107,7 @@ msgstr "Bienvenue à nouveau chez Kalitica."
 msgid "Manter sessão iniciada"
 msgstr "Rester connecté"
 
-msgid "Esqueceu a palavra-passe?"
+msgid "Esqueceste-te da palavra-passe?"
 msgstr "Mot de passe oublié ?"
 
 msgid "Ainda não tens conta?"
@@ -137,7 +137,7 @@ msgstr "Le réseau professionnel de la Guinée-Bissau."
 msgid "A nossa missão"
 msgstr "Notre mission"
 
-msgid "A Kalitica Networking Society é a rede profissional privada que promove conexões significativas, colaboração e desenvolvimento entre profissionais ligados à Guiné-Bissau."
+msgid "A Kalitica Networking Society é a rede profissional privada que promove ligações significativas, colaboração e desenvolvimento entre profissionais ligados à Guiné-Bissau."
 msgstr "Kalitica Networking Society est le réseau professionnel privé qui favorise les relations utiles, la collaboration et le développement entre les professionnels liés à la Guinée-Bissau."
 
 msgid "Acreditamos no poder da nossa comunidade para impulsionar ideias, projectos e oportunidades com impacto positivo no país e no mundo."
@@ -146,7 +146,7 @@ msgstr "Nous croyons au pouvoir de notre communauté pour faire progresser des i
 msgid "Ligamos talentos"
 msgstr "Nous relions les talents"
 
-msgid "Conectamos profissionais para criar pontes e oportunidades."
+msgid "Ligamos profissionais para criar pontes e oportunidades."
 msgstr "Nous mettons les professionnels en relation pour créer des passerelles et des opportunités."
 
 msgid "Promovemos colaboração"
@@ -269,7 +269,7 @@ msgstr "Suivi des activités de la communauté"
 msgid "Participação em grupos e colaboração"
 msgstr "Participation aux groupes et collaboration"
 
-msgid "A Kalitica é uma rede privada. Todas as adesões são sujeitas a aprovação manual."
+msgid "A Kalitica é uma rede privada. Todas as adesões estão sujeitas a aprovação manual."
 msgstr "Kalitica est un réseau privé. Toutes les adhésions sont soumises à une approbation manuelle."
 
 msgid "Perfil profissional"
@@ -419,7 +419,7 @@ msgstr "Saisissez votre email et nous vous enverrons les instructions pour réin
 msgid "Enviar instruções"
 msgstr "Envoyer les instructions"
 
-msgid "Lembrou-se da palavra-passe?"
+msgid "Lembraste-te da palavra-passe?"
 msgstr "Vous vous souvenez du mot de passe ?"
 
 msgid "Plataforma privada para profissionais na Guiné-Bissau, na diáspora guineense e profissionais com ligação relevante ao país."

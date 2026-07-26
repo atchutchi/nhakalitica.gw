@@ -59,6 +59,7 @@ class MembershipApplicationViewTests(TestCase):
 
         self.assertContains(response, "Em análise")
         self.assertContains(response, 'class="application-timeline"')
+        self.assertContains(response, "exige uma revisão específica")
         self.assertNotContains(response, "Continuar candidatura")
 
     def test_approved_dashboard_explains_separate_profile_review(self):
@@ -72,6 +73,7 @@ class MembershipApplicationViewTests(TestCase):
             response,
             "A aprovação da adesão e a publicação do perfil são processos independentes",
         )
+        self.assertContains(response, "depois de uma revisão específica")
         self.assertContains(response, reverse("search"))
 
     def test_candidate_can_save_draft(self):

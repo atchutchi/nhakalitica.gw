@@ -14,5 +14,5 @@
     {% if display.languages %}<section class="member-profile-section"><h2>Idiomas</h2>{% for entry in display.languages %}<div class="profile-language-row"><span>{{ entry.name }}</span><strong>{{ entry.level }}</strong></div>{% endfor %}</section>{% endif %}
     {% if profile.cv_file %}<section class="member-profile-section"><h2>Currículo</h2>{% if request.user == profile.user or profile.cv_visibility == "public" or profile.cv_visibility == "members" %}<a class="k-btn k-btn-secondary" href="{% url 'profile-cv' profile.slug %}">Descarregar currículo</a>{% else %}<p>Currículo protegido.</p>{% endif %}</section>{% endif %}
   </aside></div>
-  <aside class="member-privacy-note"><i class="bi bi-shield-lock" aria-hidden="true"></i><p>A localização exacta, telefone, email e CV só são partilhados conforme as opções de privacidade e depois de contacto aceite.</p></aside>
+  <aside class="member-privacy-note"><i class="bi bi-shield-lock" aria-hidden="true"></i><p>A localização exacta, o telefone, o email e o CV só são partilhados conforme as opções de privacidade e depois de o pedido de contacto ser aceite.</p></aside>
 </section>{% endblock %}
