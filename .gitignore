@@ -1,0 +1,22 @@
+.superpowers/
+.impeccable/live/
+
+# Referência estática descarregada do site institucional
+Kalítica Networking Society — Rede de Profissionais Guineenses.html
+Kalítica Networking Society — Rede de Profissionais Guineenses_files/
+
+# Python e Django
+__pycache__/
+*.py[cod]
+.venv/
+db.sqlite3
+media/
+staticfiles/
+.env
+
+# Ferramentas e sistema operativo
+.pytest_cache/
+.coverage
+htmlcov/
+.DS_Store
+Thumbs.db

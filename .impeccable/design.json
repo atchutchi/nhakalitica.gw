@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-26T13:20:00Z",
+  "title": "Design System: Kalitica Networking Society",
+  "extensions": {
+    "colorMeta": {
+      "primary-teal": {"role": "primary", "displayName": "Verde Kalitica", "canonical": "#2B7A77", "tonalRamp": ["#102F2E", "#184744", "#205F5C", "#2B7A77", "#4A9892", "#79B7B2", "#B6D9D6", "#E9F7F3"]},
+      "institutional-navy": {"role": "secondary", "displayName": "Azul Institucional", "canonical": "#0B3D61", "tonalRamp": ["#061C2D", "#0B3D61", "#155882", "#24749F", "#4B91B5", "#7EB1CB", "#B8D4E2", "#EDF5F8"]},
+      "mint": {"role": "tertiary", "displayName": "Menta de Rede", "canonical": "#5AB59F", "tonalRamp": ["#143A31", "#24584B", "#357867", "#5AB59F", "#7EC8B6", "#A6DACC", "#D0ECE5", "#F0FAF7"]},
+      "surface-soft": {"role": "neutral", "displayName": "Névoa Verde", "canonical": "#F6FAF9", "tonalRamp": ["#17201E", "#303C39", "#53615E", "#7A8885", "#A7B3B0", "#CBD4D2", "#E6ECEA", "#F6FAF9"]}
+    },
+    "typographyMeta": {
+      "display": {"displayName": "Display", "purpose": "Títulos da apresentação pública."},
+      "headline": {"displayName": "Headline", "purpose": "Títulos principais de página."},
+      "body": {"displayName": "Body", "purpose": "Texto funcional e institucional."},
+      "label": {"displayName": "Label", "purpose": "Controlos, filtros, estado e navegação."}
+    },
+    "shadows": [
+      {"name": "menu", "value": "0 8px 16px rgba(11, 61, 97, 0.12)", "purpose": "Menus, popovers e diálogos."},
+      {"name": "interactive", "value": "0 3px 8px rgba(11, 61, 97, 0.10)", "purpose": "Resposta de hover sem contorno forte."}
+    ],
+    "motion": [
+      {"name": "state-fast", "value": "160ms cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Hover, focus e selecção."},
+      {"name": "panel", "value": "220ms cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Painéis móveis, menus e diálogo."}
+    ],
+    "breakpoints": [
+      {"name": "sm", "value": "576px"},
+      {"name": "md", "value": "768px"},
+      {"name": "lg", "value": "992px"},
+      {"name": "xl", "value": "1200px"}
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Acção principal com peso institucional.",
+      "html": "<button class=\"ds-btn-primary\">Pedir adesão</button>",
+      "css": ".ds-btn-primary{min-height:44px;padding:12px 20px;border:0;border-radius:6px;background:#2B7A77;color:#fff;font:600 14px Outfit,Segoe UI,sans-serif;transition:background 160ms cubic-bezier(.22,1,.36,1)}.ds-btn-primary:hover{background:#1E5A57}.ds-btn-primary:focus-visible{outline:3px solid #22B8C7;outline-offset:2px}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Acção secundária contida e previsível.",
+      "html": "<button class=\"ds-btn-secondary\">Entrar</button>",
+      "css": ".ds-btn-secondary{min-height:44px;padding:11px 19px;border:1px solid #0B3D61;border-radius:6px;background:#fff;color:#0B3D61;font:600 14px Outfit,Segoe UI,sans-serif}.ds-btn-secondary:hover{background:#F6FAF9}.ds-btn-secondary:focus-visible{outline:3px solid #22B8C7;outline-offset:2px}"
+    },
+    {
+      "name": "Search Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Campo de pesquisa compacto com foco visível.",
+      "html": "<input class=\"ds-search\" placeholder=\"Pesquisar profissionais\">",
+      "css": ".ds-search{width:100%;min-height:44px;padding:10px 12px;border:1px solid #D7E5E1;border-radius:6px;background:#fff;color:#0A1720;font:400 16px Outfit,Segoe UI,sans-serif}.ds-search:focus{border-color:#2B7A77;outline:3px solid rgba(34,184,199,.28);outline-offset:1px}.ds-search::placeholder{color:#536763}"
+    },
+    {
+      "name": "Member Chip",
+      "kind": "chip",
+      "description": "Identifica o tipo de membro sem criar diferenças de acesso.",
+      "html": "<span class=\"ds-member-chip\">Efectivo</span>",
+      "css": ".ds-member-chip{display:inline-flex;align-items:center;min-height:28px;padding:4px 10px;border-radius:999px;background:#E9F7F3;color:#1E5A57;font:600 13px Outfit,Segoe UI,sans-serif}"
+    },
+    {
+      "name": "Professional Result",
+      "kind": "custom",
+      "description": "Linha de pesquisa densa e orientada para acção.",
+      "html": "<article class=\"ds-result\"><span class=\"ds-avatar\"></span><div><strong>Nome do membro</strong><small>Profissão · Guiné-Bissau</small></div><button>Ver perfil</button></article>",
+      "css": ".ds-result{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;padding:14px 16px;border:1px solid #D7E5E1;border-radius:10px;background:#fff;color:#0A1720;font-family:Outfit,Segoe UI,sans-serif}.ds-avatar{width:44px;height:44px;border-radius:50%;background:#E9F7F3}.ds-result small{display:block;margin-top:3px;color:#536763}.ds-result button{min-height:40px;padding:8px 14px;border:1px solid #0B3D61;border-radius:6px;background:#fff;color:#0B3D61;font-weight:600}.ds-result button:focus-visible{outline:3px solid #22B8C7;outline-offset:2px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "A Mesa Profissional da Guiné",
+    "overview": "Uma apresentação institucional abre caminho para uma aplicação privada, densa e orientada para pesquisa, candidatura e revisão.",
+    "keyCharacteristics": ["Identidade Kalitica", "Privacidade por defeito", "Pesquisa profissional", "Três idiomas", "Revisão manual"],
+    "rules": [
+      {"name": "Reserved Accent", "body": "O verde principal identifica acção, selecção e progresso.", "section": "colors"},
+      {"name": "Flat By Default", "body": "Se uma superfície continua compreensível com fundo e espaçamento, não recebe sombra.", "section": "elevation"}
+    ],
+    "dos": ["Seguir os quatro painéis aprovados como contrato visual.", "Manter contraste WCAG AA e foco visível.", "Testar português, francês e inglês."],
+    "donts": ["Não parecer uma cópia visual do CVLink.", "Não usar laranja como cor principal, gradientes roxos ou glassmorphism.", "Não expor a rede a pessoas não aprovadas.", "Não mostrar pagamentos no lançamento."]
+  }
+}
