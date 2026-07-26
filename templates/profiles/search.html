@@ -1,156 +1,30 @@
-{% extends "base.html" %}
-{% load static %}
-
+{% extends "base.html" %}{% load static %}
 {% block title %}Pesquisar profissionais | Kalitica{% endblock %}
-{% block meta_description %}Pesquisa quadros cabo-verdianos e profissionais PALOP por competência, área, localização, experiência e disponibilidade.{% endblock %}
-{% block robots %}noindex,nofollow{% endblock %}
-{% block body_class %}talent-search-screen{% endblock %}
-
+{% block meta_description %}Directório privado de profissionais ligados à Guiné-Bissau e à diáspora guineense.{% endblock %}
+{% block body_class %}member-network-page directory-page{% endblock %}
 {% block content %}
-<section class="talent-search-app">
-    <aside class="talent-filter-rail" id="talent-filters" aria-label="Filtros">
-        <div class="filter-rail-header">
-            <span>Filtros de pesquisa</span>
-            <a href="{% url 'search' %}">Limpar</a>
-        </div>
-        <p class="filter-rail-note">Pesquisa por cargo, função, competência ou palavra-chave. Usa poucos filtros de cada vez para evitar excluir bons perfis.</p>
-        <form class="talent-filter-form" method="get" role="search">
-            <label>
-                <span>Palavras-chave</span>
-                <input name="q" type="search" value="{{ request.GET.q }}" placeholder="Ex.: engenheiro civil, RH, comunicação">
-            </label>
-            <label>
-                <span>Área de actuação</span>
-                <select name="area"><option value="">Todas</option>{% for item in areas %}<option value="{{ item.slug }}" {% if request.GET.area == item.slug %}selected{% endif %}>{{ item.name }}</option>{% endfor %}</select>
-            </label>
-            <label>
-                <span>Sector</span>
-                <select name="sector"><option value="">Todos</option>{% for item in sectors %}<option value="{{ item.slug }}" {% if request.GET.sector == item.slug %}selected{% endif %}>{{ item.name }}</option>{% endfor %}</select>
-            </label>
-            <fieldset>
-                <legend>Disponibilidade</legend>
-                <label class="check-row"><input type="radio" name="availability" value="" {% if not request.GET.availability %}checked{% endif %}> Todas</label>
-                {% for value,label in availability_choices %}
-                    <label class="check-row"><input type="radio" name="availability" value="{{ value }}" {% if request.GET.availability == value %}checked{% endif %}> {{ label }}</label>
-                {% endfor %}
-            </fieldset>
-            <label>
-                <span>Competência</span>
-                <select name="skill"><option value="">Todas</option>{% for item in skills %}<option value="{{ item.slug }}" {% if request.GET.skill == item.slug %}selected{% endif %}>{{ item.name }}</option>{% endfor %}</select>
-            </label>
-            <label>
-                <span>Experiência mínima</span>
-                <select name="experience"><option value="">Qualquer experiência</option><option value="1" {% if request.GET.experience == "1" %}selected{% endif %}>1 ano ou mais</option><option value="3" {% if request.GET.experience == "3" %}selected{% endif %}>3 anos ou mais</option><option value="5" {% if request.GET.experience == "5" %}selected{% endif %}>5 anos ou mais</option><option value="10" {% if request.GET.experience == "10" %}selected{% endif %}>10 anos ou mais</option></select>
-            </label>
-            <label>
-                <span>Nível profissional</span>
-                <select name="seniority"><option value="">Todos os níveis</option>{% for value,label in seniority_choices %}<option value="{{ value }}" {% if request.GET.seniority == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>
-            </label>
-            <label>
-                <span>Modalidade</span>
-                <select name="work_preference"><option value="">Todas</option>{% for value,label in work_preference_choices %}<option value="{{ value }}" {% if request.GET.work_preference == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>
-            </label>
-            <label>
-                <span>País</span>
-                <input name="country" value="{{ request.GET.country }}" placeholder="Ex.: Cabo Verde, Angola, Guiné-Bissau">
-            </label>
-            <label>
-                <span>Idioma</span>
-                <input name="language" value="{{ request.GET.language }}" placeholder="Ex.: português, inglês, crioulo">
-            </label>
-            <label>
-                <span>Currículo</span>
-                <select name="cv"><option value="">Com ou sem currículo</option><option value="1" {% if request.GET.cv == "1" %}selected{% endif %}>Currículo disponível</option></select>
-            </label>
-            <button class="btn btn-brand" type="submit">Aplicar filtros</button>
-        </form>
-    </aside>
-
-    <main class="talent-search-main">
-        <header class="talent-search-topbar">
-            <div>
-                <span class="eyebrow">Talentos PALOP</span>
-                <h1>Pesquisar talentos</h1>
-                <p>Combina cargo, competência e localização. Ex.: "engenheiro civil Praia", "RH Bissau", "developer remoto".</p>
-            </div>
-            {% if request.user.is_authenticated %}
-                <form class="save-search-inline" method="post" action="{% url 'interactions:saved-search-create' %}">
-                    {% csrf_token %}
-                    {% for key, value in request.GET.items %}{% if key != "page" %}<input type="hidden" name="{{ key }}" value="{{ value }}">{% endif %}{% endfor %}
-                    <input name="name" maxlength="120" required placeholder="Nome da pesquisa">
-                    <button class="btn btn-outline-brand" type="submit">Guardar pesquisa</button>
-                </form>
-            {% endif %}
-        </header>
-
-        <form class="talent-search-bar" method="get" role="search">
-            <label>
-                <span class="visually-hidden">Cargo, palavra-chave ou competência</span>
-                <input name="q" type="search" value="{{ request.GET.q }}" placeholder="Cargo, função ou competência">
-            </label>
-            <label>
-                <span class="visually-hidden">Localização</span>
-                <input name="location" value="{{ request.GET.location }}" placeholder="Localização pública opcional">
-            </label>
-            <input type="hidden" name="experience" value="{{ request.GET.experience }}">
-            <input type="hidden" name="seniority" value="{{ request.GET.seniority }}">
-            <input type="hidden" name="country" value="{{ request.GET.country }}">
-            <input type="hidden" name="language" value="{{ request.GET.language }}">
-            <button class="btn btn-brand" type="submit">Pesquisar</button>
-        </form>
-
-        <div class="mobile-search-tools" aria-label="Ferramentas de pesquisa">
-            <a class="btn btn-outline-brand" href="#talent-filters">Ajustar filtros</a>
-            <span>{{ page_obj.paginator.count }} resultado{% if page_obj.paginator.count != 1 %}s{% endif %}</span>
-        </div>
-
-        {% if active_filters %}
-            <div class="active-filters talent-active-filters" aria-label="Filtros activos">
-                <span class="active-filters-label">Filtros activos</span>
-                {% for item in active_filters %}<a class="filter-tag" href="{{ item.remove_url }}" aria-label="Remover filtro {{ item.label }}: {{ item.value }}">{{ item.label }}: {{ item.value }} <span aria-hidden="true">×</span></a>{% endfor %}
-                <a class="clear-all-link" href="{% url 'search' %}">Limpar todos</a>
-            </div>
-        {% endif %}
-
-        <div class="talent-results-shell">
-            <section class="talent-results-list" aria-labelledby="talent-results-title">
-                <div class="talent-results-toolbar">
-                    <h2 id="talent-results-title">{{ page_obj.paginator.count }} {% if page_obj.paginator.count == 1 %}profissional encontrado{% else %}profissionais encontrados{% endif %}</h2>
-                    <label>Ordenar por <select name="order" form="unused"><option>Mais relevantes</option><option>Mais recentes</option></select></label>
-                </div>
-                <div class="talent-row-list">
-                    {% for profile in page_obj %}{% include "profiles/_profile_card.html" with show_shortlist_action=True %}{% empty %}<div class="empty-state"><h2>Nenhum perfil encontrado</h2><p>Altera os termos ou remove alguns filtros.</p><a class="btn btn-outline-brand" href="{% url 'search' %}">Limpar pesquisa</a></div>{% endfor %}
-                </div>
-                {% if page_obj.has_other_pages %}<nav class="pagination-nav" aria-label="Paginação"><span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>{% if page_obj.has_previous %}<a href="?{{ filter_query }}{% if filter_query %}&{% endif %}page={{ page_obj.previous_page_number }}">Anterior</a>{% endif %}{% if page_obj.has_next %}<a href="?{{ filter_query }}{% if filter_query %}&{% endif %}page={{ page_obj.next_page_number }}">Seguinte</a>{% endif %}</nav>{% endif %}
-            </section>
-
-            <aside class="talent-insights-panel" aria-label="Sugestões de pesquisa">
-                <section>
-                    <div class="panel-title-row"><h2>Talentos recentes</h2><a href="{% url 'search' %}">Ver todos</a></div>
-                    <div class="mini-talent-list">
-                        {% for profile in page_obj.object_list|slice:":4" %}
-                            <a href="{% url 'public-profile' profile.slug %}">
-                                {% if profile.photo %}<img src="{% url 'profile-photo' profile.slug %}" alt="Fotografia de {{ profile.public_display_name }}">{% else %}<img src="{% static profile.demo_avatar_path %}" alt="Retrato profissional genérico">{% endif %}
-                                <span><strong>{{ profile.public_display_name }}</strong><small>{{ profile.public_professional_title|default:"Perfil profissional" }}</small></span>
-                            </a>
-                        {% empty %}
-                            <p>Sem talentos recentes para mostrar.</p>
-                        {% endfor %}
-                    </div>
-                </section>
-                <section>
-                    <h2>Filtros recomendados</h2>
-                    <div class="recommended-filter-list">
-                        <a href="{% url 'search' %}?experience=5">Nível sénior <span>+</span></a>
-                        <a href="{% url 'search' %}?work_preference=remote">Remoto <span>+</span></a>
-                        <a href="{% url 'search' %}?q=gestão">Gestão de projectos <span>+</span></a>
-                        <a href="{% url 'search' %}?q=engenheiro%20civil">Engenharia civil <span>+</span></a>
-                        <a href="{% url 'search' %}?q=recursos%20humanos">Recursos humanos <span>+</span></a>
-                        <a href="{% url 'search' %}?cv=1">CV disponível <span>+</span></a>
-                    </div>
-                </section>
-            </aside>
-        </div>
-    </main>
+<section class="member-shell directory-layout">
+  <aside class="directory-filters" id="directory-filters" data-directory-filters aria-label="Filtros do directório">
+    <div class="directory-filter-heading"><strong>Filtros</strong><a href="{% url 'search' %}">Limpar todos</a></div>
+    <form method="get">
+      <label><span>Profissão</span><input type="search" name="q" value="{{ request.GET.q }}" placeholder="Nome, profissão ou palavra-chave"></label>
+      <label><span>Competências</span><select name="skill"><option value="">Todas as competências</option>{% for skill in skills %}<option value="{{ skill.slug }}"{% if request.GET.skill == skill.slug %} selected{% endif %}>{{ skill.name }}</option>{% endfor %}</select></label>
+      <label><span>Sector</span><select name="sector"><option value="">Todos os sectores</option>{% for sector in sectors %}<option value="{{ sector.slug }}"{% if request.GET.sector == sector.slug %} selected{% endif %}>{{ sector.name }}</option>{% endfor %}</select></label>
+      <label><span>Área</span><select name="area"><option value="">Todas as áreas</option>{% for area in areas %}<option value="{{ area.slug }}"{% if request.GET.area == area.slug %} selected{% endif %}>{{ area.name }}</option>{% endfor %}</select></label>
+      <label><span>Localização</span><input name="location" value="{{ request.GET.location }}" placeholder="Cidade ou localidade"></label>
+      <label><span>Disponibilidade</span><select name="availability"><option value="">Todas</option>{% for value,label in availability_choices %}<option value="{{ value }}"{% if request.GET.availability == value %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+      <label><span>Idiomas</span><input name="language" value="{{ request.GET.language }}" placeholder="Ex.: português, francês"></label>
+      <fieldset><legend>Relação com a Guiné-Bissau</legend>{% for value,label in relationship_choices %}<label class="directory-check"><input type="radio" name="relationship" value="{{ value }}"{% if request.GET.relationship == value %} checked{% endif %}>{{ label }}</label>{% endfor %}<label class="directory-check"><input type="radio" name="relationship" value=""{% if not request.GET.relationship %} checked{% endif %}>Todas</label></fieldset>
+      <button class="k-btn k-btn-primary" type="submit">Aplicar filtros</button>
+    </form>
+  </aside>
+  <main class="directory-results">
+    <header class="directory-heading"><div><p class="member-eyebrow">Rede privada Kalitica</p><h1>Pesquisar profissionais</h1><p>Encontra membros aprovados por profissão, competência e ligação à Guiné-Bissau.</p></div><button class="k-btn k-btn-secondary directory-filter-toggle" type="button" data-filter-toggle aria-expanded="false" aria-controls="directory-filters"><i class="bi bi-funnel" aria-hidden="true"></i> Filtros</button></header>
+    <form class="directory-search-bar" method="get" role="search"><i class="bi bi-search" aria-hidden="true"></i><input type="search" name="q" value="{{ request.GET.q }}" placeholder="Pesquisar por nome, profissão ou competências"><button class="k-btn k-btn-primary" type="submit">Pesquisar</button></form>
+    {% if active_filters %}<div class="directory-active-filters" aria-label="Filtros activos">{% for item in active_filters %}<a href="{{ item.remove_url }}" aria-label="Remover filtro {{ item.label }}: {{ item.value }}">{{ item.label }}: {{ item.value }} <span aria-hidden="true">×</span></a>{% endfor %}</div>{% endif %}
+    <div class="directory-toolbar"><strong>{{ page_obj.paginator.count }} resultado{% if page_obj.paginator.count != 1 %}s{% endif %} encontrado{% if page_obj.paginator.count != 1 %}s{% endif %}</strong><label>Ordenar por <select><option>Relevância</option><option>Mais recentes</option></select></label></div>
+    <div class="directory-list">{% for profile in page_obj %}{% include "profiles/_profile_card.html" with show_shortlist_action=True %}{% empty %}<div class="directory-empty"><i class="bi bi-search" aria-hidden="true"></i><h2>Nenhum perfil encontrado</h2><p>Altera a pesquisa ou remove alguns filtros.</p><a class="k-btn k-btn-secondary" href="{% url 'search' %}">Limpar pesquisa</a></div>{% endfor %}</div>
+    {% if page_obj.has_other_pages %}<nav class="directory-pagination" aria-label="Paginação">{% if page_obj.has_previous %}<a href="?{{ filter_query }}{% if filter_query %}&{% endif %}page={{ page_obj.previous_page_number }}">Anterior</a>{% endif %}<span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>{% if page_obj.has_next %}<a href="?{{ filter_query }}{% if filter_query %}&{% endif %}page={{ page_obj.next_page_number }}">Seguinte</a>{% endif %}</nav>{% endif %}
+  </main>
 </section>
 {% endblock %}

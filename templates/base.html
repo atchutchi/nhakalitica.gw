@@ -24,35 +24,24 @@
     <link href="{% static 'css/tokens.css' %}" rel="stylesheet">
     <link href="{% static 'css/public.css' %}" rel="stylesheet">
     <link href="{% static 'css/auth.css' %}" rel="stylesheet">
+    <link href="{% static 'css/app-shell.css' %}" rel="stylesheet">
+    <link href="{% static 'css/directory.css' %}" rel="stylesheet">
     {% block extra_head %}{% endblock %}
 </head>
 <body class="{% block body_class %}{% endblock %}">
     <a class="skip-link" href="#conteudo">Saltar para o conteúdo</a>
     {% block site_header %}
-    <header class="site-header">
-        <nav class="container site-nav" aria-label="Navegação principal">
-            <a class="brand-crop" href="{% url 'home' %}" aria-label="Kalitica, página inicial">
-                <img class="brand-image brand-image-default" src="{% static 'img/kalitica-logo.png' %}" alt="Kalitica Networking Society">
-                <img class="brand-image brand-image-light" src="{% static 'img/kalitica-logo.png' %}" alt="Kalitica Networking Society">
-            </a>
-            <div class="nav-discovery">
-                <a class="nav-link-custom" href="{% url 'search' %}">Talentos</a>
-                <a class="nav-link-custom" href="{% url 'area-list' %}">Áreas</a>
-                <span class="nav-link-custom nav-link-muted" title="Em preparação">Vagas</span>
-                <span class="nav-link-custom nav-link-muted" title="Em preparação">Planos</span>
-            </div>
-            {% if request.user.is_authenticated %}
-            <div class="nav-actions">
-                {% if request.user.is_staff %}<a class="nav-link-custom" href="{% url 'moderation:dashboard' %}">Administração</a>{% endif %}
-                {% if not request.user.is_staff %}<a class="nav-link-custom" href="{% url 'profiles:preview' %}">Perfil</a>{% endif %}
-                {% if not request.user.is_staff %}<a class="nav-link-custom" href="{% url 'accounts:dashboard' %}">Painel</a>{% endif %}
-                <form method="post" action="{% url 'accounts:logout' %}">
-                    {% csrf_token %}
-                    <button class="btn btn-outline-brand" type="submit">Terminar sessão</button>
-                </form>
-            </div>
-            {% endif %}
-        </nav>
+    <header class="member-header">
+      <div class="member-nav-wrap">
+        <a class="member-brand" href="{% if request.user.is_authenticated %}{% url 'accounts:dashboard' %}{% else %}{% url 'home' %}{% endif %}"><img src="{% static 'img/kalitica-logo.png' %}" alt="Kalitica Networking Society"></a>
+        {% if request.user.is_authenticated %}
+          {% if request.user.membership.can_access_network %}
+          <nav class="member-primary-nav" aria-label="Rede Kalitica"><a href="{% url 'accounts:dashboard' %}">Painel</a><a href="{% url 'search' %}">Directório</a><a href="{% url 'area-list' %}">Áreas</a><a href="{% url 'interactions:favorites' %}">Favoritos</a><a href="{% url 'interactions:contacts' %}">Mensagens</a><a href="{% url 'interactions:notifications' %}">Notificações</a></nav>
+          {% else %}<nav class="member-primary-nav" aria-label="Conta Kalitica"><a href="{% url 'memberships:dashboard' %}">A minha candidatura</a><a href="{% url 'accounts:dashboard' %}">A minha conta</a></nav>{% endif %}
+          <div class="member-account"><a class="member-avatar" href="{% url 'accounts:dashboard' %}" aria-label="Abrir conta">{{ request.user.first_name|first|default:"K" }}</a><button type="button" data-member-menu aria-expanded="false" aria-controls="member-mobile-nav"><i class="bi bi-list" aria-hidden="true"></i><span class="visually-hidden">Abrir menu</span></button></div>
+        {% else %}<nav class="member-primary-nav"><a href="{% url 'accounts:login' %}">Entrar</a></nav>{% endif %}
+      </div>
+      {% if request.user.is_authenticated %}<div class="member-mobile-nav" id="member-mobile-nav" data-member-mobile-nav>{% if request.user.membership.can_access_network %}<a href="{% url 'accounts:dashboard' %}">Painel</a><a href="{% url 'search' %}">Directório</a><a href="{% url 'area-list' %}">Áreas</a><a href="{% url 'interactions:favorites' %}">Favoritos</a><a href="{% url 'interactions:contacts' %}">Mensagens</a><a href="{% url 'interactions:notifications' %}">Notificações</a>{% else %}<a href="{% url 'memberships:dashboard' %}">A minha candidatura</a><a href="{% url 'accounts:dashboard' %}">A minha conta</a>{% endif %}<form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button type="submit">Sair</button></form></div>{% endif %}
     </header>
     {% endblock %}
 
@@ -79,6 +68,7 @@
         </div>
     </footer>{% endblock %}
     <script src="{% static 'js/navigation.js' %}" defer></script>
+    <script src="{% static 'js/directory.js' %}" defer></script>
     {% block extra_scripts %}{% endblock %}
 </body>
 </html>

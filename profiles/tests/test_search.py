@@ -262,3 +262,24 @@ class PublicSearchTests(TestCase):
         self.assertContains(response, "Competência: Django")
         self.assertContains(response, "Experiência mínima: 3")
         self.assertContains(response, "Remover filtro Competência: Django")
+
+    def test_directory_uses_private_network_shell(self):
+        response = self.client.get("/pesquisar/")
+
+        self.assertContains(response, 'class="member-shell')
+        self.assertContains(response, 'class="directory-filters')
+        self.assertContains(response, "Pesquisar profissionais")
+        self.assertContains(response, "Relação com a Guiné-Bissau")
+        self.assertNotContains(response, "Talentos PALOP")
+
+    def test_directory_filters_by_membership_relationship(self):
+        self.public_profile.user.membership.relationship = Membership.Relationship.CITIZEN
+        self.public_profile.user.membership.save(update_fields=("relationship",))
+
+        response = self.client.get(
+            "/pesquisar/",
+            {"relationship": Membership.Relationship.CITIZEN},
+        )
+
+        self.assertContains(response, self.public_profile.public_name)
+        self.assertContains(response, "Relação: Cidadão da Guiné-Bissau")

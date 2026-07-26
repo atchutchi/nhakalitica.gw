@@ -7,6 +7,7 @@ from django.urls import reverse
 
 from taxonomy.models import Area, Sector, Skill, Specialization
 from memberships.access import network_member_required
+from memberships.models import Membership
 
 from .models import Profile
 from .selectors import member_profiles
@@ -28,6 +29,7 @@ def search(request):
         "availability_choices": Profile.Availability.choices,
         "work_preference_choices": Profile.WorkPreference.choices,
         "seniority_choices": Profile.Seniority.choices,
+        "relationship_choices": Membership.Relationship.choices,
     }
     # Expor filtros ativos como etiquetas removíveis para que o recrutador
     # perceba rapidamente o contexto da pesquisa e possa ajustar um critério.
@@ -45,6 +47,7 @@ def search(request):
         "country": "País",
         "experience": "Experiência mínima",
         "cv": "Currículo disponível",
+        "relationship": "Relação",
     }
     option_maps = {
         "sector": {item.slug: item.name for item in context["sectors"]},
@@ -61,6 +64,7 @@ def search(request):
             "10": "10 anos ou mais",
         },
         "cv": {"1": "Currículo disponível"},
+        "relationship": dict(Membership.Relationship.choices),
     }
     active_filters = []
     for parameter, label in labels.items():

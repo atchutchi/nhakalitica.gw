@@ -271,12 +271,15 @@ def member_profiles(viewer, params=None):
         "availability": "availability",
         "work_preference": "work_preference",
         "seniority": "seniority_level",
+        "relationship": "user__membership__relationship",
     }
     for parameter, field in filters.items():
         value = str(params.get(parameter, "")).strip()
         if not value:
             continue
-        if parameter in {"availability", "work_preference", "seniority"}:
+        if parameter == "relationship":
+            queryset = queryset.filter(**{field: value})
+        elif parameter in {"availability", "work_preference", "seniority"}:
             snapshot_key = "seniority_level" if parameter == "seniority" else parameter
             queryset = queryset.filter(
                 (Q(published_snapshot={}) & Q(**{field: value}))

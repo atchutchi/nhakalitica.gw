@@ -344,11 +344,12 @@ class InteractionViewTests(TestCase):
         response = self.client.get(reverse("interactions:compare"), {"profiles": str(self.profile.pk)})
 
         comparison_html = response.content.decode().split(
-            '<div class="compare-table compare-table-pro">',
+            '<div class="member-compare-table">',
             1,
         )[1].split("</div>", 1)[0]
-        self.assertNotIn("Quebo", comparison_html)
-        self.assertNotIn("Guiné-Bissau", comparison_html)
+        location_row = comparison_html.split("<th>Localização</th>", 1)[1].split("</tr>", 1)[0]
+        self.assertNotIn("Quebo", location_row)
+        self.assertNotIn("Guiné-Bissau", location_row)
 
     def test_compare_uses_published_snapshot_for_recruitment_details(self):
         self.profile.published_snapshot = {
@@ -482,17 +483,17 @@ class InteractionViewTests(TestCase):
         self.assertNotContains(response, other_profile.public_display_name)
         self.assertNotContains(response, "Nota privada")
 
-    def test_favorites_page_shows_recruiter_shortlist_workspace(self):
+    def test_favorites_page_shows_private_member_list(self):
         Favorite.objects.create(user=self.user, profile=self.profile)
         self.client.force_login(self.user)
 
         response = self.client.get(reverse("interactions:favorites"))
 
-        self.assertContains(response, "Shortlist")
-        self.assertContains(response, "Estado do processo")
-        self.assertContains(response, "Exportar CSV")
-        self.assertContains(response, "Comparar seleccionados")
-        self.assertContains(response, "shortlist-card-refined")
+        self.assertContains(response, "Favoritos")
+        self.assertContains(response, "Lista privada")
+        self.assertContains(response, 'class="member-shell')
+        self.assertContains(response, "Comparar membros")
+        self.assertNotContains(response, "Exportar CSV")
 
     def test_favorites_page_includes_public_profile_with_changes_pending(self):
         self.profile.status = Profile.Status.CHANGES_PENDING
@@ -515,7 +516,7 @@ class InteractionViewTests(TestCase):
 
         self.assertNotContains(response, "Etiqueta alheia")
 
-    def test_shortlist_export_link_encodes_reserved_tag_and_export_keeps_filter(self):
+    def test_shortlist_export_keeps_reserved_tag_filter(self):
         favorite = Favorite.objects.create(user=self.user, profile=self.profile)
         favorite.tags.add(RecruitmentTag.objects.create(user=self.user, name="R&D"))
         other_owner = get_user_model().objects.create_user(email="sem-etiqueta@example.com", password="test-pass")
@@ -527,9 +528,6 @@ class InteractionViewTests(TestCase):
         Favorite.objects.create(user=self.user, profile=other_profile)
         self.client.force_login(self.user)
 
-        response = self.client.get(reverse("interactions:favorites"), {"tag": "R&D"})
-
-        self.assertContains(response, "?tag=R%26D")
         export_response = self.client.get(reverse("interactions:shortlist-export"), {"tag": "R&D"})
         self.assertContains(export_response, self.profile.public_display_name)
         self.assertNotContains(export_response, other_profile.public_display_name)
@@ -547,8 +545,8 @@ class InteractionViewTests(TestCase):
 
         response = self.client.get(reverse("search"), {"q": "engenheiro", "experience": "5"})
 
-        self.assertContains(response, "Guardar pesquisa")
-        self.assertContains(response, "Adicionar a shortlist")
+        self.assertContains(response, "Pesquisar profissionais")
+        self.assertContains(response, "Adicionar aos favoritos")
 
     def test_anonymous_search_redirects_to_login(self):
         self.profile.professional_title = "Engenheiro civil"
@@ -561,10 +559,10 @@ class InteractionViewTests(TestCase):
             f'{reverse("accounts:login")}?next={reverse("search")}%3Fq%3Dengenheiro',
         )
 
-    def test_dashboard_shows_saved_searches_and_shortlist(self):
+    def test_dashboard_shows_saved_searches_and_favorites(self):
         self.client.force_login(self.user)
 
         response = self.client.get(reverse("accounts:dashboard"))
 
         self.assertContains(response, "Pesquisas guardadas")
-        self.assertContains(response, "Shortlist")
+        self.assertContains(response, "Favoritos")
