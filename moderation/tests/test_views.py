@@ -37,6 +37,15 @@ class ModerationViewTests(TestCase):
 
         self.assertContains(response, "Pessoa Pendente")
 
+    def test_staff_dashboard_uses_kalitica_admin_shell(self):
+        self.client.force_login(self.staff)
+
+        response = self.client.get(reverse("moderation:dashboard"))
+
+        self.assertContains(response, 'class="admin-shell')
+        self.assertContains(response, "Administração Kalitica")
+        self.assertContains(response, "Candidaturas pendentes")
+
     def test_staff_can_approve_profile_using_post(self):
         self.client.force_login(self.staff)
         response = self.client.post(

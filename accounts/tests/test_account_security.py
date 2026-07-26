@@ -57,6 +57,18 @@ class AccountSecurityTests(TestCase):
         self.assertEqual(user.email, "new@example.com")
         self.assertIsNone(user.email_verified_at)
 
+    def test_account_and_deactivation_use_settings_shell(self):
+        user = get_user_model().objects.create_user(email="settings@example.com", password="test-pass")
+        self.client.force_login(user)
+
+        account_response = self.client.get(reverse("accounts:edit"))
+        deactivate_response = self.client.get(reverse("accounts:deactivate"))
+
+        self.assertContains(account_response, 'class="settings-shell')
+        self.assertContains(account_response, "A minha conta")
+        self.assertContains(deactivate_response, "Desactivar conta")
+        self.assertContains(deactivate_response, "Confirma com a palavra-passe")
+
     def test_deactivation_requires_correct_password(self):
         user = get_user_model().objects.create_user(email="user@example.com", password="correct-pass")
         self.client.force_login(user)
