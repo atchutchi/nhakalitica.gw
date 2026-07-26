@@ -14,6 +14,7 @@ from interactions.models import (
     SavedSearch,
 )
 from profiles.models import Education, Experience, Profile, ProfileLanguage
+from memberships.models import Membership
 from taxonomy.models import Skill
 
 
@@ -26,6 +27,13 @@ class InteractionViewTests(TestCase):
         self.user.save(update_fields=("email_verified_at",))
         self.owner = user_model.objects.create_user(email="owner@example.com", password="test-pass")
         self.other_user = user_model.objects.create_user(email="other@example.com", password="test-pass")
+        for user in (self.user, self.owner, self.other_user):
+            Membership.objects.create(
+                user=user,
+                member_type=Membership.Type.EFFECTIVE,
+                relationship=Membership.Relationship.CITIZEN,
+                status=Membership.Status.APPROVED,
+            )
         self.profile = self.owner.profile
         self.profile.public_name = "Profissional Público"
         self.profile.status = Profile.Status.APPROVED
@@ -541,13 +549,16 @@ class InteractionViewTests(TestCase):
         self.assertContains(response, "Guardar pesquisa")
         self.assertContains(response, "Adicionar a shortlist")
 
-    def test_anonymous_search_hides_shortlist_action(self):
+    def test_anonymous_search_redirects_to_login(self):
         self.profile.professional_title = "Engenheiro civil"
         self.profile.save(update_fields=("professional_title",))
 
         response = self.client.get(reverse("search"), {"q": "engenheiro"})
 
-        self.assertNotContains(response, "Adicionar a shortlist")
+        self.assertRedirects(
+            response,
+            f'{reverse("accounts:login")}?next={reverse("search")}%3Fq%3Dengenheiro',
+        )
 
     def test_dashboard_shows_saved_searches_and_shortlist(self):
         self.client.force_login(self.user)

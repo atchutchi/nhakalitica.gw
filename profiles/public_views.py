@@ -6,11 +6,13 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
 from taxonomy.models import Area, Sector, Skill, Specialization
+from memberships.access import network_member_required
 
 from .models import Profile
 from .selectors import public_profiles
 
 
+@network_member_required
 def search(request):
     paginator = Paginator(public_profiles(request.GET), 12)
     page = paginator.get_page(request.GET.get("page"))
@@ -78,6 +80,7 @@ def search(request):
     return render(request, "profiles/search.html", context)
 
 
+@network_member_required
 def public_profile(request, slug):
     profile = get_object_or_404(
         public_profiles(),
@@ -97,6 +100,7 @@ def public_profile(request, slug):
     return render(request, "profiles/public_detail.html", context)
 
 
+@network_member_required
 def profile_photo(request, slug):
     profile = get_object_or_404(Profile.objects.select_related("user"), slug=slug)
     is_owner = request.user.is_authenticated and request.user == profile.user
@@ -116,6 +120,7 @@ def profile_photo(request, slug):
     return response
 
 
+@network_member_required
 def profile_cv(request, slug):
     profile = get_object_or_404(Profile.objects.select_related("user"), slug=slug)
     is_owner = request.user.is_authenticated and request.user == profile.user

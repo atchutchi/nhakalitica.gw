@@ -1,5 +1,4 @@
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.db.models import Prefetch
@@ -13,6 +12,7 @@ from urllib.parse import urlencode
 
 from profiles.models import Profile
 from profiles.selectors import public_profiles
+from memberships.access import network_member_required
 
 from .forms import ContactRequestForm, FavoriteUpdateForm, ReportForm, SavedSearchForm
 from .models import ContactRequest, Favorite, Notification, RecruitmentTag, SavedSearch
@@ -33,7 +33,7 @@ def get_public_profile(slug):
     return get_object_or_404(public_profiles(), slug=slug)
 
 
-@login_required
+@network_member_required
 @require_POST
 def favorite_toggle(request, slug):
     profile = get_public_profile(slug)
@@ -42,7 +42,7 @@ def favorite_toggle(request, slug):
     return redirect("public-profile", slug=profile.slug)
 
 
-@login_required
+@network_member_required
 @require_POST
 def favorite_add(request, slug):
     profile = get_public_profile(slug)
@@ -51,7 +51,7 @@ def favorite_add(request, slug):
     return redirect("public-profile", slug=profile.slug)
 
 
-@login_required
+@network_member_required
 @require_POST
 def like_toggle(request, slug):
     profile = get_public_profile(slug)
@@ -60,7 +60,7 @@ def like_toggle(request, slug):
     return redirect("public-profile", slug=profile.slug)
 
 
-@login_required
+@network_member_required
 def contact(request, slug):
     profile = get_public_profile(slug)
     form = ContactRequestForm(request.POST or None)
@@ -81,7 +81,7 @@ def contact(request, slug):
     return render(request, "interactions/contact_form.html", {"form": form, "profile": profile})
 
 
-@login_required
+@network_member_required
 def report(request, slug):
     profile = get_public_profile(slug)
     form = ReportForm(request.POST or None)
@@ -101,7 +101,7 @@ def report(request, slug):
     return render(request, "interactions/report_form.html", {"form": form, "profile": profile})
 
 
-@login_required
+@network_member_required
 def favorites(request):
     items = Favorite.objects.filter(
         user=request.user,
@@ -135,7 +135,7 @@ def favorites(request):
     )
 
 
-@login_required
+@network_member_required
 @require_POST
 @transaction.atomic
 def favorite_update(request, pk):
@@ -150,7 +150,7 @@ def favorite_update(request, pk):
     return redirect("interactions:favorites")
 
 
-@login_required
+@network_member_required
 @require_POST
 def saved_search_create(request):
     form = SavedSearchForm(request.POST)
@@ -169,7 +169,7 @@ def saved_search_create(request):
     return redirect(f"{reverse('search')}?{urlencode(saved_search.query_params)}")
 
 
-@login_required
+@network_member_required
 @require_POST
 def saved_search_delete(request, pk):
     saved_search = get_object_or_404(SavedSearch, pk=pk, user=request.user)
@@ -185,19 +185,19 @@ def saved_search_delete(request, pk):
     return redirect("interactions:favorites")
 
 
-@login_required
+@network_member_required
 def saved_search_run(request, pk):
     saved_search = get_object_or_404(SavedSearch, pk=pk, user=request.user)
     return redirect(f"{reverse('search')}?{urlencode(saved_search.query_params)}")
 
 
-@login_required
+@network_member_required
 def compare(request):
     favorites = get_comparable_favorites(request.user, request.GET.getlist("profiles"))
     return render(request, "interactions/compare.html", {"favorites": favorites})
 
 
-@login_required
+@network_member_required
 def shortlist_export(request):
     favorites = Favorite.objects.filter(user=request.user)
     active_status = request.GET.get("status", "")
@@ -211,14 +211,14 @@ def shortlist_export(request):
     return response
 
 
-@login_required
+@network_member_required
 def contacts(request):
     received = request.user.profile.contact_requests.select_related("sender")
     sent = request.user.sent_contact_requests.select_related("profile", "profile__user")
     return render(request, "interactions/contacts.html", {"received": received, "sent": sent})
 
 
-@login_required
+@network_member_required
 @require_POST
 def contact_action(request, pk):
     contact_request = get_object_or_404(
@@ -252,7 +252,7 @@ def contact_action(request, pk):
     return redirect("interactions:contacts")
 
 
-@login_required
+@network_member_required
 def notifications(request):
     return render(
         request,
@@ -261,7 +261,7 @@ def notifications(request):
     )
 
 
-@login_required
+@network_member_required
 @require_POST
 def notification_read(request, pk):
     notification = get_object_or_404(Notification, pk=pk, user=request.user)

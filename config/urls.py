@@ -11,6 +11,7 @@ urlpatterns = [
     path("", include("taxonomy.urls")),
     path("", include("core.urls")),
     path("conta/", include("accounts.urls")),
+    path("adesao/", include("memberships.urls")),
     path("perfil/", include("profiles.urls")),
     path("administracao/", include("moderation.urls")),
     path("interacoes/", include("interactions.urls")),

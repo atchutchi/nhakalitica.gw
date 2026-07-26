@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from profiles.models import Profile
+from memberships.models import Membership
 
 
 class ProfileViewTests(TestCase):
@@ -9,6 +10,12 @@ class ProfileViewTests(TestCase):
         self.user = get_user_model().objects.create_user(
             email="maria@example.com",
             password="PalavraPasseSegura2026!",
+        )
+        Membership.objects.create(
+            user=self.user,
+            member_type=Membership.Type.EFFECTIVE,
+            relationship=Membership.Relationship.CITIZEN,
+            status=Membership.Status.APPROVED,
         )
 
     def test_edit_requires_authentication(self):

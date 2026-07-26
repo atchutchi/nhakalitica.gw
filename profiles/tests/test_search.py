@@ -5,11 +5,23 @@ from django.core.files.base import ContentFile
 from django.test import TestCase, override_settings
 
 from profiles.models import Profile
+from memberships.models import Membership
 from taxonomy.models import Area, Sector, Skill, Specialization
 
 
 class PublicSearchTests(TestCase):
     def setUp(self):
+        viewer = get_user_model().objects.create_user(
+            email="viewer@example.com",
+            password="Segura2026!",
+        )
+        Membership.objects.create(
+            user=viewer,
+            member_type=Membership.Type.EFFECTIVE,
+            relationship=Membership.Relationship.CITIZEN,
+            status=Membership.Status.APPROVED,
+        )
+        self.client.force_login(viewer)
         self.sector = Sector.objects.create(name="Tecnologia", slug="tecnologia")
         self.area = Area.objects.create(
             sector=self.sector,
@@ -88,9 +100,6 @@ class PublicSearchTests(TestCase):
             self.assertEqual(self.client.get(url).status_code, 404)
             self.public_profile.cv_visibility = Profile.CVVisibility.MEMBERS
             self.public_profile.save()
-            self.assertEqual(self.client.get(url).status_code, 404)
-            member = get_user_model().objects.create_user(email="member@example.com", password="test-pass")
-            self.client.force_login(member)
             response = self.client.get(url)
             self.assertEqual(response.status_code, 200)
             self.assertEqual(response["X-Robots-Tag"], "noindex, nofollow, noarchive")

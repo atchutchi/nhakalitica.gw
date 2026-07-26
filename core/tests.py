@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 
 from profiles.models import Profile
+from memberships.models import Membership
 from taxonomy.models import Area, Sector
 
 from .features import FEATURES, active_features, locked_features
@@ -39,6 +40,12 @@ class SeoAndOperationsTests(TestCase):
         sector = Sector.objects.create(name="Tecnologia", slug="tecnologia")
         self.area = Area.objects.create(sector=sector, name="Software", slug="software")
         owner = get_user_model().objects.create_user(email="seo@example.com", password="test-pass")
+        Membership.objects.create(
+            user=owner,
+            member_type=Membership.Type.EFFECTIVE,
+            relationship=Membership.Relationship.CITIZEN,
+            status=Membership.Status.APPROVED,
+        )
         self.profile = owner.profile
         self.profile.public_name = "Pessoa Pública"
         self.profile.professional_title = "Programadora"
@@ -46,11 +53,11 @@ class SeoAndOperationsTests(TestCase):
         self.profile.is_public = True
         self.profile.save()
 
-    def test_sitemap_contains_public_profile_and_active_area(self):
+    def test_sitemap_excludes_private_profiles_and_areas(self):
         response = self.client.get("/sitemap.xml")
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, f"/profissionais/{self.profile.slug}/")
-        self.assertContains(response, f"/areas/{self.area.slug}/")
+        self.assertNotContains(response, f"/profissionais/{self.profile.slug}/")
+        self.assertNotContains(response, f"/areas/{self.area.slug}/")
 
     def test_robots_blocks_private_sections_and_links_sitemap(self):
         response = self.client.get("/robots.txt")
@@ -58,14 +65,15 @@ class SeoAndOperationsTests(TestCase):
         self.assertContains(response, "/sitemap.xml")
 
     def test_public_profile_has_canonical_open_graph_and_structured_data(self):
+        self.client.force_login(self.profile.user)
         response = self.client.get(f"/profissionais/{self.profile.slug}/")
         self.assertContains(response, 'rel="canonical"')
         self.assertContains(response, 'property="og:title"')
         self.assertContains(response, '"@type": "Person"')
 
     def test_search_and_dashboard_are_not_indexed(self):
-        self.assertContains(self.client.get("/pesquisar/"), 'content="noindex,nofollow"')
         self.client.force_login(self.profile.user)
+        self.assertContains(self.client.get("/pesquisar/"), 'content="noindex,nofollow"')
         self.assertContains(self.client.get("/conta/painel/"), 'content="noindex,nofollow"')
 
     def test_health_endpoint_reports_success(self):

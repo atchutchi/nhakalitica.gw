@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Adesão à Kalitica{% endblock %}
+
+{% block content %}
+<main class="container page-section">
+  <p class="eyebrow">Adesão à Kalitica</p>
+  <h1>O teu processo de adesão</h1>
+  <p>Estado actual: <strong>{{ membership.get_status_display }}</strong></p>
+  {% if membership.can_access_network %}
+    <p>A tua adesão está aprovada. Já podes consultar a rede profissional.</p>
+    <a class="button button-primary" href="{% url 'search' %}">Explorar a rede</a>
+  {% else %}
+    <p>A pesquisa e os perfis da rede ficam disponíveis após a aprovação da tua adesão.</p>
+  {% endif %}
+</main>
+{% endblock %}

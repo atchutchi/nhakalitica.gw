@@ -2,10 +2,12 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
 from profiles.selectors import public_profiles
+from memberships.access import network_member_required
 
 from .models import Area
 
 
+@network_member_required
 def area_list(request):
     areas = Area.objects.filter(is_active=True).select_related("sector")
     return render(
@@ -15,6 +17,7 @@ def area_list(request):
     )
 
 
+@network_member_required
 def area_detail(request, slug):
     area = get_object_or_404(
         Area.objects.filter(is_active=True).select_related("sector").prefetch_related("specializations"),
