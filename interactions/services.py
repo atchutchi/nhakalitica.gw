@@ -12,6 +12,7 @@ from django.db.models import Case, IntegerField, Prefetch, When
 from django.urls import reverse
 from django.utils import timezone
 
+from memberships.models import Membership
 from profiles.models import Profile
 
 from .models import ContactRequest, Favorite, Notification, ProfileLike, RecruitmentTag, Report, SavedSearch
@@ -63,6 +64,9 @@ def sync_favorite_tags(favorite: Favorite, raw_tags: str) -> list[RecruitmentTag
 
 
 def get_comparable_favorites(user, profile_ids: list[int]):
+    membership = getattr(user, "membership", None)
+    if not membership or not membership.can_access_network:
+        return Favorite.objects.none()
     unique_ids = []
     for profile_id in profile_ids:
         if isinstance(profile_id, bool):
@@ -83,8 +87,9 @@ def get_comparable_favorites(user, profile_ids: list[int]):
         Favorite.objects.filter(
             user=user,
             profile_id__in=unique_ids,
-            profile__status__in=(Profile.Status.APPROVED, Profile.Status.CHANGES_PENDING),
-            profile__is_public=True,
+            profile__review_status=Profile.ReviewStatus.APPROVED,
+            profile__is_discoverable=True,
+            profile__user__membership__status=Membership.Status.APPROVED,
         )
         .select_related("profile")
         .order_by(ordering)
@@ -100,10 +105,14 @@ def build_shortlist_csv(user, favorites) -> str:
     output = StringIO()
     writer = csv.DictWriter(output, fieldnames=SHORTLIST_CSV_HEADERS)
     writer.writeheader()
+    membership = getattr(user, "membership", None)
+    if not membership or not membership.can_access_network:
+        return f"\ufeff{output.getvalue()}"
     for favorite in favorites.filter(
         user=user,
-        profile__status__in=(Profile.Status.APPROVED, Profile.Status.CHANGES_PENDING),
-        profile__is_public=True,
+        profile__review_status=Profile.ReviewStatus.APPROVED,
+        profile__is_discoverable=True,
+        profile__user__membership__status=Membership.Status.APPROVED,
     ).select_related("profile").prefetch_related(
         Prefetch("tags", queryset=RecruitmentTag.objects.filter(user=user), to_attr="owned_tags")
     ):
@@ -137,15 +146,15 @@ def build_shortlist_csv(user, favorites) -> str:
     return f"\ufeff{output.getvalue()}"
 
 
-def ensure_external_profile_action(user, profile):
+def ensure_member_profile_action(user, profile):
     if profile.user_id == user.id:
         raise PermissionDenied("Não podes executar esta ação no teu próprio perfil.")
-    if profile.status not in {Profile.Status.APPROVED, Profile.Status.CHANGES_PENDING} or not profile.is_public:
+    if not profile.is_visible_to(user):
         raise PermissionDenied("Este perfil não está disponível.")
 
 
 def toggle_relation(model, user, profile):
-    ensure_external_profile_action(user, profile)
+    ensure_member_profile_action(user, profile)
     relation, created = model.objects.get_or_create(user=user, profile=profile)
     if not created:
         relation.delete()
@@ -157,7 +166,7 @@ def toggle_favorite(user, profile):
 
 
 def add_favorite(user, profile):
-    ensure_external_profile_action(user, profile)
+    ensure_member_profile_action(user, profile)
     return Favorite.objects.get_or_create(user=user, profile=profile)
 
 
@@ -167,7 +176,7 @@ def toggle_like(user, profile):
 
 @transaction.atomic
 def create_contact(sender, profile, subject, message, remote_address=""):
-    ensure_external_profile_action(sender, profile)
+    ensure_member_profile_action(sender, profile)
     if not sender.email_verified_at:
         raise ValidationError("Confirma o teu email antes de enviares contactos.")
     if not profile.consent_contact or profile.contact_visibility == Profile.ContactVisibility.HIDDEN:
@@ -205,7 +214,7 @@ def create_contact(sender, profile, subject, message, remote_address=""):
 
 @transaction.atomic
 def create_report(reporter, profile, reason, description=""):
-    ensure_external_profile_action(reporter, profile)
+    ensure_member_profile_action(reporter, profile)
     if Report.objects.filter(
         reporter=reporter,
         profile=profile,

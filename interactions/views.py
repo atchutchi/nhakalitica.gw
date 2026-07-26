@@ -10,9 +10,10 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
 from urllib.parse import urlencode
 
+from memberships.access import network_member_required
+from memberships.models import Membership
 from profiles.models import Profile
 from profiles.selectors import member_profiles
-from memberships.access import network_member_required
 
 from .forms import ContactRequestForm, FavoriteUpdateForm, ReportForm, SavedSearchForm
 from .models import ContactRequest, Favorite, Notification, RecruitmentTag, SavedSearch
@@ -105,8 +106,9 @@ def report(request, slug):
 def favorites(request):
     items = Favorite.objects.filter(
         user=request.user,
-        profile__status__in=(Profile.Status.APPROVED, Profile.Status.CHANGES_PENDING),
-        profile__is_public=True,
+        profile__review_status=Profile.ReviewStatus.APPROVED,
+        profile__is_discoverable=True,
+        profile__user__membership__status=Membership.Status.APPROVED,
     ).select_related("profile", "profile__user").prefetch_related(
         Prefetch("tags", queryset=RecruitmentTag.objects.filter(user=request.user), to_attr="owned_tags")
     )
@@ -213,7 +215,7 @@ def shortlist_export(request):
 
 @network_member_required
 def contacts(request):
-    received = request.user.profile.contact_requests.select_related("sender")
+    received = request.user.profile.contact_requests.select_related("sender", "sender__profile")
     sent = request.user.sent_contact_requests.select_related("profile", "profile__user")
     return render(request, "interactions/contacts.html", {"received": received, "sent": sent})
 
@@ -225,7 +227,13 @@ def contact_action(request, pk):
         ContactRequest.objects.select_related("profile"), pk=pk, profile__user=request.user
     )
     action = request.POST.get("action")
-    if action == "block":
+    if action == "accept":
+        contact_request.status = ContactRequest.Status.ACCEPTED
+        message = "Pedido de contacto aceite."
+    elif action == "decline":
+        contact_request.status = ContactRequest.Status.DECLINED
+        message = "Pedido de contacto recusado."
+    elif action == "block":
         contact_request.status = ContactRequest.Status.BLOCKED
         message = "Contacto bloqueado."
     elif action == "report":

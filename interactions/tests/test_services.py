@@ -8,6 +8,7 @@ from interactions.services import (
     get_comparable_favorites,
     sync_favorite_tags,
 )
+from memberships.models import Membership
 from profiles.models import Profile
 
 
@@ -17,11 +18,16 @@ class ShortlistServiceTests(TestCase):
         self.user = user_model.objects.create_user(email="recrutador@example.com", password="test-pass")
         self.other_user = user_model.objects.create_user(email="outro@example.com", password="test-pass")
         self.owner = user_model.objects.create_user(email="profissional@example.com", password="test-pass")
+        for user in (self.user, self.owner):
+            user.membership.status = Membership.Status.APPROVED
+            user.membership.save(update_fields=("status",))
         self.profile = self.owner.profile
         self.profile.public_name = "Profissional Público"
         self.profile.professional_title = "Engenheira Civil"
         self.profile.status = Profile.Status.APPROVED
         self.profile.is_public = True
+        self.profile.review_status = Profile.ReviewStatus.APPROVED
+        self.profile.is_discoverable = True
         self.profile.save()
         self.favorite = Favorite.objects.create(user=self.user, profile=self.profile)
 
@@ -110,9 +116,13 @@ class ShortlistServiceTests(TestCase):
         self.profile.published_snapshot = {"public_name": self.profile.public_name}
         self.profile.save(update_fields=("published_snapshot", "updated_at"))
         owner = get_user_model().objects.create_user(email="segundo-profissional@example.com", password="test-pass")
+        owner.membership.status = Membership.Status.APPROVED
+        owner.membership.save(update_fields=("status",))
         second_profile = owner.profile
         second_profile.status = Profile.Status.APPROVED
         second_profile.is_public = True
+        second_profile.review_status = Profile.ReviewStatus.APPROVED
+        second_profile.is_discoverable = True
         second_profile.published_snapshot = {"public_name": "Segundo profissional"}
         second_profile.save()
         second_favorite = Favorite.objects.create(user=self.user, profile=second_profile)
@@ -129,8 +139,12 @@ class ShortlistServiceTests(TestCase):
                 email=f"profissional-{index}@example.com", password="test-pass"
             )
             profile = owner.profile
+            owner.membership.status = Membership.Status.APPROVED
+            owner.membership.save(update_fields=("status",))
             profile.status = Profile.Status.APPROVED
             profile.is_public = True
+            profile.review_status = Profile.ReviewStatus.APPROVED
+            profile.is_discoverable = True
             profile.save()
             Favorite.objects.create(user=self.user, profile=profile)
             profiles.append(profile)

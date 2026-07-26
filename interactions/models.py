@@ -127,8 +127,9 @@ class ProfileLike(UserProfileRelation):
 
 class ContactRequest(models.Model):
     class Status(models.TextChoices):
-        SENT = "sent", "Enviado"
-        DELIVERED = "delivered", "Entregue"
+        PENDING = "pending", "Pendente"
+        ACCEPTED = "accepted", "Aceite"
+        DECLINED = "declined", "Recusado"
         BLOCKED = "blocked", "Bloqueado"
         REPORTED = "reported", "Denunciado"
 
@@ -138,7 +139,7 @@ class ContactRequest(models.Model):
     profile = models.ForeignKey(Profile, related_name="contact_requests", on_delete=models.CASCADE)
     subject = models.CharField("assunto", max_length=180)
     message = models.TextField("mensagem", max_length=3000)
-    status = models.CharField(max_length=20, choices=Status.choices, default=Status.SENT, db_index=True)
+    status = models.CharField(max_length=20, choices=Status.choices, default=Status.PENDING, db_index=True)
     sender_ip_hash = models.CharField(max_length=64, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
 
