@@ -44,6 +44,7 @@ class ProfileForm(forms.ModelForm):
             "website",
             "linkedin_url",
             "contact_visibility",
+            "is_discoverable",
             "cv_file",
             "cv_visibility",
             "consent_marketing",

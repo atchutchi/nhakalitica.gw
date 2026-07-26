@@ -1,5 +1,8 @@
+from unittest.mock import PropertyMock, patch
+
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+from django.utils import timezone
 
 from profiles.models import Profile
 from memberships.models import Membership
@@ -36,6 +39,7 @@ class ProfileViewTests(TestCase):
                 "availability": "open",
                 "work_preference": "hybrid",
                 "contact_visibility": "form",
+                "is_discoverable": "on",
             },
         )
 
@@ -51,6 +55,8 @@ class ProfileViewTests(TestCase):
         profile.location = "Bissau"
         profile.status = Profile.Status.APPROVED
         profile.is_public = True
+        profile.review_status = Profile.ReviewStatus.APPROVED
+        profile.is_discoverable = True
         profile.save()
         self.client.force_login(self.user)
 
@@ -65,6 +71,7 @@ class ProfileViewTests(TestCase):
                 "availability": "open",
                 "work_preference": "hybrid",
                 "contact_visibility": "form",
+                "is_discoverable": "on",
             },
         )
 
@@ -75,6 +82,28 @@ class ProfileViewTests(TestCase):
         public_response = self.client.get(f"/profissionais/{profile.slug}/")
         self.assertContains(public_response, "Programadora")
         self.assertNotContains(public_response, "Programadora sénior")
+
+    def test_candidate_cannot_submit_profile_for_publication(self):
+        self.user.membership.status = Membership.Status.DRAFT
+        self.user.membership.save(update_fields=("status",))
+        self.user.email_verified_at = timezone.now()
+        self.user.save(update_fields=("email_verified_at",))
+        self.client.force_login(self.user)
+
+        with patch.object(Profile, "can_submit", new_callable=PropertyMock, return_value=True):
+            response = self.client.post(
+                "/perfil/submeter/",
+                {
+                    "consent_profile_public": "on",
+                    "consent_contact": "on",
+                    "accept_terms": "on",
+                    "accept_privacy": "on",
+                },
+            )
+
+        self.assertRedirects(response, "/conta/painel/")
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.review_status, Profile.ReviewStatus.DRAFT)
 
     def test_incomplete_profile_cannot_be_submitted(self):
         self.client.force_login(self.user)

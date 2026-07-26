@@ -72,7 +72,10 @@ def submit_profile(request):
         request.POST.get(name) == "on"
         for name in ("consent_profile_public", "consent_contact", "accept_terms", "accept_privacy")
     )
-    if not request.user.email_verified_at:
+    membership = getattr(request.user, "membership", None)
+    if not membership or not membership.can_access_network:
+        messages.error(request, "A tua adesão tem de ser aprovada antes da publicação do perfil.")
+    elif not request.user.email_verified_at:
         messages.error(request, "Confirma o teu email antes de submeter o perfil.")
     elif not profile.can_submit:
         messages.error(request, "Completa todas as secções obrigatórias antes de submeter.")
@@ -81,6 +84,8 @@ def submit_profile(request):
     else:
         now = timezone.now()
         profile.status = Profile.Status.PENDING
+        profile.review_status = Profile.ReviewStatus.UNDER_REVIEW
+        profile.is_discoverable = False
         profile.consent_profile_public = True
         profile.consent_contact = True
         profile.accepted_terms_version = "1.0"

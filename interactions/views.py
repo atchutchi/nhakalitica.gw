@@ -11,7 +11,7 @@ from django.views.decorators.http import require_POST
 from urllib.parse import urlencode
 
 from profiles.models import Profile
-from profiles.selectors import public_profiles
+from profiles.selectors import member_profiles
 from memberships.access import network_member_required
 
 from .forms import ContactRequestForm, FavoriteUpdateForm, ReportForm, SavedSearchForm
@@ -29,14 +29,14 @@ from .services import (
 )
 
 
-def get_public_profile(slug):
-    return get_object_or_404(public_profiles(), slug=slug)
+def get_member_profile(user, slug):
+    return get_object_or_404(member_profiles(user), slug=slug)
 
 
 @network_member_required
 @require_POST
 def favorite_toggle(request, slug):
-    profile = get_public_profile(slug)
+    profile = get_member_profile(request.user, slug)
     added = toggle_favorite(request.user, profile)
     messages.success(request, "Perfil guardado." if added else "Perfil removido dos favoritos.")
     return redirect("public-profile", slug=profile.slug)
@@ -45,7 +45,7 @@ def favorite_toggle(request, slug):
 @network_member_required
 @require_POST
 def favorite_add(request, slug):
-    profile = get_public_profile(slug)
+    profile = get_member_profile(request.user, slug)
     _favorite, created = add_favorite(request.user, profile)
     messages.success(request, "Perfil guardado." if created else "Perfil já está na shortlist.")
     return redirect("public-profile", slug=profile.slug)
@@ -54,7 +54,7 @@ def favorite_add(request, slug):
 @network_member_required
 @require_POST
 def like_toggle(request, slug):
-    profile = get_public_profile(slug)
+    profile = get_member_profile(request.user, slug)
     added = toggle_like(request.user, profile)
     messages.success(request, "Gosto registado." if added else "Gosto removido.")
     return redirect("public-profile", slug=profile.slug)
@@ -62,7 +62,7 @@ def like_toggle(request, slug):
 
 @network_member_required
 def contact(request, slug):
-    profile = get_public_profile(slug)
+    profile = get_member_profile(request.user, slug)
     form = ContactRequestForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         try:
@@ -83,7 +83,7 @@ def contact(request, slug):
 
 @network_member_required
 def report(request, slug):
-    profile = get_public_profile(slug)
+    profile = get_member_profile(request.user, slug)
     form = ReportForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         try:

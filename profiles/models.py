@@ -8,6 +8,13 @@ from taxonomy.models import Skill, Specialization
 
 
 class Profile(models.Model):
+    class ReviewStatus(models.TextChoices):
+        DRAFT = "draft", "Rascunho"
+        READY = "ready", "Pronto para revisão"
+        UNDER_REVIEW = "under_review", "Em revisão"
+        CORRECTIONS_REQUIRED = "corrections_required", "Correcções necessárias"
+        APPROVED = "approved", "Publicado"
+
     class Status(models.TextChoices):
         DRAFT = "draft", "Rascunho"
         PENDING = "pending", "Pendente"
@@ -117,6 +124,18 @@ class Profile(models.Model):
         db_index=True,
     )
     is_public = models.BooleanField("público", default=False, db_index=True)
+    review_status = models.CharField(
+        "estado da publicação",
+        max_length=24,
+        choices=ReviewStatus.choices,
+        default=ReviewStatus.DRAFT,
+        db_index=True,
+    )
+    is_discoverable = models.BooleanField(
+        "visível na rede",
+        default=False,
+        db_index=True,
+    )
     approved_at = models.DateTimeField("aprovado em", null=True, blank=True)
     reviewed_at = models.DateTimeField("revisto em", null=True, blank=True)
     reviewed_by = models.ForeignKey(
@@ -188,6 +207,19 @@ class Profile(models.Model):
     @property
     def can_submit(self):
         return not self.missing_required_sections()
+
+    def is_visible_to(self, viewer):
+        viewer_membership = getattr(viewer, "membership", None)
+        owner_membership = getattr(self.user, "membership", None)
+        return bool(
+            viewer.is_authenticated
+            and viewer_membership
+            and viewer_membership.can_access_network
+            and owner_membership
+            and owner_membership.can_access_network
+            and self.review_status == self.ReviewStatus.APPROVED
+            and self.is_discoverable
+        )
 
     def build_public_snapshot(self):
         return {

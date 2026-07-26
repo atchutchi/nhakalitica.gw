@@ -9,12 +9,12 @@ from taxonomy.models import Area, Sector, Skill, Specialization
 from memberships.access import network_member_required
 
 from .models import Profile
-from .selectors import public_profiles
+from .selectors import member_profiles
 
 
 @network_member_required
 def search(request):
-    paginator = Paginator(public_profiles(request.GET), 12)
+    paginator = Paginator(member_profiles(request.user, request.GET), 12)
     page = paginator.get_page(request.GET.get("page"))
     filter_params = request.GET.copy()
     filter_params.pop("page", None)
@@ -83,7 +83,7 @@ def search(request):
 @network_member_required
 def public_profile(request, slug):
     profile = get_object_or_404(
-        public_profiles(),
+        member_profiles(request.user),
         slug=slug,
     )
     context = {
@@ -104,11 +104,7 @@ def public_profile(request, slug):
 def profile_photo(request, slug):
     profile = get_object_or_404(Profile.objects.select_related("user"), slug=slug)
     is_owner = request.user.is_authenticated and request.user == profile.user
-    is_public = profile.is_public and profile.status in {
-        Profile.Status.APPROVED,
-        Profile.Status.CHANGES_PENDING,
-    }
-    if not is_owner and not is_public:
+    if not is_owner and not profile.is_visible_to(request.user):
         raise Http404
     if not profile.photo:
         raise Http404
@@ -124,11 +120,7 @@ def profile_photo(request, slug):
 def profile_cv(request, slug):
     profile = get_object_or_404(Profile.objects.select_related("user"), slug=slug)
     is_owner = request.user.is_authenticated and request.user == profile.user
-    is_public = profile.is_public and profile.status in {
-        Profile.Status.APPROVED,
-        Profile.Status.CHANGES_PENDING,
-    }
-    if not is_owner and not is_public:
+    if not is_owner and not profile.is_visible_to(request.user):
         raise Http404
     can_access = (
         is_owner

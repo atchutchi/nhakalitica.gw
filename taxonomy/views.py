@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
-from profiles.selectors import public_profiles
+from profiles.selectors import member_profiles
 from memberships.access import network_member_required
 
 from .models import Area
@@ -23,7 +23,7 @@ def area_detail(request, slug):
         Area.objects.filter(is_active=True).select_related("sector").prefetch_related("specializations"),
         slug=slug,
     )
-    profiles = public_profiles({"area": area.slug})
+    profiles = member_profiles(request.user, {"area": area.slug})
     return render(
         request,
         "taxonomy/area_detail.html",

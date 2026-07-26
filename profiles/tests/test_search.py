@@ -57,7 +57,16 @@ class PublicSearchTests(TestCase):
         profile.phone = "+245 000 0000"
         profile.status = Profile.Status.APPROVED if approved else Profile.Status.DRAFT
         profile.is_public = approved
+        profile.review_status = (
+            Profile.ReviewStatus.APPROVED
+            if approved
+            else Profile.ReviewStatus.DRAFT
+        )
+        profile.is_discoverable = approved
         profile.save()
+        if approved:
+            user.membership.status = Membership.Status.APPROVED
+            user.membership.save(update_fields=("status",))
         profile.specializations.add(self.specialization)
         profile.skills.add(self.skill)
         return profile

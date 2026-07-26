@@ -37,6 +37,8 @@ class InteractionViewTests(TestCase):
         self.profile.public_name = "Profissional Público"
         self.profile.status = Profile.Status.APPROVED
         self.profile.is_public = True
+        self.profile.review_status = Profile.ReviewStatus.APPROVED
+        self.profile.is_discoverable = True
         self.profile.consent_contact = True
         self.profile.save()
 

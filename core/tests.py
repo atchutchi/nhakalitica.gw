@@ -50,6 +50,8 @@ class SeoAndOperationsTests(TestCase):
         self.profile.professional_title = "Programadora"
         self.profile.status = Profile.Status.APPROVED
         self.profile.is_public = True
+        self.profile.review_status = Profile.ReviewStatus.APPROVED
+        self.profile.is_discoverable = True
         self.profile.save()
 
     def test_sitemap_excludes_private_profiles_and_areas(self):

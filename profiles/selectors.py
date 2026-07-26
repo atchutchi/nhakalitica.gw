@@ -1,4 +1,4 @@
-"""Query helpers for the public directory.
+"""Query helpers for the private member directory.
 
 Search intentionally operates on the approved payload for profiles with pending
 changes.  This prevents an unreviewed edit from leaking into the public index,
@@ -12,6 +12,8 @@ from datetime import date
 
 from django.db.models import Case, IntegerField, Q, Value, When
 from django.utils.text import slugify
+
+from memberships.models import Membership
 
 from .models import Profile
 
@@ -213,12 +215,16 @@ def _param(params, *names):
     return ""
 
 
-def public_profiles(params=None):
+def member_profiles(viewer, params=None):
     params = params or {}
+    viewer_membership = getattr(viewer, "membership", None)
+    if not viewer.is_authenticated or not viewer_membership or not viewer_membership.can_access_network:
+        return Profile.objects.none()
     queryset = (
         Profile.objects.filter(
-            Q(status=Profile.Status.APPROVED) | Q(status=Profile.Status.CHANGES_PENDING),
-            is_public=True,
+            review_status=Profile.ReviewStatus.APPROVED,
+            is_discoverable=True,
+            user__membership__status=Membership.Status.APPROVED,
         )
         .select_related("user")
         .prefetch_related(
