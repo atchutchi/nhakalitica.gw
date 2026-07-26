@@ -54,3 +54,9 @@ class MembershipApplicationFormTests(TestCase):
 
         self.assertFalse(form.is_valid())
         self.assertIn("accepts_privacy", form.errors)
+
+    def test_radio_cards_do_not_render_empty_placeholder_choices(self):
+        form = MembershipApplicationForm(instance=self.membership)
+
+        self.assertNotIn("", [value for value, _label in form.fields["member_type"].choices])
+        self.assertNotIn("", [value for value, _label in form.fields["relationship"].choices])

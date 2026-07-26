@@ -1,21 +1,39 @@
-{% extends "base.html" %}
+{% extends "memberships/base_onboarding.html" %}
+{% block title %}A minha candidatura | Kalitica{% endblock %}
+{% block onboarding_content %}
+<div class="onboarding-page-heading"><div><p class="onboarding-eyebrow">Adesão à Kalitica</p><h1>A minha candidatura</h1><p>Acompanha o progresso e o estado da tua candidatura à Kalitica.</p></div><span class="status-pill status-{{ membership.status }}">{{ membership.get_status_display }}</span></div>
 
-{% block title %}Adesão à Kalitica{% endblock %}
-
-{% block content %}
-<main class="container page-section">
-  <p class="eyebrow">Adesão à Kalitica</p>
-  <h1>O teu processo de adesão</h1>
-  <p>Estado actual: <strong>{{ membership.get_status_display }}</strong></p>
-  {% if membership.can_access_network %}
-    <p>A tua adesão está aprovada. Já podes consultar a rede profissional.</p>
-    <a class="button button-primary" href="{% url 'search' %}">Explorar a rede</a>
-  {% else %}
-    <p>A pesquisa e os perfis da rede ficam disponíveis após a aprovação da tua adesão.</p>
-    {% if membership.can_edit_application %}
-      <a class="button button-primary" href="{% url 'memberships:edit' %}">Continuar candidatura</a>
-      <a class="button" href="{% url 'memberships:review' %}">Rever candidatura</a>
-    {% endif %}
-  {% endif %}
-</main>
+{% if membership.status == "approved" %}
+<section class="decision-panel decision-approved">
+  <i class="bi bi-check-circle-fill" aria-hidden="true"></i><h2>Adesão aprovada</h2><p>Parabéns. A tua adesão foi aprovada e já podes entrar na rede profissional.</p>
+  <div class="next-step-card"><h3>Próximos passos</h3><ul><li>Aceder à rede profissional como membro</li><li>Concluir e rever o perfil profissional</li><li>Submeter o perfil para revisão antes da publicação</li></ul></div>
+  <a class="k-btn k-btn-primary" href="{% url 'search' %}">Explorar a rede <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+</section>
+<aside class="independent-review-note"><i class="bi bi-lock" aria-hidden="true"></i><p><strong>Processos separados</strong>A aprovação da adesão e a publicação do perfil são processos independentes. O perfil só aparece na rede depois de revisão própria.</p></aside>
+{% elif membership.status == "corrections_required" %}
+<section class="decision-panel decision-corrections">
+  <i class="bi bi-exclamation-triangle" aria-hidden="true"></i><h2>Correcções necessárias</h2><p>A tua candidatura requer algumas correcções antes de voltar à equipa.</p>
+  <div class="reviewer-note"><h3>Comentários da equipa</h3><p>{{ latest_decision.note|default:"Revê os dados indicados e completa a informação em falta." }}</p></div>
+  <a class="k-btn k-btn-secondary" href="{% url 'memberships:edit' %}">Editar candidatura <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+</section>
+{% elif membership.status == "submitted" or membership.status == "under_review" %}
+<section class="review-state-card">
+  <h2>Em análise</h2><p>A tua candidatura foi submetida com sucesso. A equipa Kalitica está a rever as informações fornecidas.</p>
+  <ol class="application-timeline">
+    <li class="is-complete"><i class="bi bi-check-circle-fill" aria-hidden="true"></i><div><strong>Candidatura submetida</strong><span>{% if membership.submitted_at %}{{ membership.submitted_at|date:"d/m/Y, H:i" }}{% endif %}</span></div></li>
+    <li class="is-current"><i class="bi bi-circle-fill" aria-hidden="true"></i><div><strong>Em análise</strong><span>A tua candidatura está a ser revista pela equipa Kalitica.</span></div></li>
+    <li><i class="bi bi-circle" aria-hidden="true"></i><div><strong>Decisão da adesão</strong><span>Receberás a decisão por email.</span></div></li>
+    <li><i class="bi bi-circle" aria-hidden="true"></i><div><strong>Publicação do perfil</strong><span>É um processo separado e exige revisão própria.</span></div></li>
+  </ol>
+  <div class="onboarding-info"><strong>Durante a análise</strong><p>Não terás acesso ao directório de membros. Serás notificado por email sobre qualquer actualização.</p></div>
+</section>
+{% elif membership.status == "refused" or membership.status == "suspended" %}
+<section class="decision-panel decision-corrections"><i class="bi bi-info-circle" aria-hidden="true"></i><h2>{{ membership.get_status_display }}</h2><p>{{ latest_decision.note|default:"Contacta a equipa Kalitica para obter mais informações sobre esta decisão." }}</p><a class="k-btn k-btn-secondary" href="mailto:info@kalitica.org">Contactar a equipa</a></section>
+{% else %}
+<section class="application-dashboard-card">
+  {% include "memberships/_progress.html" %}
+  <div class="onboarding-actions"><a class="k-btn k-btn-primary" href="{% url 'memberships:edit' %}">Continuar candidatura <i class="bi bi-arrow-right" aria-hidden="true"></i></a><a class="k-btn k-btn-secondary" href="{% url 'memberships:review' %}">Rever candidatura</a></div>
+</section>
+<aside class="manual-review-note"><i class="bi bi-lock" aria-hidden="true"></i><p><strong>Revisão manual</strong>A tua candidatura será revista manualmente pela equipa Kalitica. O acesso ao directório só fica disponível depois da aprovação.</p></aside>
+{% endif %}
 {% endblock %}

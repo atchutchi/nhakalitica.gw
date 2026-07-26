@@ -51,13 +51,64 @@ def submission_errors(user, membership):
     return errors
 
 
+def application_progress(user, membership):
+    profile = user.profile
+    relationship_complete = bool(membership.relationship) and bool(
+        membership.relationship != Membership.Relationship.RELEVANT_LINK
+        or membership.relationship_note.strip()
+    )
+    professional_complete = all(
+        value.strip()
+        for value in (
+            profile.public_name,
+            profile.professional_title,
+            profile.bio,
+        )
+    )
+    privacy_complete = all(
+        (
+            membership.accepts_code_of_conduct,
+            membership.accepts_privacy,
+            membership.confirms_truth,
+        )
+    )
+    review_complete = bool(
+        membership.member_type
+        and relationship_complete
+        and professional_complete
+        and membership.motivation.strip()
+        and privacy_complete
+    )
+    submitted = membership.status not in {
+        Membership.Status.DRAFT,
+        Membership.Status.CORRECTIONS_REQUIRED,
+    }
+    steps = (
+        {"label": _("Escolher o tipo de adesão"), "complete": bool(membership.member_type), "route": "memberships:edit"},
+        {"label": _("Ligação à Guiné-Bissau e elegibilidade"), "complete": relationship_complete, "route": "memberships:edit"},
+        {"label": _("Perfil profissional"), "complete": professional_complete, "route": "profiles:edit"},
+        {"label": _("Privacidade e visibilidade"), "complete": privacy_complete, "route": "memberships:edit"},
+        {"label": _("Rever e confirmar"), "complete": review_complete, "route": "memberships:review"},
+        {"label": _("Submeter candidatura"), "complete": submitted, "route": "memberships:review"},
+    )
+    completed_count = sum(step["complete"] for step in steps)
+    return {
+        "application_steps": steps,
+        "completed_count": completed_count,
+        "progress_percent": round(completed_count / len(steps) * 100),
+        "latest_decision": membership.decisions.first(),
+    }
+
+
 @login_required
 def dashboard(request):
     membership = get_or_create_membership(request.user)
+    context = {"membership": membership}
+    context.update(application_progress(request.user, membership))
     return render(
         request,
         "memberships/dashboard.html",
-        {"membership": membership},
+        context,
     )
 
 
@@ -73,23 +124,27 @@ def edit(request):
         form.save()
         messages.success(request, _("Rascunho da candidatura guardado."))
         return redirect("memberships:dashboard")
+    context = {"form": form, "membership": membership}
+    context.update(application_progress(request.user, membership))
     return render(
         request,
         "memberships/application_form.html",
-        {"form": form, "membership": membership},
+        context,
     )
 
 
 @login_required
 def review(request):
     membership = get_or_create_membership(request.user)
+    context = {
+        "membership": membership,
+        "submission_errors": submission_errors(request.user, membership),
+    }
+    context.update(application_progress(request.user, membership))
     return render(
         request,
         "memberships/application_review.html",
-        {
-            "membership": membership,
-            "submission_errors": submission_errors(request.user, membership),
-        },
+        context,
     )
 
 

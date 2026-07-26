@@ -40,6 +40,40 @@ class MembershipApplicationViewTests(TestCase):
         self.assertEqual(user.membership.status, Membership.Status.DRAFT)
         self.assertIsNotNone(user.profile)
 
+    def test_candidate_dashboard_shows_real_progress_and_private_shell(self):
+        response = self.client.get(reverse("memberships:dashboard"))
+
+        self.assertContains(response, 'class="onboarding-shell"')
+        self.assertContains(response, 'class="application-progress"')
+        self.assertContains(response, "A minha candidatura")
+        self.assertContains(response, "0 de 6 etapas concluídas")
+        self.assertContains(response, "Revisão manual")
+        self.assertNotContains(response, "Directório")
+
+    def test_submitted_dashboard_shows_review_timeline(self):
+        self.membership.status = Membership.Status.UNDER_REVIEW
+        self.membership.submitted_at = timezone.now()
+        self.membership.save(update_fields=("status", "submitted_at"))
+
+        response = self.client.get(reverse("memberships:dashboard"))
+
+        self.assertContains(response, "Em análise")
+        self.assertContains(response, 'class="application-timeline"')
+        self.assertNotContains(response, "Continuar candidatura")
+
+    def test_approved_dashboard_explains_separate_profile_review(self):
+        self.membership.status = Membership.Status.APPROVED
+        self.membership.save(update_fields=("status",))
+
+        response = self.client.get(reverse("memberships:dashboard"))
+
+        self.assertContains(response, "Adesão aprovada")
+        self.assertContains(
+            response,
+            "A aprovação da adesão e a publicação do perfil são processos independentes",
+        )
+        self.assertContains(response, reverse("search"))
+
     def test_candidate_can_save_draft(self):
         response = self.client.post(
             reverse("memberships:edit"),

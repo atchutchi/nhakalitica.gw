@@ -1,0 +1,40 @@
+{% extends "base.html" %}{% load static i18n %}
+{% block body_class %}onboarding-page{% endblock %}
+{% block extra_head %}<link href="{% static 'css/onboarding.css' %}" rel="stylesheet">{% endblock %}
+{% block site_header %}
+<header class="onboarding-header">
+  <a class="onboarding-brand" href="{% url 'memberships:dashboard' %}">
+    <span class="onboarding-brand-logo"><img src="{% static 'img/kalitica-logo.png' %}" alt="Kalitica Networking Society"></span>
+  </a>
+  <nav class="onboarding-top-nav" aria-label="Navegação da candidatura">
+    <a class="is-active" href="{% url 'memberships:dashboard' %}">A minha candidatura</a>
+    <a href="{% url 'accounts:dashboard' %}">A minha conta</a>
+  </nav>
+  <div class="onboarding-header-actions">
+    <form action="{% url 'set_language' %}" method="post">{% csrf_token %}<input type="hidden" name="next" value="{{ request.path }}"><button type="submit" name="language" value="pt" aria-label="Português">PT</button><button type="submit" name="language" value="fr" aria-label="Français">FR</button><button type="submit" name="language" value="en" aria-label="English">EN</button></form>
+    <span class="onboarding-avatar" aria-label="Conta de {{ request.user.get_full_name|default:request.user.email }}">{{ request.user.first_name|first|default:"K" }}</span>
+    <button class="onboarding-menu-button" type="button" data-onboarding-menu aria-expanded="false" aria-controls="onboarding-sidebar"><i class="bi bi-list" aria-hidden="true"></i><span class="visually-hidden">Abrir menu</span></button>
+  </div>
+</header>
+{% endblock %}
+{% block site_footer %}{% endblock %}
+{% block content %}
+<div class="onboarding-shell">
+  <aside class="onboarding-sidebar" id="onboarding-sidebar" data-onboarding-sidebar>
+    <nav aria-label="Etapas da área de candidatura">
+      <a class="is-active" href="{% url 'memberships:dashboard' %}"><i class="bi bi-file-earmark-check" aria-hidden="true"></i>A minha candidatura</a>
+      <a href="{% url 'profiles:edit' %}"><i class="bi bi-person" aria-hidden="true"></i>Perfil profissional</a>
+      <span><i class="bi bi-file-earmark" aria-hidden="true"></i>Os meus documentos</span>
+      <a href="{% url 'profiles:edit' %}"><i class="bi bi-shield-check" aria-hidden="true"></i>Privacidade</a>
+      <span><i class="bi bi-envelope" aria-hidden="true"></i>Mensagens</span>
+      <a href="mailto:info@kalitica.org"><i class="bi bi-question-circle" aria-hidden="true"></i>Ajuda</a>
+    </nav>
+    <div class="onboarding-email-state {% if request.user.email_verified_at %}is-confirmed{% endif %}">
+      <i class="bi bi-check-circle" aria-hidden="true"></i><div><strong>{% if request.user.email_verified_at %}Email confirmado{% else %}Email por confirmar{% endif %}</strong><small>{% if request.user.email_verified_at %}A tua conta está verificada.{% else %}Confirma o email para submeter.{% endif %}</small></div>
+    </div>
+    <form class="onboarding-logout" method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button type="submit"><i class="bi bi-box-arrow-right" aria-hidden="true"></i>Sair</button></form>
+  </aside>
+  <section class="onboarding-main">{% block onboarding_content %}{% endblock %}</section>
+</div>
+{% endblock %}
+{% block extra_scripts %}<script src="{% static 'js/onboarding.js' %}" defer></script>{% endblock %}

@@ -1,0 +1,9 @@
+<div class="application-progress" aria-label="Progresso da candidatura">
+  <div class="application-progress-heading"><strong>{{ completed_count }} de 6 etapas concluídas</strong><span>{{ progress_percent }}%</span></div>
+  <div class="application-progress-track" role="progressbar" aria-valuenow="{{ progress_percent }}" aria-valuemin="0" aria-valuemax="100"><span style="width: {{ progress_percent }}%"></span></div>
+</div>
+<ol class="application-step-list">
+  {% for step in application_steps %}
+  <li class="{% if step.complete %}is-complete{% endif %}"><i class="bi {% if step.complete %}bi-check-circle-fill{% else %}bi-circle{% endif %}" aria-hidden="true"></i><span>{{ step.label }}</span>{% if membership.can_edit_application %}<a href="{% url step.route %}">{% if step.complete %}Rever{% else %}Por iniciar{% endif %}</a>{% endif %}</li>
+  {% endfor %}
+</ol>

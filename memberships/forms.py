@@ -16,13 +16,25 @@ class MembershipApplicationForm(forms.ModelForm):
             "accepts_privacy",
             "confirms_truth",
         )
+        labels = {
+            "member_type": _("Tipo de adesão"),
+            "relationship": _("Ligação à Guiné-Bissau"),
+            "relationship_note": _("Explica a ligação relevante"),
+            "motivation": _("Motivação para aderir"),
+        }
         widgets = {
+            "member_type": forms.RadioSelect,
+            "relationship": forms.RadioSelect,
             "relationship_note": forms.Textarea(attrs={"rows": 4}),
             "motivation": forms.Textarea(attrs={"rows": 5}),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        for field_name in ("member_type", "relationship"):
+            self.fields[field_name].choices = [
+                choice for choice in self.fields[field_name].choices if choice[0]
+            ]
         for field_name in (
             "accepts_code_of_conduct",
             "accepts_privacy",

@@ -1,16 +1,13 @@
-{% extends "base.html" %}
-
-{% block title %}Editar candidatura{% endblock %}
-
-{% block content %}
-<main class="container page-section">
-  <p class="eyebrow">Adesão à Kalitica</p>
-  <h1>Prepara a tua candidatura</h1>
-  <p>Podes guardar o rascunho e continuar mais tarde.</p>
-  <form method="post" novalidate>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button class="button button-primary" type="submit">Guardar rascunho</button>
-  </form>
-</main>
+{% extends "memberships/base_onboarding.html" %}
+{% block title %}Editar candidatura | Kalitica{% endblock %}
+{% block onboarding_content %}
+<div class="onboarding-page-heading"><div><p class="onboarding-eyebrow">Candidatura</p><h1>Preparar a candidatura</h1><p>Escolhe o tipo de adesão e explica a tua ligação à Guiné-Bissau.</p></div><span class="step-counter">Etapas 1, 2 e 4 de 6</span></div>
+<form class="onboarding-form" method="post" novalidate>{% csrf_token %}
+  {% if form.non_field_errors %}<div class="onboarding-alert" role="alert">{{ form.non_field_errors }}</div>{% endif %}
+  <fieldset class="onboarding-form-section"><legend>Escolher o tipo de adesão</legend><p>Os dois tipos de membro participam na mesma rede profissional.</p><div class="membership-radio-grid">{% for radio in form.member_type %}<label>{{ radio.tag }}<i class="bi {% if forloop.first %}bi-people{% else %}bi-eye{% endif %}" aria-hidden="true"></i><strong>{{ radio.choice_label }}</strong><span>{% if forloop.first %}Para cidadãos, descendentes da diáspora ou profissionais com ligação relevante à Guiné-Bissau.{% else %}Para pessoas interessadas na Guiné-Bissau que querem acompanhar e aprender.{% endif %}</span></label>{% endfor %}</div>{{ form.member_type.errors }}</fieldset>
+  <fieldset class="onboarding-form-section"><legend>Ligação à Guiné-Bissau e elegibilidade</legend><p>Selecciona a opção que descreve melhor a tua ligação ao país.</p><div class="relationship-radio-list">{% for radio in form.relationship %}<label>{{ radio.tag }}<span><strong>{{ radio.choice_label }}</strong><small>{% if forloop.counter == 1 %}Nascido na Guiné-Bissau ou com nacionalidade guineense.{% elif forloop.counter == 2 %}Com ascendência guineense, por pais, avós ou bisavós.{% else %}Com ligação profissional, académica ou de impacto ao país.{% endif %}</small></span></label>{% endfor %}</div>{{ form.relationship.errors }}<div class="onboarding-field">{{ form.relationship_note.label_tag }}{{ form.relationship_note }}<small>Obrigatório para profissionais com ligação relevante.</small>{{ form.relationship_note.errors }}</div></fieldset>
+  <fieldset class="onboarding-form-section"><legend>Motivação</legend><div class="onboarding-field">{{ form.motivation.label_tag }}{{ form.motivation }}{{ form.motivation.errors }}</div></fieldset>
+  <fieldset class="onboarding-form-section privacy-consents"><legend>Privacidade e compromisso</legend><label>{{ form.accepts_code_of_conduct }}<span>{{ form.accepts_code_of_conduct.label }}</span></label><label>{{ form.accepts_privacy }}<span>{{ form.accepts_privacy.label }}</span></label><label>{{ form.confirms_truth }}<span>{{ form.confirms_truth.label }}</span></label></fieldset>
+  <div class="onboarding-form-actions"><a class="k-btn k-btn-secondary" href="{% url 'memberships:dashboard' %}">Voltar</a><button class="k-btn k-btn-primary" type="submit">Guardar e continuar <i class="bi bi-arrow-right" aria-hidden="true"></i></button></div>
+</form>
 {% endblock %}
