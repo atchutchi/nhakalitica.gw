@@ -1,37 +1,21 @@
-{% extends "base.html" %}
-
+{% extends "base.html" %}{% load static %}
 {% block title %}Criar conta | Kalitica{% endblock %}
-
+{% block body_class %}auth-page{% endblock %}
+{% block site_header %}{% endblock %}{% block site_footer %}{% endblock %}
 {% block content %}
-<section class="auth-section auth-split">
-    <div class="auth-brand-panel">
-        <span class="eyebrow">Começar no Kalitica</span>
-        <h1>Criar perfil profissional</h1>
-        <p>O teu perfil começa privado. Depois de completo, a equipa revê os dados antes da publicação.</p>
-        <div class="auth-proof-grid">
-            <div><strong>Cabo Verde</strong><span>Foco inicial</span></div>
-            <div><strong>PALOP</strong><span>Estrutura preparada</span></div>
-            <div><strong>Sem cobrança</strong><span>Vagas e planos bloqueados</span></div>
-        </div>
+<section class="auth-split-shell">
+  <div class="auth-form-side">
+    <a class="auth-logo" href="{% url 'home' %}"><img src="{% static 'img/kalitica-logo.png' %}" alt="Kalitica Networking Society"></a>
+    <div class="auth-form-card auth-form-card-wide">
+      <h1>Criar conta</h1><p>Começa a tua adesão à Kalitica Networking Society.</p>
+      <form method="post" novalidate>{% csrf_token %}
+        {% for field in form %}<div class="auth-field{% if field.name == 'accept_terms' %} auth-check-field{% endif %}">{% if field.name != 'accept_terms' %}<label for="{{ field.id_for_label }}">{{ field.label }}</label>{% endif %}{{ field }}{% if field.name == 'accept_terms' %}<label for="{{ field.id_for_label }}">{{ field.label }}</label>{% endif %}{% for error in field.errors %}<p class="auth-error">{{ error }}</p>{% endfor %}</div>{% endfor %}
+        {% for error in form.non_field_errors %}<p class="auth-error">{{ error }}</p>{% endfor %}
+        <button class="k-btn k-btn-primary auth-submit" type="submit">Criar conta</button>
+      </form>
+      <p class="auth-switch">Já tens conta? <a href="{% url 'accounts:login' %}">Entrar</a></p>
     </div>
-    <div class="auth-card auth-card-pro">
-        <span class="eyebrow">Conta segura</span>
-        <h2>Criar conta</h2>
-        <p>Usa um email a que tenhas acesso. Os dados profissionais começam privados.</p>
-        <form method="post" novalidate>
-            {% csrf_token %}
-            {% for field in form %}
-                <div class="form-group">
-                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                    {{ field }}
-                    {% if field.help_text %}<div class="form-help">{{ field.help_text|safe }}</div>{% endif %}
-                    {% for error in field.errors %}<div class="form-error">{{ error }}</div>{% endfor %}
-                </div>
-            {% endfor %}
-            {% for error in form.non_field_errors %}<div class="form-error mb-3">{{ error }}</div>{% endfor %}
-            <button class="btn btn-brand w-100" type="submit">Criar conta</button>
-        </form>
-        <p class="auth-switch">Já tens conta? <a href="{% url 'accounts:login' %}">Iniciar sessão</a>.</p>
-    </div>
+  </div>
+  {% include "registration/_auth_brand_panel.html" %}
 </section>
 {% endblock %}

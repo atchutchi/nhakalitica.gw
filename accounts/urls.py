@@ -17,6 +17,7 @@ from .views import (
     edit_account,
     resend_verification,
     signup,
+    verification_sent,
     verify_email,
 )
 
@@ -25,6 +26,7 @@ app_name = "accounts"
 
 urlpatterns = [
     path("criar/", signup, name="signup"),
+    path("confirmar-email/", verification_sent, name="verification-sent"),
     path(
         "entrar/",
         ThrottledLoginView.as_view(

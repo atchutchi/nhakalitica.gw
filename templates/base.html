@@ -14,10 +14,16 @@
     {% if canonical_url %}<meta property="og:url" content="{{ canonical_url }}">{% endif %}
     <title>{% block title %}Kalitica{% endblock %}</title>
     <link rel="icon" type="image/png" href="{% static 'img/kalitica-logo.png' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="{% static 'css/app.css' %}" rel="stylesheet">
+    <link href="{% static 'css/tokens.css' %}" rel="stylesheet">
+    <link href="{% static 'css/public.css' %}" rel="stylesheet">
+    <link href="{% static 'css/auth.css' %}" rel="stylesheet">
 </head>
 <body class="{% block body_class %}{% endblock %}">
     <a class="skip-link" href="#conteudo">Saltar para o conteúdo</a>
@@ -61,7 +67,7 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="site-footer">
+    {% block site_footer %}<footer class="site-footer">
         <div class="container footer-content">
             <p class="mb-0">© {% now "Y" %} Kalitica Networking Society. Conectar, colaborar e contribuir.</p>
             <nav aria-label="Navegação do rodapé">
@@ -70,7 +76,8 @@
                 <a href="mailto:ferreira.atchutchi@gmail.com">Contacto</a>
             </nav>
         </div>
-    </footer>
+    </footer>{% endblock %}
+    <script src="{% static 'js/navigation.js' %}" defer></script>
     {% block extra_scripts %}{% endblock %}
 </body>
 </html>

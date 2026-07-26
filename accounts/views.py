@@ -51,11 +51,19 @@ def signup(request):
     form = SignUpForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         user = form.save()
-        login(request, user)
         send_verification_email(request, user)
+        request.session["pending_verification_user_id"] = user.pk
         messages.info(request, "Enviámos uma ligação para confirmares o teu email.")
-        return redirect("accounts:dashboard")
+        return redirect("accounts:verification-sent")
     return render(request, "registration/signup.html", {"form": form})
+
+
+def verification_sent(request):
+    user = None
+    user_id = request.session.get("pending_verification_user_id")
+    if user_id:
+        user = User.objects.filter(pk=user_id).first()
+    return render(request, "registration/verification_sent.html", {"pending_user": user})
 
 
 @login_required
@@ -70,12 +78,15 @@ def dashboard(request):
     )
 
 
-@login_required
 def resend_verification(request):
-    if request.method == "POST" and not request.user.email_verified_at:
-        send_verification_email(request, request.user)
+    user = request.user if request.user.is_authenticated else None
+    if user is None:
+        user_id = request.session.get("pending_verification_user_id")
+        user = User.objects.filter(pk=user_id).first() if user_id else None
+    if request.method == "POST" and user and not user.email_verified_at:
+        send_verification_email(request, user)
         messages.success(request, "Enviámos uma nova ligação de confirmação.")
-    return redirect("accounts:dashboard")
+    return redirect("accounts:verification-sent")
 
 
 def verify_email(request, uidb64, token):
@@ -89,7 +100,8 @@ def verify_email(request, uidb64, token):
         messages.success(request, "Email confirmado com sucesso.")
         if not request.user.is_authenticated:
             login(request, user)
-        return redirect("accounts:dashboard")
+        request.session.pop("pending_verification_user_id", None)
+        return redirect("memberships:dashboard")
     return render(request, "accounts/verification_invalid.html", status=200)
 
 
@@ -105,7 +117,10 @@ def edit_account(request):
         user.save()
         if email_changed:
             send_verification_email(request, user)
+            request.session["pending_verification_user_id"] = user.pk
             messages.info(request, "Confirma o novo endereço de email.")
+            logout(request)
+            return redirect("accounts:verification-sent")
         else:
             messages.success(request, "Dados da conta actualizados.")
         return redirect("accounts:dashboard")

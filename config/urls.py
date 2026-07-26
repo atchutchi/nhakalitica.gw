@@ -6,6 +6,7 @@ from core.sitemaps import sitemaps
 
 
 urlpatterns = [
+    path("i18n/", include("django.conf.urls.i18n")),
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
     path("", include("profiles.public_urls")),
     path("", include("taxonomy.urls")),

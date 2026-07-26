@@ -1,0 +1,32 @@
+:root {
+  --color-primary: #2b7a77;
+  --color-primary-deep: #1e5a57;
+  --color-navy: #0b3d61;
+  --color-mint: #5ab59f;
+  --color-turquoise: #22b8c7;
+  --color-leaf: #78d84b;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f6faf9;
+  --color-surface-mint: #e9f7f3;
+  --color-ink: #0a1720;
+  --color-muted: #536763;
+  --color-border: #d7e5e1;
+  --color-success: #1f8a5b;
+  --color-warning: #9a6500;
+  --color-danger: #b42318;
+  --radius-control: 6px;
+  --radius-panel: 10px;
+  --radius-public: 14px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --font-brand: "Outfit", "Segoe UI", sans-serif;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-turquoise);
+  outline-offset: 2px;
+}

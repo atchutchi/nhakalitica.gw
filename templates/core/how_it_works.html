@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Como funciona | Kalitica{% endblock %}
+{% block robots %}index,follow{% endblock %}
+{% block body_class %}public-page{% endblock %}
+{% block site_header %}{% include "core/_public_header.html" %}{% endblock %}
+{% block content %}
+<main class="public-main"><div class="public-container"><header class="public-page-heading"><h1>Como funciona a adesão</h1><p>Um processo claro, privado e revisto pela equipa Kalitica.</p></header><ol class="how-steps"><li><span>1</span><div><h2>Cria e confirma a conta</h2><p>Regista o teu email e confirma-o através da ligação que te enviamos.</p></div></li><li><span>2</span><div><h2>Preenche a candidatura</h2><p>Escolhe Efectivo ou Observador e explica a tua ligação à Guiné-Bissau.</p></div></li><li><span>3</span><div><h2>Revisão manual</h2><p>A equipa verifica a elegibilidade e pode pedir correcções antes da decisão.</p></div></li><li><span>4</span><div><h2>Acesso à rede</h2><p>Depois da aprovação, podes consultar membros e preparar o teu perfil para publicação.</p></div></li></ol></div></main>
+{% endblock %}
+{% block site_footer %}{% include "core/_public_footer.html" %}{% endblock %}

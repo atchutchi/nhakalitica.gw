@@ -1,24 +1,40 @@
 from django.http import HttpResponse, JsonResponse
 from django.db import connection
 from django.db.utils import OperationalError
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.urls import reverse
 
-from .features import active_features, locked_features
-
-
 def home(request):
-    if not request.user.is_authenticated:
-        return redirect("accounts:login")
-
     return render(
         request,
         "core/home.html",
         {
             "canonical_url": request.build_absolute_uri(reverse("home")),
-            "active_features": active_features(),
-            "locked_features": locked_features(),
         },
+    )
+
+
+def about(request):
+    return render(
+        request,
+        "core/about.html",
+        {"canonical_url": request.build_absolute_uri(reverse("about"))},
+    )
+
+
+def membership_types(request):
+    return render(
+        request,
+        "core/membership_types.html",
+        {"canonical_url": request.build_absolute_uri(reverse("membership-types"))},
+    )
+
+
+def how_it_works(request):
+    return render(
+        request,
+        "core/how_it_works.html",
+        {"canonical_url": request.build_absolute_uri(reverse("how-it-works"))},
     )
 
 
@@ -30,6 +46,7 @@ def robots(request):
             "Allow: /",
             "Disallow: /conta/",
             "Disallow: /perfil/",
+            "Disallow: /adesao/",
             "Disallow: /interacoes/",
             "Disallow: /administracao/",
             "Disallow: /admin/",

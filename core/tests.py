@@ -10,10 +10,11 @@ from .features import FEATURES, active_features, locked_features
 
 
 class HomeViewTests(TestCase):
-    def test_home_page_redirects_anonymous_users_to_login(self):
+    def test_home_page_is_public(self):
         response = self.client.get("/")
 
-        self.assertRedirects(response, reverse("accounts:login"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "A rede profissional da Guiné-Bissau")
 
     def test_home_page_is_available_for_authenticated_users(self):
         user = get_user_model().objects.create_user(email="home@example.com", password="test-pass")
@@ -21,18 +22,45 @@ class HomeViewTests(TestCase):
         response = self.client.get("/")
 
         self.assertEqual(response.status_code, 200)
-        self.assertNotContains(response, "Iniciar sess")
-        self.assertNotContains(response, "Criar perfil")
-        self.assertContains(response, ">Perfil<")
-        nav_html = response.content.decode().split('<div class="nav-discovery">', 1)[1].split("</div>", 1)[0]
-        self.assertNotIn("Como funciona", nav_html)
+        self.assertContains(response, "A rede profissional da Guiné-Bissau")
 
     def test_login_page_does_not_render_global_header(self):
         response = self.client.get(reverse("accounts:login"))
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Entrar na")
+        self.assertContains(response, "Bem-vindo de volta à Kalitica")
         self.assertNotContains(response, 'class="site-header"')
+
+
+class PublicVisualContractTests(TestCase):
+    def test_home_uses_kalitica_public_shell(self):
+        response = self.client.get(reverse("home"))
+
+        self.assertContains(response, "A rede profissional da Guiné-Bissau")
+        self.assertContains(response, 'class="public-header"')
+        self.assertContains(response, 'class="hero-network"')
+        self.assertContains(response, reverse("accounts:signup"))
+        self.assertNotContains(response, "CVLink")
+        self.assertNotContains(response, "10€/mês")
+
+    def test_institutional_pages_use_public_navigation(self):
+        for route_name, heading in (
+            ("about", "A nossa missão"),
+            ("membership-types", "Tipos de adesão"),
+            ("how-it-works", "Como funciona a adesão"),
+        ):
+            with self.subTest(route_name=route_name):
+                response = self.client.get(reverse(route_name))
+                self.assertEqual(response.status_code, 200)
+                self.assertContains(response, heading)
+                self.assertContains(response, 'class="public-header"')
+
+    def test_public_page_has_three_language_controls(self):
+        response = self.client.get(reverse("home"))
+
+        self.assertContains(response, 'value="pt"')
+        self.assertContains(response, 'value="fr"')
+        self.assertContains(response, 'value="en"')
 
 
 class SeoAndOperationsTests(TestCase):
@@ -57,6 +85,9 @@ class SeoAndOperationsTests(TestCase):
     def test_sitemap_excludes_private_profiles_and_areas(self):
         response = self.client.get("/sitemap.xml")
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, reverse("about"))
+        self.assertContains(response, reverse("membership-types"))
+        self.assertContains(response, reverse("how-it-works"))
         self.assertNotContains(response, f"/profissionais/{self.profile.slug}/")
         self.assertNotContains(response, f"/areas/{self.area.slug}/")
 
@@ -83,20 +114,13 @@ class SeoAndOperationsTests(TestCase):
         self.assertEqual(response.json()["status"], "ok")
 
     def test_home_page_presents_product_and_search(self):
-        self.client.force_login(self.profile.user)
         response = self.client.get("/")
 
-        self.assertContains(response, "Quadros cabo-verdianos")
-        self.assertContains(response, "PALOP")
-        self.assertContains(response, "África lusófona")
-        self.assertContains(response, 'name="q"')
+        self.assertContains(response, "Guiné-Bissau")
+        self.assertContains(response, "diáspora")
         self.assertContains(response, "kalitica-logo.png")
-        self.assertContains(response, "hero-network-board")
-        self.assertContains(response, "data-cvlink-globe")
-        self.assertContains(response, "cvlink-globe-land.js")
-        self.assertContains(response, "cvlink-globe.js")
-        self.assertNotContains(response, "/conta/criar/")
-        self.assertNotContains(response, "/conta/entrar/")
+        self.assertContains(response, "/conta/criar/")
+        self.assertContains(response, "/conta/entrar/")
         self.assertNotContains(response, "Europa")
         self.assertNotContains(response, "europeu")
 
@@ -107,15 +131,10 @@ class SeoAndOperationsTests(TestCase):
         self.assertIn("billing", FEATURES)
         self.assertTrue(all(not feature.public_enabled for feature in locked_features()))
 
-        self.client.force_login(self.profile.user)
         response = self.client.get("/")
-        self.assertContains(response, "Vagas")
-        self.assertContains(response, "Equipas de recrutamento")
-        self.assertContains(response, "Planos e cobranças")
-        self.assertContains(response, "Bloqueado")
+        self.assertNotContains(response, "Planos e cobranças")
 
     def test_home_page_declares_brand_favicon(self):
-        self.client.force_login(self.profile.user)
         response = self.client.get("/")
 
         self.assertContains(response, 'rel="icon"')

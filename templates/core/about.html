@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Sobre nós | Kalitica{% endblock %}
+{% block robots %}index,follow{% endblock %}
+{% block body_class %}public-page{% endblock %}
+{% block site_header %}{% include "core/_public_header.html" %}{% endblock %}
+{% block content %}
+<main class="public-main">
+  <div class="public-container">
+    <div class="mission-grid">
+      <section class="mission-copy"><p class="public-kicker">Sobre nós</p><h1>A nossa missão</h1><p>A Kalitica Networking Society é a rede profissional privada que promove conexões significativas, colaboração e desenvolvimento entre profissionais ligados à Guiné-Bissau.</p><p>Acreditamos no poder da nossa comunidade para impulsionar ideias, projectos e oportunidades com impacto positivo no país e no mundo.</p></section>
+      <aside class="mission-principles">
+        <article><i class="bi bi-diagram-3" aria-hidden="true"></i><div><h2>Ligamos talentos</h2><p>Conectamos profissionais para criar pontes e oportunidades.</p></div></article>
+        <article><i class="bi bi-share" aria-hidden="true"></i><div><h2>Promovemos colaboração</h2><p>Incentivamos a partilha de conhecimento e a cooperação.</p></div></article>
+        <article><i class="bi bi-lightbulb" aria-hidden="true"></i><div><h2>Geramos impacto</h2><p>Apoiamos iniciativas que contribuem para o desenvolvimento sustentável.</p></div></article>
+      </aside>
+    </div>
+    <section class="audience-panel"><h2>Para quem é a Kalitica?</h2><p>A nossa comunidade é exclusiva para:</p><div class="audience-grid"><article><i class="bi bi-geo-alt" aria-hidden="true"></i><strong>Profissionais na Guiné-Bissau</strong></article><article><i class="bi bi-globe2" aria-hidden="true"></i><strong>Membros da diáspora guineense</strong></article><article><i class="bi bi-link-45deg" aria-hidden="true"></i><strong>Profissionais com ligação relevante à Guiné-Bissau</strong></article></div></section>
+    <blockquote class="mission-quote">Juntos, somos mais fortes. Juntos, vamos mais longe.</blockquote>
+  </div>
+</main>
+{% endblock %}
+{% block site_footer %}{% include "core/_public_footer.html" %}{% endblock %}

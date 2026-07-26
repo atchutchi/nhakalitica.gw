@@ -19,6 +19,8 @@ class AccountSecurityTests(TestCase):
                 "email": "nova@example.com",
                 "first_name": "Nova",
                 "last_name": "Pessoa",
+                "country": "Guiné-Bissau",
+                "accept_terms": "on",
                 "password1": "PalavraPasseSegura2026!",
                 "password2": "PalavraPasseSegura2026!",
             },
@@ -29,7 +31,7 @@ class AccountSecurityTests(TestCase):
         path = re.search(r"http://testserver(/conta/confirmar-email/[^\s]+)", mail.outbox[0].body).group(1)
 
         response = self.client.get(path)
-        self.assertRedirects(response, reverse("accounts:dashboard"))
+        self.assertRedirects(response, reverse("memberships:dashboard"))
         user.refresh_from_db()
         self.assertIsNotNone(user.email_verified_at)
 
@@ -50,7 +52,7 @@ class AccountSecurityTests(TestCase):
             reverse("accounts:edit"),
             {"email": "new@example.com", "first_name": "Novo", "last_name": "Nome"},
         )
-        self.assertRedirects(response, reverse("accounts:dashboard"))
+        self.assertRedirects(response, reverse("accounts:verification-sent"))
         user.refresh_from_db()
         self.assertEqual(user.email, "new@example.com")
         self.assertIsNone(user.email_verified_at)

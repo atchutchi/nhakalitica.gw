@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+from django.utils import timezone
 
 
 class AuthenticationFlowTests(TestCase):
@@ -8,27 +9,41 @@ class AuthenticationFlowTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
-    def test_signup_creates_authenticated_user(self):
+    def test_authentication_fields_expose_browser_autocomplete_hints(self):
+        login_response = self.client.get("/conta/entrar/")
+        signup_response = self.client.get("/conta/criar/")
+
+        self.assertContains(login_response, 'autocomplete="email"')
+        self.assertContains(login_response, 'autocomplete="current-password"')
+        self.assertContains(signup_response, 'autocomplete="given-name"')
+        self.assertContains(signup_response, 'autocomplete="family-name"')
+        self.assertContains(signup_response, 'autocomplete="country-name"')
+
+    def test_signup_waits_for_email_confirmation(self):
         response = self.client.post(
             "/conta/criar/",
             {
                 "email": "maria@example.com",
                 "first_name": "Maria",
                 "last_name": "Sambu",
+                "country": "Guiné-Bissau",
+                "accept_terms": "on",
                 "password1": "PalavraPasseSegura2026!",
                 "password2": "PalavraPasseSegura2026!",
             },
         )
 
-        self.assertRedirects(response, "/conta/painel/")
+        self.assertRedirects(response, "/conta/confirmar-email/")
         self.assertTrue(get_user_model().objects.filter(email="maria@example.com").exists())
-        self.assertIn("_auth_user_id", self.client.session)
+        self.assertNotIn("_auth_user_id", self.client.session)
 
     def test_user_can_login_with_email(self):
-        get_user_model().objects.create_user(
+        user = get_user_model().objects.create_user(
             email="joao@example.com",
             password="PalavraPasseSegura2026!",
         )
+        user.email_verified_at = timezone.now()
+        user.save(update_fields=("email_verified_at",))
 
         response = self.client.post(
             "/conta/entrar/",
@@ -36,6 +51,24 @@ class AuthenticationFlowTests(TestCase):
         )
 
         self.assertRedirects(response, "/conta/painel/")
+
+    def test_unverified_user_cannot_login(self):
+        get_user_model().objects.create_user(
+            email="por-confirmar@example.com",
+            password="PalavraPasseSegura2026!",
+        )
+
+        response = self.client.post(
+            "/conta/entrar/",
+            {
+                "username": "por-confirmar@example.com",
+                "password": "PalavraPasseSegura2026!",
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Confirma o teu email")
+        self.assertNotIn("_auth_user_id", self.client.session)
 
     def test_dashboard_requires_authentication(self):
         response = self.client.get("/conta/painel/")
