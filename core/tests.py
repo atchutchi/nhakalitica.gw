@@ -138,3 +138,75 @@ class SeoAndOperationsTests(TestCase):
         response = self.client.get("/")
 
         self.assertContains(response, 'rel="icon"')
+
+
+class InterfaceLanguageTests(TestCase):
+    def select_language(self, language, next_url="/"):
+        response = self.client.post(
+            "/i18n/setlang/",
+            {"language": language, "next": next_url},
+        )
+        self.assertRedirects(response, next_url)
+
+    def test_french_public_home_translates_content_and_document_language(self):
+        self.select_language("fr")
+
+        response = self.client.get("/")
+
+        self.assertContains(response, '<html lang="fr">')
+        self.assertContains(response, "Le réseau professionnel")
+        self.assertContains(response, "Demander l’adhésion")
+
+    def test_header_and_footer_language_controls_use_the_locale_endpoint(self):
+        response = self.client.get("/")
+
+        self.assertContains(response, 'action="/i18n/setlang/"', count=6)
+
+    def test_english_login_translates_content_and_document_language(self):
+        self.select_language("en", "/conta/entrar/")
+
+        response = self.client.get("/conta/entrar/")
+
+        self.assertContains(response, '<html lang="en">')
+        self.assertContains(response, "Welcome back to Kalitica.")
+        self.assertContains(response, ">Sign in<")
+
+    def test_language_selection_persists_across_pages(self):
+        self.select_language("fr")
+
+        home_response = self.client.get("/")
+        login_response = self.client.get("/conta/entrar/")
+
+        self.assertContains(home_response, "Comment ça marche")
+        self.assertContains(login_response, "Bienvenue à nouveau chez Kalitica.")
+
+    def test_public_information_and_signup_are_available_in_english(self):
+        self.select_language("en")
+
+        about_response = self.client.get("/sobre/")
+        membership_response = self.client.get("/tipos-de-adesao/")
+        signup_response = self.client.get("/conta/criar/")
+
+        self.assertContains(about_response, "Our mission")
+        self.assertContains(membership_response, "Every application is reviewed")
+        self.assertContains(signup_response, "Country of residence")
+
+    def test_member_journeys_use_the_selected_language(self):
+        user = get_user_model().objects.create_user(
+            email="language-member@example.com",
+            password="PalavraPasseSegura2026!",
+        )
+        self.client.force_login(user)
+        self.select_language("en", "/adesao/")
+
+        application_response = self.client.get("/adesao/")
+
+        self.assertContains(application_response, "My application")
+        self.assertContains(application_response, "Continue application")
+
+        user.membership.status = Membership.Status.APPROVED
+        user.membership.save(update_fields=("status",))
+        directory_response = self.client.get("/pesquisar/")
+
+        self.assertContains(directory_response, "Search professionals")
+        self.assertContains(directory_response, "Apply filters")

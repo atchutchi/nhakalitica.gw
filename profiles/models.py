@@ -3,56 +3,57 @@ from uuid import uuid4
 from django.conf import settings
 from django.db import models
 from django.utils.text import slugify
+from django.utils.translation import gettext_lazy as _
 
 from taxonomy.models import Skill, Specialization
 
 
 class Profile(models.Model):
     class ReviewStatus(models.TextChoices):
-        DRAFT = "draft", "Rascunho"
-        READY = "ready", "Pronto para revisão"
-        UNDER_REVIEW = "under_review", "Em revisão"
-        CORRECTIONS_REQUIRED = "corrections_required", "Correcções necessárias"
-        APPROVED = "approved", "Publicado"
+        DRAFT = "draft", _("Rascunho")
+        READY = "ready", _("Pronto para revisão")
+        UNDER_REVIEW = "under_review", _("Em revisão")
+        CORRECTIONS_REQUIRED = "corrections_required", _("Correcções necessárias")
+        APPROVED = "approved", _("Publicado")
 
     class Status(models.TextChoices):
-        DRAFT = "draft", "Rascunho"
-        PENDING = "pending", "Pendente"
-        APPROVED = "approved", "Aprovado"
-        REJECTED = "rejected", "Rejeitado"
-        CHANGES_PENDING = "changes_pending", "Alterações pendentes"
-        SUSPENDED = "suspended", "Suspenso"
-        ARCHIVED = "archived", "Arquivado"
-        DELETED = "deleted", "Eliminado"
+        DRAFT = "draft", _("Rascunho")
+        PENDING = "pending", _("Pendente")
+        APPROVED = "approved", _("Aprovado")
+        REJECTED = "rejected", _("Rejeitado")
+        CHANGES_PENDING = "changes_pending", _("Alterações pendentes")
+        SUSPENDED = "suspended", _("Suspenso")
+        ARCHIVED = "archived", _("Arquivado")
+        DELETED = "deleted", _("Eliminado")
 
     class Availability(models.TextChoices):
-        AVAILABLE = "available", "Disponível"
-        OPEN = "open", "Aberto a propostas"
-        UNAVAILABLE = "unavailable", "Indisponível"
+        AVAILABLE = "available", _("Disponível")
+        OPEN = "open", _("Aberto a propostas")
+        UNAVAILABLE = "unavailable", _("Indisponível")
 
     class WorkPreference(models.TextChoices):
-        ONSITE = "onsite", "Presencial"
-        REMOTE = "remote", "Remoto"
-        HYBRID = "hybrid", "Híbrido"
+        ONSITE = "onsite", _("Presencial")
+        REMOTE = "remote", _("Remoto")
+        HYBRID = "hybrid", _("Híbrido")
 
     class Seniority(models.TextChoices):
-        ENTRY = "entry", "Entrada"
-        JUNIOR = "junior", "Júnior"
-        MID = "mid", "Intermédio"
-        SENIOR = "senior", "Sénior"
-        LEAD = "lead", "Liderança"
+        ENTRY = "entry", _("Entrada")
+        JUNIOR = "junior", _("Júnior")
+        MID = "mid", _("Intermédio")
+        SENIOR = "senior", _("Sénior")
+        LEAD = "lead", _("Liderança")
 
     class ContactVisibility(models.TextChoices):
-        FORM = "form", "Apenas formulário"
-        REGISTERED = "registered", "Utilizadores registados"
-        PUBLIC = "public", "Público"
-        HIDDEN = "hidden", "Oculto"
+        FORM = "form", _("Apenas formulário")
+        REGISTERED = "registered", _("Utilizadores registados")
+        PUBLIC = "public", _("Público")
+        HIDDEN = "hidden", _("Oculto")
 
     class CVVisibility(models.TextChoices):
-        PUBLIC = "public", "Público"
-        MEMBERS = "members", "Utilizadores registados"
-        REQUEST = "request", "Apenas mediante pedido"
-        PRIVATE = "private", "Privado"
+        PUBLIC = "public", _("Público")
+        MEMBERS = "members", _("Utilizadores registados")
+        REQUEST = "request", _("Apenas mediante pedido")
+        PRIVATE = "private", _("Privado")
 
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,

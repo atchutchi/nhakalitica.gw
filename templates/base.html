@@ -1,6 +1,8 @@
-{% load static %}
+{% load static i18n %}
+<!-- impeccable-disable single-font -- Outfit é a família única definida no design system Kalitica -->
+{% get_current_language as LANGUAGE_CODE %}
 <!doctype html>
-<html lang="pt-PT">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,19 +31,19 @@
     {% block extra_head %}{% endblock %}
 </head>
 <body class="{% block body_class %}{% endblock %}">
-    <a class="skip-link" href="#conteudo">Saltar para o conteúdo</a>
+    <a class="skip-link" href="#conteudo">{% translate "Saltar para o conteúdo" %}</a>
     {% block site_header %}
     <header class="member-header">
       <div class="member-nav-wrap">
         <a class="member-brand" href="{% if request.user.is_authenticated %}{% url 'accounts:dashboard' %}{% else %}{% url 'home' %}{% endif %}"><img src="{% static 'img/kalitica-logo.png' %}" alt="Kalitica Networking Society"></a>
         {% if request.user.is_authenticated %}
           {% if request.user.membership.can_access_network %}
-          <nav class="member-primary-nav" aria-label="Rede Kalitica"><a href="{% url 'accounts:dashboard' %}">Painel</a><a href="{% url 'search' %}">Directório</a><a href="{% url 'area-list' %}">Áreas</a><a href="{% url 'interactions:favorites' %}">Favoritos</a><a href="{% url 'interactions:contacts' %}">Mensagens</a><a href="{% url 'interactions:notifications' %}">Notificações</a></nav>
-          {% else %}<nav class="member-primary-nav" aria-label="Conta Kalitica"><a href="{% url 'memberships:dashboard' %}">A minha candidatura</a><a href="{% url 'accounts:dashboard' %}">A minha conta</a></nav>{% endif %}
+          <nav class="member-primary-nav" aria-label="Rede Kalitica"><a href="{% url 'accounts:dashboard' %}">{% translate "Painel" %}</a><a href="{% url 'search' %}">{% translate "Directório" %}</a><a href="{% url 'area-list' %}">{% translate "Áreas" %}</a><a href="{% url 'interactions:favorites' %}">{% translate "Favoritos" %}</a><a href="{% url 'interactions:contacts' %}">{% translate "Mensagens" %}</a><a href="{% url 'interactions:notifications' %}">{% translate "Notificações" %}</a></nav>
+          {% else %}<nav class="member-primary-nav" aria-label="Conta Kalitica"><a href="{% url 'memberships:dashboard' %}">{% translate "A minha candidatura" %}</a><a href="{% url 'accounts:dashboard' %}">{% translate "A minha conta" %}</a></nav>{% endif %}
           <div class="member-account"><a class="member-avatar" href="{% url 'accounts:dashboard' %}" aria-label="Abrir conta">{{ request.user.first_name|first|default:"K" }}</a><button type="button" data-member-menu aria-expanded="false" aria-controls="member-mobile-nav"><i class="bi bi-list" aria-hidden="true"></i><span class="visually-hidden">Abrir menu</span></button></div>
-        {% else %}<nav class="member-primary-nav"><a href="{% url 'accounts:login' %}">Entrar</a></nav>{% endif %}
+        {% else %}<nav class="member-primary-nav"><a href="{% url 'accounts:login' %}">{% translate "Entrar" %}</a></nav>{% endif %}
       </div>
-      {% if request.user.is_authenticated %}<div class="member-mobile-nav" id="member-mobile-nav" data-member-mobile-nav>{% if request.user.membership.can_access_network %}<a href="{% url 'accounts:dashboard' %}">Painel</a><a href="{% url 'search' %}">Directório</a><a href="{% url 'area-list' %}">Áreas</a><a href="{% url 'interactions:favorites' %}">Favoritos</a><a href="{% url 'interactions:contacts' %}">Mensagens</a><a href="{% url 'interactions:notifications' %}">Notificações</a>{% else %}<a href="{% url 'memberships:dashboard' %}">A minha candidatura</a><a href="{% url 'accounts:dashboard' %}">A minha conta</a>{% endif %}<form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button type="submit">Sair</button></form></div>{% endif %}
+      {% if request.user.is_authenticated %}<div class="member-mobile-nav" id="member-mobile-nav" data-member-mobile-nav>{% if request.user.membership.can_access_network %}<a href="{% url 'accounts:dashboard' %}">{% translate "Painel" %}</a><a href="{% url 'search' %}">{% translate "Directório" %}</a><a href="{% url 'area-list' %}">{% translate "Áreas" %}</a><a href="{% url 'interactions:favorites' %}">{% translate "Favoritos" %}</a><a href="{% url 'interactions:contacts' %}">{% translate "Mensagens" %}</a><a href="{% url 'interactions:notifications' %}">{% translate "Notificações" %}</a>{% else %}<a href="{% url 'memberships:dashboard' %}">{% translate "A minha candidatura" %}</a><a href="{% url 'accounts:dashboard' %}">{% translate "A minha conta" %}</a>{% endif %}<form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button type="submit">{% translate "Sair" %}</button></form></div>{% endif %}
     </header>
     {% endblock %}
 

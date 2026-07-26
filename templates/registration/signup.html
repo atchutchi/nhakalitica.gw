@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% load static %}
+{% extends "base.html" %}{% load static i18n %}
 {% block title %}Criar conta | Kalitica{% endblock %}
 {% block body_class %}auth-page{% endblock %}
 {% block site_header %}{% endblock %}{% block site_footer %}{% endblock %}
@@ -7,13 +7,13 @@
   <div class="auth-form-side">
     <a class="auth-logo" href="{% url 'home' %}"><img src="{% static 'img/kalitica-logo.png' %}" alt="Kalitica Networking Society"></a>
     <div class="auth-form-card auth-form-card-wide">
-      <h1>Criar conta</h1><p>Começa a tua adesão à Kalitica Networking Society.</p>
+      <h1>{% translate "Criar conta" %}</h1><p>{% translate "Começa a tua adesão à Kalitica Networking Society." %}</p>
       <form method="post" novalidate>{% csrf_token %}
         {% for field in form %}<div class="auth-field{% if field.name == 'accept_terms' %} auth-check-field{% endif %}">{% if field.name != 'accept_terms' %}<label for="{{ field.id_for_label }}">{{ field.label }}</label>{% endif %}{{ field }}{% if field.name == 'accept_terms' %}<label for="{{ field.id_for_label }}">{{ field.label }}</label>{% endif %}{% for error in field.errors %}<p class="auth-error">{{ error }}</p>{% endfor %}</div>{% endfor %}
         {% for error in form.non_field_errors %}<p class="auth-error">{{ error }}</p>{% endfor %}
-        <button class="k-btn k-btn-primary auth-submit" type="submit">Criar conta</button>
+        <button class="k-btn k-btn-primary auth-submit" type="submit">{% translate "Criar conta" %}</button>
       </form>
-      <p class="auth-switch">Já tens conta? <a href="{% url 'accounts:login' %}">Entrar</a></p>
+      <p class="auth-switch">{% translate "Já tens conta?" %} <a href="{% url 'accounts:login' %}">{% translate "Entrar" %}</a></p>
     </div>
   </div>
   {% include "registration/_auth_brand_panel.html" %}

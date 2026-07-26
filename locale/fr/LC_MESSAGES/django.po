@@ -1,0 +1,488 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Kalitica 1.0\n"
+"Language: fr\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Saltar para o conteúdo"
+msgstr "Aller au contenu"
+
+msgid "Painel"
+msgstr "Tableau de bord"
+
+msgid "Directório"
+msgstr "Annuaire"
+
+msgid "Áreas"
+msgstr "Domaines"
+
+msgid "Favoritos"
+msgstr "Favoris"
+
+msgid "Mensagens"
+msgstr "Messages"
+
+msgid "Notificações"
+msgstr "Notifications"
+
+msgid "A minha candidatura"
+msgstr "Ma candidature"
+
+msgid "A minha conta"
+msgstr "Mon compte"
+
+msgid "Sair"
+msgstr "Se déconnecter"
+
+msgid "Entrar"
+msgstr "Se connecter"
+
+msgid "Seleccionar idioma"
+msgstr "Choisir la langue"
+
+msgid "Kalitica, página inicial"
+msgstr "Kalitica, accueil"
+
+msgid "Abrir menu"
+msgstr "Ouvrir le menu"
+
+msgid "Sobre nós"
+msgstr "À propos"
+
+msgid "Tipos de adesão"
+msgstr "Types d’adhésion"
+
+msgid "Como funciona"
+msgstr "Comment ça marche"
+
+msgid "Recursos"
+msgstr "Ressources"
+
+msgid "Contactos"
+msgstr "Contacts"
+
+msgid "Pedir adesão"
+msgstr "Demander l’adhésion"
+
+msgid "A rede profissional"
+msgstr "Le réseau professionnel"
+
+msgid "da Guiné-Bissau"
+msgstr "de la Guinée-Bissau"
+
+msgid "Uma comunidade privada que liga profissionais dentro e fora da Guiné-Bissau. Colabora, partilha conhecimento e cria oportunidades."
+msgstr "Une communauté privée qui relie les professionnels en Guinée-Bissau et à l’étranger. Collaborez, partagez vos connaissances et créez des opportunités."
+
+msgid "Rede privada e segura"
+msgstr "Réseau privé et sécurisé"
+
+msgid "Adesão por aprovação"
+msgstr "Adhésion sur approbation"
+
+msgid "Comunidade de confiança"
+msgstr "Communauté de confiance"
+
+msgid "Para quem é a Kalitica?"
+msgstr "À qui s’adresse Kalitica ?"
+
+msgid "Profissionais na Guiné-Bissau, na diáspora guineense e pessoas com ligação relevante ao país."
+msgstr "Professionnels en Guinée-Bissau, membres de la diaspora et personnes ayant un lien pertinent avec le pays."
+
+msgid "Saber mais sobre a nossa missão"
+msgstr "En savoir plus sur notre mission"
+
+msgid "Como funciona a adesão"
+msgstr "Comment fonctionne l’adhésion"
+
+msgid "A candidatura será analisada pela equipa Kalitica. Receberás uma resposta por email."
+msgstr "La candidature sera examinée par l’équipe Kalitica. Vous recevrez une réponse par email."
+
+msgid "Ver tipos de adesão"
+msgstr "Voir les types d’adhésion"
+
+msgid "Bem-vindo de volta à Kalitica."
+msgstr "Bienvenue à nouveau chez Kalitica."
+
+msgid "Manter sessão iniciada"
+msgstr "Rester connecté"
+
+msgid "Esqueceu a palavra-passe?"
+msgstr "Mot de passe oublié ?"
+
+msgid "Ainda não tens conta?"
+msgstr "Vous n’avez pas encore de compte ?"
+
+msgid "Criar conta"
+msgstr "Créer un compte"
+
+msgid "Rede privada"
+msgstr "Réseau privé"
+
+msgid "Acesso exclusivo depois da aprovação."
+msgstr "Accès exclusif après approbation."
+
+msgid "Profissionais verificados e ligados à Guiné-Bissau."
+msgstr "Professionnels vérifiés et liés à la Guinée-Bissau."
+
+msgid "Colaboração e oportunidades"
+msgstr "Collaboration et opportunités"
+
+msgid "Partilha conhecimento e desenvolve projectos com impacto."
+msgstr "Partagez vos connaissances et développez des projets à impact."
+
+msgid "A rede profissional da Guiné-Bissau."
+msgstr "Le réseau professionnel de la Guinée-Bissau."
+
+msgid "A nossa missão"
+msgstr "Notre mission"
+
+msgid "A Kalitica Networking Society é a rede profissional privada que promove conexões significativas, colaboração e desenvolvimento entre profissionais ligados à Guiné-Bissau."
+msgstr "Kalitica Networking Society est le réseau professionnel privé qui favorise les relations utiles, la collaboration et le développement entre les professionnels liés à la Guinée-Bissau."
+
+msgid "Acreditamos no poder da nossa comunidade para impulsionar ideias, projectos e oportunidades com impacto positivo no país e no mundo."
+msgstr "Nous croyons au pouvoir de notre communauté pour faire progresser des idées, des projets et des opportunités ayant un impact positif dans le pays et dans le monde."
+
+msgid "Ligamos talentos"
+msgstr "Nous relions les talents"
+
+msgid "Conectamos profissionais para criar pontes e oportunidades."
+msgstr "Nous mettons les professionnels en relation pour créer des passerelles et des opportunités."
+
+msgid "Promovemos colaboração"
+msgstr "Nous favorisons la collaboration"
+
+msgid "Incentivamos a partilha de conhecimento e a cooperação."
+msgstr "Nous encourageons le partage des connaissances et la coopération."
+
+msgid "Geramos impacto"
+msgstr "Nous créons de l’impact"
+
+msgid "Apoiamos iniciativas que contribuem para o desenvolvimento sustentável."
+msgstr "Nous soutenons les initiatives qui contribuent au développement durable."
+
+msgid "A nossa comunidade é exclusiva para:"
+msgstr "Notre communauté est réservée aux :"
+
+msgid "Profissionais na Guiné-Bissau"
+msgstr "Professionnels en Guinée-Bissau"
+
+msgid "Membros da diáspora guineense"
+msgstr "Membres de la diaspora bissau-guinéenne"
+
+msgid "Profissionais com ligação relevante à Guiné-Bissau"
+msgstr "Professionnels ayant un lien pertinent avec la Guinée-Bissau"
+
+msgid "Juntos, somos mais fortes. Juntos, vamos mais longe."
+msgstr "Ensemble, nous sommes plus forts. Ensemble, nous allons plus loin."
+
+msgid "Um processo claro, privado e revisto pela equipa Kalitica."
+msgstr "Un processus clair, privé et examiné par l’équipe Kalitica."
+
+msgid "Cria e confirma a conta"
+msgstr "Créez et confirmez votre compte"
+
+msgid "Regista o teu email e confirma-o através da ligação que te enviamos."
+msgstr "Enregistrez votre email et confirmez-le grâce au lien que nous vous envoyons."
+
+msgid "Preenche a candidatura"
+msgstr "Remplissez la candidature"
+
+msgid "Escolhe Efectivo ou Observador e explica a tua ligação à Guiné-Bissau."
+msgstr "Choisissez Effectif ou Observateur et expliquez votre lien avec la Guinée-Bissau."
+
+msgid "Revisão manual"
+msgstr "Examen manuel"
+
+msgid "A equipa verifica a elegibilidade e pode pedir correcções antes da decisão."
+msgstr "L’équipe vérifie l’éligibilité et peut demander des corrections avant la décision."
+
+msgid "Acesso à rede"
+msgstr "Accès au réseau"
+
+msgid "Depois da aprovação, podes consultar membros e preparar o teu perfil para publicação."
+msgstr "Après approbation, vous pouvez consulter les membres et préparer votre profil pour publication."
+
+msgid "Começa a tua adesão à Kalitica Networking Society."
+msgstr "Commencez votre adhésion à Kalitica Networking Society."
+
+msgid "Já tens conta?"
+msgstr "Vous avez déjà un compte ?"
+
+msgid "País de residência"
+msgstr "Pays de résidence"
+
+msgid "Li e aceito os Termos de Utilização e a Política de Privacidade"
+msgstr "J’ai lu et j’accepte les Conditions d’utilisation et la Politique de confidentialité"
+
+msgid "Nome"
+msgstr "Prénom"
+
+msgid "Apelido"
+msgstr "Nom"
+
+msgid "Já existe uma conta com este email."
+msgstr "Un compte existe déjà avec cet email."
+
+msgid "Confirma o teu email antes de iniciares sessão."
+msgstr "Confirmez votre email avant de vous connecter."
+
+msgid "Palavra-passe actual"
+msgstr "Mot de passe actuel"
+
+msgid "A palavra-passe está incorrecta."
+msgstr "Le mot de passe est incorrect."
+
+msgid "Escolhe o tipo de adesão que melhor se adequa ao teu perfil. Todas as candidaturas são analisadas e aprovadas manualmente."
+msgstr "Choisissez le type d’adhésion qui correspond le mieux à votre profil. Toutes les candidatures sont examinées et approuvées manuellement."
+
+msgid "Efectivo"
+msgstr "Effectif"
+
+msgid "Para profissionais que pretendem participar activamente na comunidade e colaborar no desenvolvimento da rede."
+msgstr "Pour les professionnels qui souhaitent participer activement à la communauté et contribuer au développement du réseau."
+
+msgid "Participação plena na comunidade"
+msgstr "Participation complète à la communauté"
+
+msgid "Acesso a todos os recursos e funcionalidades"
+msgstr "Accès à toutes les ressources et fonctionnalités"
+
+msgid "Possibilidade de criar e participar em grupos"
+msgstr "Possibilité de créer et de rejoindre des groupes"
+
+msgid "Visibilidade no directório de profissionais"
+msgstr "Visibilité dans l’annuaire professionnel"
+
+msgid "Observador"
+msgstr "Observateur"
+
+msgid "Para profissionais que pretendem acompanhar a comunidade e aceder a conteúdos e eventos seleccionados."
+msgstr "Pour les professionnels qui souhaitent suivre la communauté et accéder aux contenus et événements sélectionnés."
+
+msgid "Os mesmos direitos na rede profissional"
+msgstr "Les mêmes droits dans le réseau professionnel"
+
+msgid "Acompanhamento de actividades da comunidade"
+msgstr "Suivi des activités de la communauté"
+
+msgid "Participação em grupos e colaboração"
+msgstr "Participation aux groupes et collaboration"
+
+msgid "A Kalitica é uma rede privada. Todas as adesões são sujeitas a aprovação manual."
+msgstr "Kalitica est un réseau privé. Toutes les adhésions sont soumises à une approbation manuelle."
+
+msgid "Perfil profissional"
+msgstr "Profil professionnel"
+
+msgid "Os meus documentos"
+msgstr "Mes documents"
+
+msgid "Privacidade"
+msgstr "Confidentialité"
+
+msgid "Ajuda"
+msgstr "Aide"
+
+msgid "Email confirmado"
+msgstr "Email confirmé"
+
+msgid "Email por confirmar"
+msgstr "Email à confirmer"
+
+msgid "A tua conta está verificada."
+msgstr "Votre compte est vérifié."
+
+msgid "Confirma o email para submeter."
+msgstr "Confirmez votre email avant d’envoyer."
+
+msgid "Adesão à Kalitica"
+msgstr "Adhésion à Kalitica"
+
+msgid "Acompanha o progresso e o estado da tua candidatura à Kalitica."
+msgstr "Suivez l’avancement et le statut de votre candidature à Kalitica."
+
+msgid "Adesão aprovada"
+msgstr "Adhésion approuvée"
+
+msgid "Parabéns. A tua adesão foi aprovada e já podes entrar na rede profissional."
+msgstr "Félicitations. Votre adhésion a été approuvée et vous pouvez maintenant accéder au réseau professionnel."
+
+msgid "Explorar a rede"
+msgstr "Explorer le réseau"
+
+msgid "Correcções necessárias"
+msgstr "Corrections nécessaires"
+
+msgid "A tua candidatura requer algumas correcções antes de voltar à equipa."
+msgstr "Votre candidature nécessite quelques corrections avant d’être renvoyée à l’équipe."
+
+msgid "Em análise"
+msgstr "En cours d’examen"
+
+msgid "A tua candidatura foi submetida com sucesso. A equipa Kalitica está a rever as informações fornecidas."
+msgstr "Votre candidature a été envoyée. L’équipe Kalitica examine les informations fournies."
+
+msgid "Continuar candidatura"
+msgstr "Continuer la candidature"
+
+msgid "Rever candidatura"
+msgstr "Vérifier la candidature"
+
+msgid "Filtros"
+msgstr "Filtres"
+
+msgid "Limpar todos"
+msgstr "Tout effacer"
+
+msgid "Profissão"
+msgstr "Profession"
+
+msgid "Nome, profissão ou palavra-chave"
+msgstr "Nom, profession ou mot-clé"
+
+msgid "Competências"
+msgstr "Compétences"
+
+msgid "Todas as competências"
+msgstr "Toutes les compétences"
+
+msgid "Sector"
+msgstr "Secteur"
+
+msgid "Todos os sectores"
+msgstr "Tous les secteurs"
+
+msgid "Área"
+msgstr "Domaine"
+
+msgid "Todas as áreas"
+msgstr "Tous les domaines"
+
+msgid "Localização"
+msgstr "Localisation"
+
+msgid "Cidade ou localidade"
+msgstr "Ville ou localité"
+
+msgid "Aplicar filtros"
+msgstr "Appliquer les filtres"
+
+msgid "Rede privada Kalitica"
+msgstr "Réseau privé Kalitica"
+
+msgid "Pesquisar profissionais"
+msgstr "Rechercher des professionnels"
+
+msgid "Encontra membros aprovados por profissão, competência e ligação à Guiné-Bissau."
+msgstr "Trouvez des membres approuvés par profession, compétence et lien avec la Guinée-Bissau."
+
+msgid "Pesquisar por nome, profissão ou competências"
+msgstr "Rechercher par nom, profession ou compétences"
+
+msgid "Pesquisar"
+msgstr "Rechercher"
+
+msgid "Nenhum perfil encontrado"
+msgstr "Aucun profil trouvé"
+
+msgid "Altera a pesquisa ou remove alguns filtros."
+msgstr "Modifiez la recherche ou retirez certains filtres."
+
+msgid "Limpar pesquisa"
+msgstr "Effacer la recherche"
+
+msgid "Ver perfil"
+msgstr "Voir le profil"
+
+msgid "Adicionar aos favoritos"
+msgstr "Ajouter aux favoris"
+
+msgid "Confirma o teu email"
+msgstr "Confirmez votre email"
+
+msgid "Enviámos uma ligação para o endereço indicado. Abre o email para activar a conta e continuar a adesão."
+msgstr "Nous avons envoyé un lien à l’adresse indiquée. Ouvrez l’email pour activer le compte et poursuivre l’adhésion."
+
+msgid "Reenviar email"
+msgstr "Renvoyer l’email"
+
+msgid "Voltar ao início"
+msgstr "Retour à l’accueil"
+
+msgid "Recuperar palavra-passe"
+msgstr "Réinitialiser le mot de passe"
+
+msgid "Insere o teu email e enviaremos instruções para redefinir a palavra-passe."
+msgstr "Saisissez votre email et nous vous enverrons les instructions pour réinitialiser votre mot de passe."
+
+msgid "Enviar instruções"
+msgstr "Envoyer les instructions"
+
+msgid "Lembrou-se da palavra-passe?"
+msgstr "Vous vous souvenez du mot de passe ?"
+
+msgid "Plataforma privada para profissionais na Guiné-Bissau, na diáspora guineense e profissionais com ligação relevante ao país."
+msgstr "Plateforme privée pour les professionnels en Guinée-Bissau, la diaspora bissau-guinéenne et les professionnels ayant un lien pertinent avec le pays."
+
+msgid "Disponibilidade"
+msgstr "Disponibilité"
+
+msgid "Todas"
+msgstr "Toutes"
+
+msgid "Idiomas"
+msgstr "Langues"
+
+msgid "Ex.: português, francês"
+msgstr "Ex. : portugais, français"
+
+msgid "Relação com a Guiné-Bissau"
+msgstr "Lien avec la Guinée-Bissau"
+
+msgid "Ordenar por"
+msgstr "Trier par"
+
+msgid "Relevância"
+msgstr "Pertinence"
+
+msgid "Mais recentes"
+msgstr "Plus récents"
+
+msgid "%(counter)s resultado encontrado"
+msgid_plural "%(counter)s resultados encontrados"
+msgstr[0] "%(counter)s résultat trouvé"
+msgstr[1] "%(counter)s résultats trouvés"
+
+msgid "Cidadão da Guiné-Bissau"
+msgstr "Citoyen de Guinée-Bissau"
+
+msgid "Descendente da diáspora"
+msgstr "Descendant de la diaspora"
+
+msgid "Ligação relevante"
+msgstr "Lien pertinent"
+
+msgid "Disponível"
+msgstr "Disponible"
+
+msgid "Aberto a propostas"
+msgstr "Ouvert aux propositions"
+
+msgid "Indisponível"
+msgstr "Indisponible"
+
+msgid "Rascunho"
+msgstr "Brouillon"
+
+msgid "Submetida"
+msgstr "Envoyée"
+
+msgid "Aprovada"
+msgstr "Approuvée"
+
+msgid "Recusada"
+msgstr "Refusée"
+
+msgid "Suspensa"
+msgstr "Suspendue"

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static i18n %}
 
 {% block title %}Kalitica | A rede profissional da Guiné-Bissau{% endblock %}
 {% block meta_description %}Uma comunidade profissional privada para a Guiné-Bissau, a diáspora guineense e profissionais com ligação relevante ao país.{% endblock %}
@@ -12,23 +12,23 @@
   <div class="public-container hero-network-grid">
     <div class="hero-network-copy">
       <p class="public-kicker">Kalitica Networking Society</p>
-      <h1>A rede profissional<br>da Guiné-Bissau</h1>
-      <p>Uma comunidade privada que liga profissionais dentro e fora da Guiné-Bissau. Colabora, partilha conhecimento e cria oportunidades.</p>
+      <h1>{% translate "A rede profissional" %}<br>{% translate "da Guiné-Bissau" %}</h1>
+      <p>{% translate "Uma comunidade privada que liga profissionais dentro e fora da Guiné-Bissau. Colabora, partilha conhecimento e cria oportunidades." %}</p>
       <div class="hero-network-actions">
         {% if request.user.is_authenticated %}
           <a class="k-btn k-btn-primary" href="{% if can_access_network %}{% url 'search' %}{% else %}{% url 'memberships:dashboard' %}{% endif %}">{% if can_access_network %}Aceder à rede{% else %}A minha adesão{% endif %}</a>
         {% else %}
-          <a class="k-btn k-btn-primary" href="{% url 'accounts:signup' %}">Pedir adesão</a>
-          <a class="k-btn k-btn-secondary" href="{% url 'accounts:login' %}">Entrar</a>
+          <a class="k-btn k-btn-primary" href="{% url 'accounts:signup' %}">{% translate "Pedir adesão" %}</a>
+          <a class="k-btn k-btn-secondary" href="{% url 'accounts:login' %}">{% translate "Entrar" %}</a>
         {% endif %}
       </div>
     </div>
     <div class="hero-leaf-mark" aria-hidden="true"><img src="{% static 'img/kalitica-logo.png' %}" alt=""></div>
   </div>
   <div class="public-container public-trust-row" aria-label="Princípios da rede">
-    <span><i class="bi bi-lock" aria-hidden="true"></i> Rede privada e segura</span>
-    <span><i class="bi bi-patch-check" aria-hidden="true"></i> Adesão por aprovação</span>
-    <span><i class="bi bi-people" aria-hidden="true"></i> Comunidade de confiança</span>
+    <span><i class="bi bi-lock" aria-hidden="true"></i> {% translate "Rede privada e segura" %}</span>
+    <span><i class="bi bi-patch-check" aria-hidden="true"></i> {% translate "Adesão por aprovação" %}</span>
+    <span><i class="bi bi-people" aria-hidden="true"></i> {% translate "Comunidade de confiança" %}</span>
   </div>
 </section>
 
@@ -36,11 +36,11 @@
   <div class="public-container public-card-grid">
     <article class="public-info-card public-info-card-soft">
       <i class="bi bi-people" aria-hidden="true"></i>
-      <div><h2>Para quem é a Kalitica?</h2><p>Profissionais na Guiné-Bissau, na diáspora guineense e pessoas com ligação relevante ao país.</p><a href="{% url 'about' %}">Saber mais sobre a nossa missão <span aria-hidden="true">→</span></a></div>
+      <div><h2>{% translate "Para quem é a Kalitica?" %}</h2><p>{% translate "Profissionais na Guiné-Bissau, na diáspora guineense e pessoas com ligação relevante ao país." %}</p><a href="{% url 'about' %}">{% translate "Saber mais sobre a nossa missão" %} <span aria-hidden="true">→</span></a></div>
     </article>
     <article class="public-info-card public-info-card-navy">
       <i class="bi bi-person-check" aria-hidden="true"></i>
-      <div><h2>Como funciona a adesão</h2><p>A candidatura será analisada pela equipa Kalitica. Receberás uma resposta por email.</p><a href="{% url 'membership-types' %}">Ver tipos de adesão <span aria-hidden="true">→</span></a></div>
+      <div><h2>{% translate "Como funciona a adesão" %}</h2><p>{% translate "A candidatura será analisada pela equipa Kalitica. Receberás uma resposta por email." %}</p><a href="{% url 'membership-types' %}">{% translate "Ver tipos de adesão" %} <span aria-hidden="true">→</span></a></div>
     </article>
   </div>
 </section>

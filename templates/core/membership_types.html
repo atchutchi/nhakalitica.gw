@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base.html" %}{% load i18n %}
 {% block title %}Tipos de adesão | Kalitica{% endblock %}
 {% block robots %}index,follow{% endblock %}
 {% block body_class %}public-page{% endblock %}
@@ -6,12 +6,12 @@
 {% block content %}
 <main class="public-main">
   <div class="public-container">
-    <header class="public-page-heading"><h1>Tipos de adesão</h1><p>Escolhe o tipo de adesão que melhor se adequa ao teu perfil. Todas as candidaturas são analisadas e aprovadas manualmente.</p></header>
+    <header class="public-page-heading"><h1>{% translate "Tipos de adesão" %}</h1><p>{% translate "Escolhe o tipo de adesão que melhor se adequa ao teu perfil. Todas as candidaturas são analisadas e aprovadas manualmente." %}</p></header>
     <div class="membership-type-grid">
-      <article class="membership-type-card effective"><i class="bi bi-people-fill" aria-hidden="true"></i><h2>Efectivo</h2><p>Para profissionais que pretendem participar activamente na comunidade e colaborar no desenvolvimento da rede.</p><ul><li>Participação plena na comunidade</li><li>Acesso a todos os recursos e funcionalidades</li><li>Possibilidade de criar e participar em grupos</li><li>Visibilidade no directório de profissionais</li></ul><a class="k-btn k-btn-primary" href="{% url 'accounts:signup' %}">Pedir adesão</a></article>
-      <article class="membership-type-card observer"><i class="bi bi-eye-fill" aria-hidden="true"></i><h2>Observador</h2><p>Para profissionais que pretendem acompanhar a comunidade e aceder a conteúdos e eventos seleccionados.</p><ul><li>Os mesmos direitos na rede profissional</li><li>Acompanhamento de actividades da comunidade</li><li>Participação em grupos e colaboração</li><li>Visibilidade no directório de profissionais</li></ul><a class="k-btn k-btn-navy" href="{% url 'accounts:signup' %}">Pedir adesão</a></article>
+      <article class="membership-type-card effective"><i class="bi bi-people-fill" aria-hidden="true"></i><h2>{% translate "Efectivo" %}</h2><p>{% translate "Para profissionais que pretendem participar activamente na comunidade e colaborar no desenvolvimento da rede." %}</p><ul><li>{% translate "Participação plena na comunidade" %}</li><li>{% translate "Acesso a todos os recursos e funcionalidades" %}</li><li>{% translate "Possibilidade de criar e participar em grupos" %}</li><li>{% translate "Visibilidade no directório de profissionais" %}</li></ul><a class="k-btn k-btn-primary" href="{% url 'accounts:signup' %}">{% translate "Pedir adesão" %}</a></article>
+      <article class="membership-type-card observer"><i class="bi bi-eye-fill" aria-hidden="true"></i><h2>{% translate "Observador" %}</h2><p>{% translate "Para profissionais que pretendem acompanhar a comunidade e aceder a conteúdos e eventos seleccionados." %}</p><ul><li>{% translate "Os mesmos direitos na rede profissional" %}</li><li>{% translate "Acompanhamento de actividades da comunidade" %}</li><li>{% translate "Participação em grupos e colaboração" %}</li><li>{% translate "Visibilidade no directório de profissionais" %}</li></ul><a class="k-btn k-btn-navy" href="{% url 'accounts:signup' %}">{% translate "Pedir adesão" %}</a></article>
     </div>
-    <aside class="manual-review-note"><i class="bi bi-shield-check" aria-hidden="true"></i><div><strong>Rede privada e segura</strong><p>A Kalitica é uma rede privada. Todas as adesões são sujeitas a aprovação manual.</p></div></aside>
+    <aside class="manual-review-note"><i class="bi bi-shield-check" aria-hidden="true"></i><div><strong>{% translate "Rede privada e segura" %}</strong><p>{% translate "A Kalitica é uma rede privada. Todas as adesões são sujeitas a aprovação manual." %}</p></div></aside>
   </div>
 </main>
 {% endblock %}
