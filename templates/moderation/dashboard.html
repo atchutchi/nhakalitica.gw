@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Administração | Kalitica{% endblock %}
+
+{% block content %}
+<main class="admin-section">
+    <div class="container">
+        <div class="admin-heading">
+            <div>
+                <span class="eyebrow">Administração Kalitica</span>
+                <h1>Painel de moderação</h1>
+                <p class="lead">Analisa perfis e acompanha as decisões da plataforma.</p>
+            </div>
+            <a class="btn btn-brand" href="{% url 'moderation:profile-list' %}">Abrir fila de perfis</a>
+        </div>
+
+        <section class="metric-grid" aria-label="Resumo dos perfis">
+            <article class="metric-card"><span>Pendentes</span><strong>{{ counts.pending|default:0 }}</strong></article>
+            <article class="metric-card"><span>Aprovados</span><strong>{{ counts.approved|default:0 }}</strong></article>
+            <article class="metric-card"><span>Rejeitados</span><strong>{{ counts.rejected|default:0 }}</strong></article>
+            <article class="metric-card"><span>Suspensos</span><strong>{{ counts.suspended|default:0 }}</strong></article>
+        </section>
+
+        <section class="admin-panel" aria-labelledby="pending-title">
+            <div class="section-row">
+                <div><span class="step-number">Prioridade</span><h2 id="pending-title">Perfis pendentes</h2></div>
+                <a href="{% url 'moderation:profile-list' %}?status=pending">Ver todos</a>
+            </div>
+            {% for profile in pending_profiles %}
+                <a class="admin-list-row" href="{% url 'moderation:profile-review' profile.pk %}">
+                    <span><strong>{{ profile.public_name|default:profile.user.get_full_name|default:profile.user.email }}</strong><small>{{ profile.professional_title|default:"Sem título profissional" }}</small></span>
+                    <span>{{ profile.updated_at|date:"d/m/Y H:i" }}</span>
+                </a>
+            {% empty %}
+                <p class="empty-inline">Não existem perfis pendentes.</p>
+            {% endfor %}
+        </section>
+
+        <nav class="admin-shortcuts" aria-label="Ferramentas administrativas">
+            <a href="{% url 'moderation:report-list' %}">Analisar denúncias</a>
+            <a href="{% url 'admin:accounts_user_changelist' %}">Gerir utilizadores</a>
+            <a href="{% url 'admin:taxonomy_sector_changelist' %}">Gerir taxonomia</a>
+            {% if request.user.is_superuser %}<a href="{% url 'moderation:audit-list' %}">Consultar auditoria</a>{% endif %}
+        </nav>
+    </div>
+</main>
+{% endblock %}

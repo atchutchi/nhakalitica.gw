@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Notificações | Kalitica{% endblock %}
+{% block content %}
+<main class="private-page"><div class="container narrow-container"><div class="admin-heading"><div><span class="eyebrow">Actualizações</span><h1>Notificações</h1></div><a href="{% url 'accounts:dashboard' %}">Voltar ao painel</a></div><section class="admin-panel">{% for item in notifications %}<article class="notification-row{% if not item.read_at %} notification-unread{% endif %}"><div><strong>{{ item.title }}</strong><p>{{ item.body }}</p><small>{{ item.created_at|date:"d/m/Y H:i" }}</small></div>{% if not item.read_at %}<form method="post" action="{% url 'interactions:notification-read' item.pk %}">{% csrf_token %}<button class="btn btn-outline-brand" type="submit">Marcar como lida</button></form>{% endif %}</article>{% empty %}<p>Sem notificações.</p>{% endfor %}</section></div></main>
+{% endblock %}

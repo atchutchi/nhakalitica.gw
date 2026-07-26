@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Comparar candidatos | Kalitica{% endblock %}
+{% block content %}
+<section class="private-page compare-page">
+    <div class="container">
+        <div class="workspace-heading">
+            <div>
+                <span class="eyebrow">Decisão de recrutamento</span>
+                <h1>Comparar candidatos</h1>
+                <p>Compara até quatro perfis públicos da tua shortlist sem expor dados privados.</p>
+            </div>
+            <a class="btn btn-outline-brand" href="{% url 'interactions:favorites' %}">Voltar à shortlist</a>
+        </div>
+        {% if favorites %}
+        <div class="compare-summary">
+            <div><strong>{{ favorites|length }}</strong><span>candidatos</span></div>
+            <div><strong>100%</strong><span>dados públicos</span></div>
+            <div><strong>Privado</strong><span>contactos protegidos</span></div>
+        </div>
+        <div class="compare-table compare-table-pro">
+            <table>
+                <thead><tr><th>Critério</th>{% for favorite in favorites %}<th><span class="profile-avatar" aria-hidden="true">{{ favorite.profile.public_display_name|slice:":1"|upper }}</span><strong>{{ favorite.profile.public_display_name }}</strong><small>{{ favorite.profile.public_professional_title|default:"Perfil profissional" }}</small></th>{% endfor %}</tr></thead>
+                <tbody>
+                    <tr><th>Título</th>{% for favorite in favorites %}<td>{{ favorite.profile.public_professional_title|default:"Não indicado" }}</td>{% endfor %}</tr>
+                    <tr><th>Localização</th>{% for favorite in favorites %}<td>{{ favorite.profile.public_location|default:"Não pública" }}{% if favorite.profile.public_location and favorite.profile.public_country %}, {% endif %}{{ favorite.profile.public_country }}</td>{% endfor %}</tr>
+                    <tr><th>Modalidade</th>{% for favorite in favorites %}{% with payload=favorite.profile.public_payload %}<td>{{ payload.work_preference_label|default:"Não indicada" }}</td>{% endwith %}{% endfor %}</tr>
+                    <tr><th>Disponibilidade</th>{% for favorite in favorites %}{% with payload=favorite.profile.public_payload %}<td>{{ payload.availability_label|default:"Não indicada" }}</td>{% endwith %}{% endfor %}</tr>
+                    <tr><th>Competências</th>{% for favorite in favorites %}<td>{{ favorite.profile.public_skill_names|join:", "|default:"Não indicadas" }}</td>{% endfor %}</tr>
+                    <tr><th>Formação</th>{% for favorite in favorites %}{% with payload=favorite.profile.public_payload %}<td>{% for entry in payload.education %}{{ entry.qualification }}{% if entry.institution %}, {{ entry.institution }}{% endif %}{% if not forloop.last %}<br>{% endif %}{% empty %}Não indicada{% endfor %}</td>{% endwith %}{% endfor %}</tr>
+                    <tr><th>Idiomas</th>{% for favorite in favorites %}{% with payload=favorite.profile.public_payload %}<td>{% for language in payload.languages %}{{ language.name }}{% if language.level %}, {{ language.level }}{% endif %}{% if not forloop.last %}<br>{% endif %}{% empty %}Não indicados{% endfor %}</td>{% endwith %}{% endfor %}</tr>
+                    <tr><th>CV disponível</th>{% for favorite in favorites %}<td>{% if favorite.profile.cv_file and favorite.profile.cv_visibility != "private" %}Sim{% else %}Não público{% endif %}</td>{% endfor %}</tr>
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state"><h2>Sem candidatos para comparar</h2><p>Selecciona até quatro perfis na shortlist.</p><a class="btn btn-brand" href="{% url 'interactions:favorites' %}">Voltar à shortlist</a></div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

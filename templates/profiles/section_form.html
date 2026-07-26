@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}{% if is_editing %}Editar{% else %}Adicionar{% endif %} {{ title }} | Kalitica{% endblock %}
+
+{% block content %}
+<section class="dashboard-section">
+    <div class="container profile-editor">
+        <div class="section-heading">
+            <span class="eyebrow">Perfil profissional</span>
+            <h1>{% if is_editing %}Editar{% else %}Adicionar{% endif %} {{ title|lower }}</h1>
+        </div>
+        <form class="editor-card" method="post" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% for error in field.errors %}<div class="form-error">{{ error }}</div>{% endfor %}
+                </div>
+            {% endfor %}
+            <div class="editor-actions">
+                <a class="btn btn-outline-brand" href="{% url 'accounts:dashboard' %}">Cancelar</a>
+                <button class="btn btn-brand" type="submit">Guardar</button>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

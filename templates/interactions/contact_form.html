@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Contactar {{ profile.public_name }} | Kalitica{% endblock %}
+{% block content %}
+<section class="form-page" aria-labelledby="contact-title"><div class="container narrow-container"><a class="back-link" href="{% url 'public-profile' profile.slug %}">Voltar ao perfil</a><span class="eyebrow">Contacto protegido</span><h1 id="contact-title">Contactar {{ profile.public_name }}</h1><p class="lead">O email do profissional permanece privado. A mensagem fica registada no Kalitica.</p><form class="editor-card" method="post">{% csrf_token %}{{ form.non_field_errors }}{% for field in form %}<div class="form-field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>{% endfor %}<button class="btn btn-brand" type="submit">Enviar pedido</button></form></div></section>
+{% endblock %}

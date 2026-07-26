@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Áreas profissionais | Kalitica{% endblock %}
+{% block robots %}index,follow{% endblock %}
+{% block og_title %}Áreas profissionais | Kalitica{% endblock %}
+{% block content %}<section class="search-page"><div class="container"><div class="section-heading"><span class="eyebrow">Explorar</span><h1>Áreas profissionais</h1><p>Escolhe uma área para descobrires profissionais aprovados por conhecimento e actividade.</p></div><div class="area-grid">{% for area in areas %}<a class="area-card" href="{% url 'area-detail' area.slug %}" aria-label="Ver profissionais de {{ area.name }}"><span>{{ area.sector.name }}</span><strong>{{ area.name }}</strong><small>Ver profissionais <span aria-hidden="true">→</span></small></a>{% empty %}<p>Ainda não existem áreas activas.</p>{% endfor %}</div></div></section>{% endblock %}

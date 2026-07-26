@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Criar conta | Kalitica{% endblock %}
+
+{% block content %}
+<section class="auth-section auth-split">
+    <div class="auth-brand-panel">
+        <span class="eyebrow">Começar no Kalitica</span>
+        <h1>Criar perfil profissional</h1>
+        <p>O teu perfil começa privado. Depois de completo, a equipa revê os dados antes da publicação.</p>
+        <div class="auth-proof-grid">
+            <div><strong>Cabo Verde</strong><span>Foco inicial</span></div>
+            <div><strong>PALOP</strong><span>Estrutura preparada</span></div>
+            <div><strong>Sem cobrança</strong><span>Vagas e planos bloqueados</span></div>
+        </div>
+    </div>
+    <div class="auth-card auth-card-pro">
+        <span class="eyebrow">Conta segura</span>
+        <h2>Criar conta</h2>
+        <p>Usa um email a que tenhas acesso. Os dados profissionais começam privados.</p>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}<div class="form-help">{{ field.help_text|safe }}</div>{% endif %}
+                    {% for error in field.errors %}<div class="form-error">{{ error }}</div>{% endfor %}
+                </div>
+            {% endfor %}
+            {% for error in form.non_field_errors %}<div class="form-error mb-3">{{ error }}</div>{% endfor %}
+            <button class="btn btn-brand w-100" type="submit">Criar conta</button>
+        </form>
+        <p class="auth-switch">Já tens conta? <a href="{% url 'accounts:login' %}">Iniciar sessão</a>.</p>
+    </div>
+</section>
+{% endblock %}

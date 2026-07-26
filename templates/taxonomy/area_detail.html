@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Profissionais de {{ area.name }} | Kalitica{% endblock %}
+{% block robots %}index,follow{% endblock %}
+{% block meta_description %}Encontra profissionais aprovados na área de {{ area.name }} no Kalitica.{% endblock %}
+{% block og_title %}Profissionais de {{ area.name }} | Kalitica{% endblock %}
+{% block content %}<section class="search-page"><div class="container"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{% url 'area-list' %}">Áreas</a><span>/</span><span>{{ area.name }}</span></nav><div class="section-heading"><span class="eyebrow">{{ area.sector.name }}</span><h1>{{ area.name }}</h1><p>Encontra profissionais aprovados nesta área.</p></div><div class="skill-tags area-specializations">{% for item in area.specializations.all %}<span>{{ item.name }}</span>{% endfor %}</div><div class="results-grid">{% for profile in profiles %}{% include "profiles/_profile_card.html" %}{% empty %}<div class="empty-state"><h2>Ainda não existem profissionais publicados</h2><p>Volta em breve ou explora outras áreas.</p></div>{% endfor %}</div></div></section>{% endblock %}

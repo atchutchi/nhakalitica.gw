@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block title %}Desactivar conta | Kalitica{% endblock %}
+{% block content %}<main class="form-page"><div class="container narrow-container"><a class="back-link" href="{% url 'accounts:dashboard' %}">Voltar ao painel</a><span class="eyebrow">Acção crítica</span><h1>Desactivar a conta</h1><p class="lead">O perfil deixa de estar público e deixas de poder iniciar sessão. Confirma com a palavra-passe actual.</p><form class="editor-card" method="post">{% csrf_token %}{% for field in form %}<div class="form-field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>{% endfor %}<button class="btn btn-danger-action" type="submit">Desactivar conta</button></form></div></main>{% endblock %}

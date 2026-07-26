@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Kalitica | Quadros cabo-verdianos e talento PALOP{% endblock %}
+{% block meta_description %}Pesquisa quadros cabo-verdianos e profissionais PALOP verificados para projectos, consultorias e equipas no continente africano.{% endblock %}
+{% block robots %}index,follow{% endblock %}
+{% block og_title %}Kalitica, quadros cabo-verdianos e talento PALOP{% endblock %}
+{% block og_description %}Pesquisa talento por área, competência, localização, disponibilidade e experiência na África lusófona.{% endblock %}
+
+{% block content %}
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Kalitica","url":"{{ canonical_url|escapejs }}","potentialAction":{"@type":"SearchAction","target":"{{ canonical_url|escapejs }}pesquisar/?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
+
+<section class="hero-section hero-palop">
+    <div class="container hero-layout">
+        <div class="hero-copy">
+            <span class="eyebrow">Cabo Verde primeiro. PALOP a seguir.</span>
+            <h1>Quadros cabo-verdianos para projectos no continente africano.</h1>
+            <p class="hero-lead">O Kalitica liga profissionais verificados da África lusófona a consultorias, empresas e equipas que precisam de talento qualificado.</p>
+
+            <form class="search-shell search-shell-pro" method="get" action="{% url 'search' %}" role="search">
+                <label class="visually-hidden" for="search-query">Pesquisar profissionais</label>
+                <input id="search-query" name="q" type="search" value="{{ request.GET.q }}" placeholder="Pesquisar por profissão, competência ou área">
+                <button class="btn btn-brand" type="submit">Pesquisar</button>
+            </form>
+
+            <div class="quick-filters" aria-label="Pesquisas rápidas">
+                <a href="{% url 'search' %}?q=engenheiro">Engenharia</a>
+                <a href="{% url 'search' %}?q=gestão">Gestão</a>
+                <a href="{% url 'search' %}?q=comunicação">Comunicação</a>
+                <a href="{% url 'search' %}?q=tecnologia">Tecnologia</a>
+            </div>
+
+            <div class="hero-actions">
+                <a class="btn btn-outline-brand btn-lg" href="{% url 'search' %}">Encontrar talentos</a>
+            </div>
+        </div>
+
+        <aside class="hero-network-board hero-globe-board" aria-label="Globo 3D com Cabo Verde ligado ao continente africano">
+            <div class="globe-canvas-shell">
+                <canvas class="cvlink-globe" data-cvlink-globe width="720" height="520" aria-label="Globo com Cabo Verde, Guiné-Bissau, São Tomé e Príncipe, Angola e Moçambique"></canvas>
+                <div class="globe-hint">move o rato para explorar</div>
+            </div>
+            <div class="network-copy">
+                <span>Rede Kalitica</span>
+                <strong>Cabo Verde ligado ao continente africano</strong>
+                <p>Um globo interactivo mostra Cabo Verde como origem e rotas reais para países PALOP. As ligações representam pesquisa, shortlist e contacto protegido entre talentos e recrutadores.</p>
+            </div>
+            <div class="network-stats">
+                <div><strong>CV</strong><span>origem da rede</span></div>
+                <div><strong>PALOP</strong><span>estrutura pronta</span></div>
+                <div><strong>Privado</strong><span>contactos protegidos</span></div>
+            </div>
+        </aside>
+    </div>
+</section>
+
+<section class="trust-strip" aria-label="Confiança Kalitica">
+    <div class="container trust-grid">
+        <div><strong>Perfis verificados</strong><span>Revisão antes da publicação</span></div>
+        <div><strong>Dados protegidos</strong><span>Contacto privado por defeito</span></div>
+        <div><strong>Shortlist</strong><span>Notas e etiquetas privadas</span></div>
+        <div><strong>Futuro preparado</strong><span>Vagas e planos em preparação</span></div>
+    </div>
+</section>
+
+<section id="como-funciona" class="section-block">
+    <div class="container">
+        <div class="section-heading">
+            <span class="eyebrow">Como funciona</span>
+            <h2>Um fluxo simples para encontrar quadros qualificados</h2>
+            <p class="section-lead">A plataforma começa pelos profissionais. Vagas e cobranças ficam preparadas, mas bloqueadas até decidires abrir esse produto.</p>
+        </div>
+        <div class="process-grid">
+            <article class="feature-card">
+                <span class="step-number">01</span>
+                <h3>Profissionais criam perfil</h3>
+                <p>O perfil organiza experiência, formação, competências, idiomas e currículo num formato claro para recrutamento.</p>
+                <a class="card-link" href="{% url 'search' %}">Ver talentos</a>
+            </article>
+            <article class="feature-card">
+                <span class="step-number">02</span>
+                <h3>Equipa valida qualidade</h3>
+                <p>O Kalitica publica apenas perfis revistos, com protecção de contactos e localização quando o profissional escolher.</p>
+                <a class="card-link" href="{% url 'area-list' %}">Explorar áreas</a>
+            </article>
+            <article class="feature-card">
+                <span class="step-number">03</span>
+                <h3>Recrutadores organizam talento</h3>
+                <p>Pesquisa, shortlist, notas privadas, comparação e exportação ajudam a preparar equipas para projectos reais.</p>
+                <a class="card-link" href="{% url 'search' %}">Pesquisar talentos</a>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="section-block section-muted">
+    <div class="container market-layout">
+        <div>
+            <span class="eyebrow">PALOP</span>
+            <h2>Construído para a realidade africana lusófona</h2>
+            <p>Cabo Verde é o foco inicial. A estrutura fica pronta para abrir gradualmente outros países africanos de língua portuguesa, sem mudar o núcleo da plataforma.</p>
+        </div>
+        <div class="country-grid" aria-label="Países PALOP">
+            <span>Cabo Verde</span>
+            <span>Angola</span>
+            <span>Moçambique</span>
+            <span>Guiné-Bissau</span>
+            <span>São Tomé e Príncipe</span>
+        </div>
+    </div>
+</section>
+
+<section class="section-block future-section">
+    <div class="container future-grid">
+        <div>
+            <span class="eyebrow">Preparado, mas bloqueado</span>
+            <h2>Vagas e cobranças ficam na estrutura, não no lançamento</h2>
+            <p>O repositório fica pronto para evoluir para empresas, vagas, planos e relatórios. Por agora, a experiência pública mantém foco em talentos, perfis e recrutamento manual.</p>
+        </div>
+        {% for feature in locked_features %}
+            <div class="future-card">
+                <strong>{{ feature.name }}</strong>
+                <p>{{ feature.description }}</p>
+                <span>Bloqueado</span>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/cvlink-globe-land.js' %}" defer></script>
+<script src="{% static 'js/cvlink-globe.js' %}" defer></script>
+{% endblock %}

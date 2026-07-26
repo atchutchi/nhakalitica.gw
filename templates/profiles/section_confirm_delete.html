@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Eliminar {{ title }} | Kalitica{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="auth-card">
+        <h1>Eliminar {{ title|lower }}</h1>
+        <p>Confirma que queres eliminar “{{ entry }}”.</p>
+        <form method="post">
+            {% csrf_token %}
+            <a class="btn btn-outline-brand" href="{% url 'accounts:dashboard' %}">Cancelar</a>
+            <button class="btn btn-danger" type="submit">Eliminar</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

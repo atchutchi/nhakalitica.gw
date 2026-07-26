@@ -1,5 +1,7 @@
 .superpowers/
 .impeccable/live/
+.github/skills/
+.github/hooks/
 
 # Referência estática descarregada do site institucional
 Kalítica Networking Society — Rede de Profissionais Guineenses.html
@@ -20,3 +22,9 @@ staticfiles/
 htmlcov/
 .DS_Store
 Thumbs.db
+
+# Activos de marca herdados e não utilizados
+static/img/cvlink-logo.png
+static/img/cvlink-logo-transparent.png
+static/img/cvlink-logo-light.png
+static/img/cvlink-logo-light-crop.png

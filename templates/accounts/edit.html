@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block title %}Dados da conta | Kalitica{% endblock %}
+{% block content %}<main class="form-page"><div class="container narrow-container"><a class="back-link" href="{% url 'accounts:dashboard' %}">Voltar ao painel</a><span class="eyebrow">Conta</span><h1>Dados da conta</h1><form class="editor-card" method="post">{% csrf_token %}{% for field in form %}<div class="form-field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>{% endfor %}<button class="btn btn-brand" type="submit">Guardar alterações</button></form><p><a class="report-link" href="{% url 'accounts:deactivate' %}">Desactivar a conta</a></p></div></main>{% endblock %}

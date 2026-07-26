@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block title %}Painel | Kalitica{% endblock %}
+
+{% block content %}
+<section class="private-page dashboard-pro">
+    <div class="container dashboard-pro-grid">
+        {% if not request.user.email_verified_at %}
+            <div class="verification-banner" role="status">
+                <div>
+                    <strong>Confirma o teu email</strong>
+                    <p>Precisamos desta confirmação antes da submissão do perfil e do envio de contactos.</p>
+                </div>
+                <form method="post" action="{% url 'accounts:resend-verification' %}">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-brand" type="submit">Reenviar ligação</button>
+                </form>
+            </div>
+        {% endif %}
+
+        <div class="dashboard-pro-hero">
+            <div>
+                <span class="eyebrow">Área pessoal</span>
+                <h1>Olá{% if request.user.first_name %}, {{ request.user.first_name }}{% endif %}.</h1>
+                <p>Controla o teu perfil, prepara a revisão e acompanha oportunidades futuras para projectos em Cabo Verde e nos PALOP.</p>
+            </div>
+            <div class="dashboard-status-pro" aria-label="Estado do perfil">
+                <span>Estado do perfil</span>
+                <strong>{{ request.user.profile.get_status_display }}</strong>
+                {% if request.user.profile.status == "approved" %}
+                    <p>O perfil está publicado para recrutadores autenticados e visitantes autorizados.</p>
+                {% elif request.user.profile.status == "pending" or request.user.profile.status == "changes_pending" %}
+                    <p>O perfil está a aguardar análise administrativa.</p>
+                {% elif request.user.profile.status == "rejected" %}
+                    <p>Corrige o perfil de acordo com a nota de revisão.</p>
+                {% elif request.user.profile.status == "suspended" %}
+                    <p>O perfil e o acesso à conta estão suspensos.</p>
+                {% else %}
+                    <p>O perfil continua privado enquanto estiver em preparação.</p>
+                {% endif %}
+                <div class="profile-progress" role="progressbar" aria-valuenow="{{ request.user.profile.completion_percentage }}" aria-valuemin="0" aria-valuemax="100">
+                    <span style="width: {{ request.user.profile.completion_percentage }}%"></span>
+                </div>
+                <small>{{ request.user.profile.completion_percentage }}% concluído</small>
+            </div>
+        </div>
+
+        <aside class="dashboard-side">
+            <a class="btn btn-brand btn-wide" href="{% url 'profiles:edit' %}">Editar perfil</a>
+            <a class="btn btn-outline-brand btn-wide" href="{% url 'profiles:preview' %}">Pré-visualizar perfil</a>
+            {% if request.user.profile.status == "approved" %}
+                <a class="btn btn-outline-brand btn-wide" href="{% url 'public-profile' request.user.profile.slug %}">Ver perfil público</a>
+            {% endif %}
+            <div class="side-card">
+                <span class="step-number">Ferramentas privadas</span>
+                <nav class="private-tools-pro" aria-label="Ferramentas privadas">
+                    <a href="{% url 'interactions:favorites' %}">Shortlist{% if shortlist_count %} ({{ shortlist_count }}){% endif %}</a>
+                    <a href="{% url 'interactions:contacts' %}">Contactos</a>
+                    <a href="{% url 'interactions:notifications' %}">Notificações</a>
+                    <a href="{% url 'accounts:edit' %}">Dados da conta</a>
+                    <a href="{% url 'accounts:password_change' %}">Alterar palavra-passe</a>
+                </nav>
+            </div>
+            <div class="side-card locked-feature-card">
+                <span class="step-number">Em preparação</span>
+                <strong>Vagas, equipas e cobranças</strong>
+                <p>A estrutura fica pronta, mas estas áreas não abrem no lançamento actual.</p>
+            </div>
+        </aside>
+
+        <main class="dashboard-main">
+            <article class="dashboard-card-pro next-action-card">
+                <div>
+                    <span class="step-number">Próximo passo</span>
+                    <h2>Completa o teu perfil profissional</h2>
+                    <p>Adiciona experiência, formação, competências, idiomas, disponibilidade e currículo. Perfis completos aparecem melhor no motor de pesquisa.</p>
+                </div>
+                <a class="btn btn-brand" href="{% url 'profiles:edit' %}">Actualizar dados</a>
+            </article>
+
+            <section class="dashboard-card-pro saved-search-list" aria-labelledby="saved-searches-title">
+                <div class="section-row">
+                    <div>
+                        <span class="step-number">Recrutamento</span>
+                        <h2 id="saved-searches-title">Pesquisas guardadas</h2>
+                    </div>
+                    <a class="btn btn-outline-brand" href="{% url 'search' %}">Pesquisar talentos</a>
+                </div>
+                {% for search in recent_saved_searches %}
+                    <div class="profile-entry">
+                        <strong>{{ search.name }}</strong>
+                        <div>
+                            <a href="{% url 'interactions:saved-search-run' search.pk %}">Executar</a>
+                            <form class="inline-form" method="post" action="{% url 'interactions:saved-search-delete' search.pk %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="next" value="{% url 'accounts:dashboard' %}">
+                                <button type="submit">Eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>Ainda não tens pesquisas guardadas. Usa filtros por área, país, experiência e competências para criar uma pesquisa reutilizável.</p>
+                {% endfor %}
+            </section>
+
+            <section class="dashboard-card-pro profile-sections" aria-labelledby="percurso-title">
+                <div class="section-row">
+                    <div>
+                        <span class="step-number">Percurso</span>
+                        <h2 id="percurso-title">Experiência, formação e idiomas</h2>
+                    </div>
+                    <div class="section-actions">
+                        <a class="btn btn-outline-brand" href="{% url 'profiles:section_add' 'experiencia' %}">Adicionar experiência</a>
+                        <a class="btn btn-outline-brand" href="{% url 'profiles:section_add' 'formacao' %}">Adicionar formação</a>
+                        <a class="btn btn-outline-brand" href="{% url 'profiles:section_add' 'certificacao' %}">Adicionar certificação</a>
+                        <a class="btn btn-outline-brand" href="{% url 'profiles:section_add' 'idioma' %}">Adicionar idioma</a>
+                    </div>
+                </div>
+                {% for entry in request.user.profile.experiences.all %}
+                    <div class="profile-entry"><strong>{{ entry }}</strong><span><a href="{% url 'profiles:section_edit' 'experiencia' entry.pk %}">Editar</a> <a href="{% url 'profiles:section_delete' 'experiencia' entry.pk %}">Eliminar</a></span></div>
+                {% endfor %}
+                {% for entry in request.user.profile.education_entries.all %}
+                    <div class="profile-entry"><strong>{{ entry }}</strong><span><a href="{% url 'profiles:section_edit' 'formacao' entry.pk %}">Editar</a> <a href="{% url 'profiles:section_delete' 'formacao' entry.pk %}">Eliminar</a></span></div>
+                {% endfor %}
+                {% for entry in request.user.profile.certifications.all %}
+                    <div class="profile-entry"><strong>{{ entry }}</strong><span><a href="{% url 'profiles:section_edit' 'certificacao' entry.pk %}">Editar</a> <a href="{% url 'profiles:section_delete' 'certificacao' entry.pk %}">Eliminar</a></span></div>
+                {% endfor %}
+                {% for entry in request.user.profile.languages.all %}
+                    <div class="profile-entry"><strong>{{ entry }}</strong><span><a href="{% url 'profiles:section_edit' 'idioma' entry.pk %}">Editar</a> <a href="{% url 'profiles:section_delete' 'idioma' entry.pk %}">Eliminar</a></span></div>
+                {% endfor %}
+            </section>
+
+            {% if request.user.profile.status == "approved" %}
+                <article class="dashboard-card-pro">
+                    <span class="step-number">Publicado</span>
+                    <h2>O teu perfil está disponível</h2>
+                    <p>Qualquer alteração enviada volta a exigir aprovação administrativa para proteger a qualidade do repositório.</p>
+                </article>
+            {% elif request.user.profile.status == "pending" or request.user.profile.status == "changes_pending" %}
+                <article class="dashboard-card-pro">
+                    <span class="step-number">Em análise</span>
+                    <h2>Aguarda a decisão da equipa</h2>
+                    <p>Receberás uma actualização quando a revisão terminar.</p>
+                </article>
+            {% elif request.user.profile.status == "suspended" %}
+                <article class="dashboard-card-pro">
+                    <span class="step-number">Conta suspensa</span>
+                    <h2>Contacta a administração</h2>
+                    <p>{{ request.user.profile.review_note|default:"O acesso foi suspenso por decisão administrativa." }}</p>
+                </article>
+            {% elif request.user.profile.missing_required_sections %}
+                <article class="dashboard-card-pro">
+                    <span class="step-number">Ainda falta</span>
+                    <h2>Secções obrigatórias</h2>
+                    <ul class="missing-list">
+                        {% for section in request.user.profile.missing_required_sections %}<li>{{ section|capfirst }}</li>{% endfor %}
+                    </ul>
+                </article>
+            {% else %}
+                {% if request.user.profile.status == "rejected" and request.user.profile.review_note %}
+                    <div class="form-error" role="alert"><strong>Motivo da rejeição:</strong> {{ request.user.profile.review_note }}</div>
+                {% endif %}
+                <form class="dashboard-card-pro submit-profile-card" method="post" action="{% url 'profiles:submit' %}">
+                    {% csrf_token %}
+                    <h2>Submeter para revisão</h2>
+                    <p>A equipa valida qualidade, privacidade e clareza antes de publicar.</p>
+                    <label><input type="checkbox" name="consent_profile_public" required> Aceito que o perfil fique público depois da aprovação.</label>
+                    <label><input type="checkbox" name="consent_contact" required> Aceito receber contactos através do Kalitica.</label>
+                    <label><input type="checkbox" name="accept_terms" required> Aceito os termos de utilização, versão 1.0.</label>
+                    <label><input type="checkbox" name="accept_privacy" required> Aceito a política de privacidade, versão 1.0.</label>
+                    <button class="btn btn-brand" type="submit">Submeter perfil</button>
+                </form>
+            {% endif %}
+        </main>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Entrar | Kalitica{% endblock %}
+{% block body_class %}login-screen{% endblock %}
+{% block site_header %}{% endblock %}
+
+{% block content %}
+<section class="login-experience" aria-labelledby="login-title">
+    <div class="login-showcase" aria-label="Kalitica em resumo">
+        <div class="login-showcase-inner">
+            <img class="login-showcase-logo" src="{% static 'img/kalitica-logo.png' %}" alt="Kalitica Networking Society">
+
+            <div class="login-showcase-copy">
+                <span class="eyebrow">Acesso seguro</span>
+                <h1>A rede profissional da <span>Guiné-Bissau</span></h1>
+                <p>Uma comunidade privada que liga profissionais na Guiné-Bissau, na diáspora e pessoas com uma relação relevante ao país.</p>
+            </div>
+
+            <div class="login-privacy-note">
+                <i class="bi bi-shield-check login-security-icon" aria-hidden="true"></i>
+                <div>
+                    <strong>Os teus dados estão protegidos.</strong>
+                    <p>Privacidade, consentimento e perfis revistos antes de contactos sensíveis.</p>
+                </div>
+            </div>
+
+            <div class="login-talent-stack" aria-label="Perfis verificados em destaque">
+                <article class="login-mini-profile login-mini-profile-side">
+                    <button type="button" aria-label="Guardar Catarina Silva"><i class="bi bi-star" aria-hidden="true"></i></button>
+                    <img src="{% static 'img/demo-avatars/avatar-1.webp' %}" alt="Catarina Silva">
+                    <strong>Catarina Silva</strong>
+                    <span>Gestora de Projectos</span>
+                    <small>Perfil verificado</small>
+                </article>
+                <article class="login-mini-profile login-mini-profile-main">
+                    <button type="button" aria-label="Guardar Miguel Santos"><i class="bi bi-star" aria-hidden="true"></i></button>
+                    <img src="{% static 'img/demo-avatars/avatar-2.webp' %}" alt="Miguel Santos">
+                    <strong>Miguel Santos</strong>
+                    <span>Desenvolvedor Full Stack</span>
+                    <small>Perfil verificado</small>
+                </article>
+                <article class="login-mini-profile login-mini-profile-side">
+                    <button type="button" aria-label="Guardar Inês Carvalho"><i class="bi bi-star" aria-hidden="true"></i></button>
+                    <img src="{% static 'img/demo-avatars/avatar-3.webp' %}" alt="Inês Carvalho">
+                    <strong>Inês Carvalho</strong>
+                    <span>Especialista de RH</span>
+                    <small>Perfil verificado</small>
+                </article>
+            </div>
+
+            <div class="login-benefits">
+                <div>
+                    <i class="bi bi-lock login-benefit-icon" aria-hidden="true"></i>
+                    <strong>Acesso seguro</strong>
+                    <p>Dados protegidos com regras claras de privacidade.</p>
+                </div>
+                <div>
+                    <i class="bi bi-patch-check login-benefit-icon" aria-hidden="true"></i>
+                    <strong>Perfis verificados</strong>
+                    <p>Profissionais e empresas revistos manualmente.</p>
+                </div>
+                <div>
+                    <i class="bi bi-globe2 login-benefit-icon" aria-hidden="true"></i>
+                    <strong>Ligação à Guiné-Bissau</strong>
+                    <p>Uma rede criada para colaboração, conhecimento e impacto.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="login-form-panel">
+        <div class="login-form-shell">
+            <span class="eyebrow">Bem-vindo de volta</span>
+            <h2 id="login-title">Entrar na <span>Kalitica</span></h2>
+            <p>Acede à tua conta para continuar.</p>
+
+            <form class="login-form" method="post" novalidate>
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="login-field">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        <div class="login-input-wrap{% if field.name == 'password' %} login-password-wrap{% endif %}">
+                            {% if field.name == "password" %}
+                                <i class="bi bi-lock login-input-icon" aria-hidden="true"></i>
+                            {% else %}
+                                <i class="bi bi-envelope login-input-icon" aria-hidden="true"></i>
+                            {% endif %}
+                            {{ field }}
+                            {% if field.name == "password" %}
+                                <button class="password-toggle" type="button" aria-label="Mostrar palavra-passe" data-password-toggle>Mostrar</button>
+                            {% endif %}
+                        </div>
+                        {% for error in field.errors %}<div class="form-error">{{ error }}</div>{% endfor %}
+                    </div>
+                {% endfor %}
+                {% for error in form.non_field_errors %}<div class="form-error mb-3">{{ error }}</div>{% endfor %}
+
+                <div class="login-row">
+                    <label class="login-remember">
+                        <input type="checkbox" name="remember">
+                        <span>Manter sessão iniciada</span>
+                    </label>
+                    <a href="{% url 'accounts:password_reset' %}">Esqueceu-se da palavra-passe?</a>
+                </div>
+
+                <button class="btn btn-brand login-submit" type="submit">Iniciar sessão</button>
+                <a class="btn btn-outline-brand login-create" href="{% url 'accounts:signup' %}">Criar conta</a>
+            </form>
+
+            <div class="login-role-choice" aria-label="Escolher tipo de conta">
+                <span>ou continuar como</span>
+                <div>
+                    <a href="{% url 'accounts:signup' %}?tipo=profissional">Sou profissional</a>
+                    <a href="{% url 'accounts:signup' %}?tipo=recrutador">Sou recrutador/empresa</a>
+                </div>
+            </div>
+
+            <p class="login-terms">Ao continuar, aceitas os nossos <a href="#">Termos de Utilização</a> e <a href="#">Política de Privacidade</a>.</p>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.querySelectorAll("[data-password-toggle]").forEach((button) => {
+        button.addEventListener("click", () => {
+            const input = button.closest(".login-input-wrap").querySelector("input");
+            const isHidden = input.type === "password";
+            input.type = isHidden ? "text" : "password";
+            button.textContent = isHidden ? "Ocultar" : "Mostrar";
+            button.setAttribute("aria-label", isHidden ? "Ocultar palavra-passe" : "Mostrar palavra-passe");
+        });
+    });
+</script>
+{% endblock %}

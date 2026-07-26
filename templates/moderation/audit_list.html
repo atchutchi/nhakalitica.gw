@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Auditoria | Kalitica{% endblock %}
+
+{% block content %}
+<main class="admin-section">
+    <div class="container">
+        <div class="admin-heading"><div><span class="eyebrow">Superadministração</span><h1>Registo de auditoria</h1></div><a href="{% url 'moderation:dashboard' %}">Voltar ao painel</a></div>
+        <form class="admin-filter" method="get">
+            <label for="action">Pesquisar ação</label>
+            <input id="action" name="action" value="{{ action }}" placeholder="Exemplo: profile.approved">
+            <button class="btn btn-brand" type="submit">Pesquisar</button>
+        </form>
+        <div class="audit-table-wrap">
+            <table class="audit-table">
+                <thead><tr><th>Data</th><th>Administrador</th><th>Ação</th><th>Alvo</th><th>Contexto</th></tr></thead>
+                <tbody>
+                    {% for event in events %}<tr><td>{{ event.created_at|date:"d/m/Y H:i:s" }}</td><td>{{ event.actor.email|default:"Conta removida" }}</td><td>{{ event.action }}</td><td>{{ event.target_type }} #{{ event.target_id }}</td><td>{{ event.metadata }}</td></tr>{% empty %}<tr><td colspan="5">Sem eventos.</td></tr>{% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ display.public_name }}, {{ display.professional_title }} | Kalitica{% endblock %}
+{% block meta_description %}Conhece o perfil profissional de {{ display.public_name }}, experiência, competências e formação no Kalitica.{% endblock %}
+{% block robots %}{% if is_preview %}noindex,nofollow{% else %}index,follow{% endif %}{% endblock %}
+{% block og_type %}profile{% endblock %}
+{% block og_title %}{{ display.public_name }}, {{ display.professional_title }} | Kalitica{% endblock %}
+{% block og_description %}Perfil profissional verificado no Kalitica.{% endblock %}
+{% block body_class %}profile-detail-screen{% endblock %}
+
+{% block content %}
+{% if not is_preview %}<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "{{ display.public_name|escapejs }}", "jobTitle": "{{ display.professional_title|escapejs }}"{% if display.location_is_public %}, "address": {"@type": "PostalAddress", "addressLocality": "{{ display.location|escapejs }}", "addressCountry": "{{ display.country|escapejs }}"}{% endif %}, "url": "{{ canonical_url|escapejs }}"}</script>{% endif %}
+
+<section class="profile-detail-page">
+    <div class="container">
+        <nav class="breadcrumbs profile-breadcrumbs" aria-label="Breadcrumb"><a href="{% url 'search' %}">Talentos</a><span>/</span><span>{{ display.public_name }}</span></nav>
+        {% if is_preview %}<div class="preview-banner" role="status">Pré-visualização privada. Esta página não aparece na pesquisa.</div>{% endif %}
+
+        <div class="profile-detail-grid">
+            <main class="profile-detail-main">
+                <header class="profile-intro-card">
+                    <div class="profile-photo-wrap">
+                        {% if profile.photo %}
+                            <img class="profile-photo-large" src="{% url 'profile-photo' profile.slug %}" alt="Fotografia de {{ display.public_name }}">
+                        {% else %}
+                            <img class="profile-photo-large" src="{% static profile.demo_avatar_path %}" alt="Retrato profissional genérico">
+                        {% endif %}
+                    </div>
+                    <div class="profile-intro-copy">
+                        <div class="profile-name-row">
+                            <h1>{{ display.public_name }}</h1>
+                            <span class="approved-pill">Perfil aprovado</span>
+                        </div>
+                        <p class="profile-title-line">{{ display.professional_title }}</p>
+                        <p class="profile-location-line">{% if display.location_is_public and display.location %}{{ display.location }}{% if display.country %}, {{ display.country }}{% endif %}{% else %}Localização privada{% endif %}<span>Aberto a propostas</span></p>
+                        <div class="profile-primary-actions">
+                            {% if request.user == profile.user %}
+                                <a class="btn btn-brand" href="{% url 'profiles:edit' %}">Editar o meu perfil</a>
+                            {% elif request.user.is_authenticated %}
+                                <form method="post" action="{% url 'interactions:favorite-add' profile.slug %}">{% csrf_token %}<button class="btn btn-brand" type="submit">Adicionar à shortlist</button></form>
+                                {% if profile.consent_contact and profile.contact_visibility != "hidden" %}<a class="btn btn-outline-brand" href="{% url 'interactions:contact' profile.slug %}">Contactar</a>{% endif %}
+                            {% else %}
+                                <a class="btn btn-brand" href="{% url 'accounts:login' %}?next={{ request.path|urlencode }}">Iniciar sessão para contactar</a>
+                            {% endif %}
+                            {% if profile.cv_file %}
+                                {% if request.user == profile.user or profile.cv_visibility == "public" or profile.cv_visibility == "members" and request.user.is_authenticated %}<a class="btn btn-outline-brand" href="{% url 'profile-cv' profile.slug %}">Descarregar currículo</a>{% endif %}
+                            {% endif %}
+                        </div>
+                        <p class="privacy-line">Os dados de contacto só são partilhados com consentimento.</p>
+                    </div>
+                </header>
+
+                <section class="profile-section-card">
+                    <h2>Resumo profissional</h2>
+                    <p>{{ display.bio|linebreaksbr }}</p>
+                </section>
+                <section class="profile-section-card">
+                    <h2>Competências</h2>
+                    <div class="profile-skill-list">{% for skill in display.skills %}<span>{{ skill }}</span>{% empty %}<span>Competências em revisão</span>{% endfor %}</div>
+                </section>
+                <section class="profile-section-card">
+                    <h2>Experiência</h2>
+                    <div class="profile-timeline">
+                        {% for entry in display.experiences %}
+                            <article>
+                                <span class="timeline-dot" aria-hidden="true"></span>
+                                <h3>{{ entry.title }}</h3>
+                                <strong>{{ entry.organization }}</strong>
+                                <p>{{ entry.description }}</p>
+                            </article>
+                        {% empty %}
+                            <p>Sem experiência publicada.</p>
+                        {% endfor %}
+                    </div>
+                </section>
+                <section class="profile-section-card">
+                    <h2>Formação</h2>
+                    {% for entry in display.education %}
+                        <article class="education-row"><h3>{{ entry.qualification }}</h3><strong>{{ entry.institution }}</strong><p>{{ entry.field_of_study }}</p></article>
+                    {% empty %}
+                        <p>Sem formação publicada.</p>
+                    {% endfor %}
+                </section>
+            </main>
+
+            <aside class="profile-recruiter-panel" aria-label="Resumo para recrutadores">
+                <section class="compatibility-card">
+                    <h2>Resumo para recrutadores</h2>
+                    <div class="compatibility-score"><strong>86%</strong></div>
+                    <div><strong>Excelente compatibilidade</strong><p>Perfil forte para consultorias, projectos e equipas PALOP.</p></div>
+                </section>
+                <section>
+                    <h2>Estado do perfil</h2>
+                    <span class="approved-pill">Perfil aprovado</span>
+                    <p>Este perfil foi verificado pela equipa Kalitica quanto à autenticidade da informação.</p>
+                </section>
+                <section>
+                    <h2>Disponibilidade</h2>
+                    <p>{{ display.availability_label|default:"Não indicada" }}</p>
+                    <p>{{ display.work_preference_label|default:"Modalidade não indicada" }}</p>
+                </section>
+                {% if display.languages %}
+                    <section>
+                        <h2>Idiomas</h2>
+                        <div class="language-table">{% for entry in display.languages %}<div><span>{{ entry.name }}</span><strong>{{ entry.level }}</strong></div>{% endfor %}</div>
+                    </section>
+                {% endif %}
+                <section>
+                    <h2>CV</h2>
+                    {% if profile.cv_file and profile.cv_visibility != "private" %}
+                        <p>Currículo disponível conforme a regra de privacidade do perfil.</p>
+                    {% else %}
+                        <p>Currículo protegido ou ainda não público.</p>
+                    {% endif %}
+                </section>
+                {% if request.user.is_authenticated and request.user != profile.user %}
+                    <section class="profile-panel-actions">
+                        <form method="post" action="{% url 'interactions:like-toggle' profile.slug %}">{% csrf_token %}<button class="btn btn-outline-brand w-100" type="submit">{% if is_liked %}Remover gosto{% else %}Gostar{% endif %}</button></form>
+                        <a class="report-link" href="{% url 'interactions:report' profile.slug %}">Denunciar perfil</a>
+                    </section>
+                {% endif %}
+            </aside>
+        </div>
+    </div>
+</section>
+
+<div class="profile-privacy-bar">
+    <div class="container">Respeitamos a privacidade dos profissionais. Contactos e informação sensível só são partilhados com consentimento.</div>
+</div>
+{% endblock %}

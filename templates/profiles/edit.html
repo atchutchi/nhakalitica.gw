@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Editar perfil | Kalitica{% endblock %}
+
+{% block content %}
+<section class="private-page editor-pro-page">
+    <div class="container editor-pro-layout">
+        <aside class="editor-guidance">
+            <span class="eyebrow">Perfil profissional</span>
+            <h1>Edita os teus dados</h1>
+            <p>Escreve para recrutadores que precisam de decidir rápido. Mostra função, experiência, áreas de domínio, disponibilidade e ligação com Cabo Verde ou PALOP.</p>
+            <div class="guidance-card">
+                <strong>Critérios de qualidade</strong>
+                <ul>
+                    <li>Título profissional claro.</li>
+                    <li>Localização e país visíveis quando fizer sentido.</li>
+                    <li>Competências pesquisáveis.</li>
+                    <li>Currículo actualizado e sem dados sensíveis desnecessários.</li>
+                </ul>
+            </div>
+            <div class="guidance-card locked-feature-card">
+                <strong>Próxima fase</strong>
+                <p>Vagas, equipas de recrutamento e planos pagos ficam preparados no produto, mas bloqueados até decisão de lançamento.</p>
+            </div>
+        </aside>
+        <form class="editor-card editor-card-pro" method="post" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}<div class="form-help">{{ field.help_text|safe }}</div>{% endif %}
+                    {% for error in field.errors %}<div class="form-error">{{ error }}</div>{% endfor %}
+                </div>
+            {% endfor %}
+            <div class="editor-actions">
+                <a class="btn btn-outline-brand" href="{% url 'accounts:dashboard' %}">Cancelar</a>
+                <button class="btn btn-brand" type="submit">Guardar perfil</button>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

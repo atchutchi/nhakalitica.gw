@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Shortlist | Kalitica{% endblock %}
+{% block content %}
+<section class="private-page recruiter-workspace" aria-labelledby="favorites-title">
+    <div class="container">
+        <div class="workspace-heading">
+            <div>
+                <span class="eyebrow">Recrutamento</span>
+                <h1 id="favorites-title">Shortlist</h1>
+                <p>Organiza candidatos, notas privadas e etiquetas para consultorias e projectos PALOP.</p>
+            </div>
+            <a class="btn btn-outline-brand" href="{% url 'accounts:dashboard' %}">Voltar ao painel</a>
+        </div>
+
+        <form class="shortlist-toolbar recruiter-toolbar" method="get">
+            <label>Estado do processo<select name="status"><option value="">Todos</option>{% for value, label in status_choices %}<option value="{{ value }}"{% if active_status == value %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+            <label>Etiqueta<select name="tag"><option value="">Todas</option>{% for tag in tags %}<option value="{{ tag.name }}"{% if active_tag == tag.name %} selected{% endif %}>{{ tag.name }}</option>{% endfor %}</select></label>
+            <button class="btn btn-outline-brand" type="submit">Filtrar</button>
+            <a class="btn btn-outline-brand" href="{% url 'interactions:shortlist-export' %}{% if export_query %}?{{ export_query }}{% endif %}">Exportar CSV</a>
+            <button form="compare-form" class="btn btn-brand" type="submit">Comparar seleccionados</button>
+        </form>
+
+        <form id="compare-form" method="get" action="{% url 'interactions:compare' %}"></form>
+        <div class="shortlist-list">
+            {% for item in favorites %}
+                <article class="shortlist-item shortlist-item-pro shortlist-card-refined">
+                    <div class="shortlist-management">
+                        <label class="compare-select"><input form="compare-form" type="checkbox" name="profiles" value="{{ item.profile.pk }}"> Comparar</label>
+                        <form method="post" action="{% url 'interactions:favorite-toggle' item.profile.slug %}">{% csrf_token %}<button class="btn btn-outline-brand" type="submit">Remover</button></form>
+                    </div>
+                    <div class="shortlist-person">
+                        <div class="profile-avatar" aria-hidden="true">{{ item.profile.public_display_name|slice:":1"|upper }}</div>
+                        <div>
+                            <h2><a href="{% url 'public-profile' item.profile.slug %}">{{ item.profile.public_display_name }}</a></h2>
+                            <p>{{ item.profile.public_professional_title|default:"Perfil profissional" }}</p>
+                            <span class="result-badge">Perfil aprovado</span>
+                        </div>
+                    </div>
+                    <form class="shortlist-edit-form" method="post" action="{% url 'interactions:favorite-update' item.pk %}">{% csrf_token %}
+                        <div class="shortlist-actions">
+                            <label>Estado do processo<select class="recruitment-status" name="status">{% for value, label in status_choices %}<option value="{{ value }}"{% if item.status == value %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+                            <label>Etiquetas<input class="private-tag" name="tags" value="{% for tag in item.owned_tags %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}" placeholder="Ex.: Cabo Verde, urgente"></label>
+                        </div>
+                        <label>Notas privadas<textarea name="notes" rows="3" placeholder="Notas privadas para o processo">{{ item.notes }}</textarea></label>
+                        <div class="shortlist-actions">
+                            <button class="btn btn-brand" type="submit">Actualizar</button>
+                            <a class="btn btn-outline-brand" href="{% url 'public-profile' item.profile.slug %}">Ver perfil</a>
+                        </div>
+                    </form>
+                </article>
+            {% empty %}
+                <div class="empty-state"><h2>A shortlist está vazia</h2><p>Guarda perfis durante a pesquisa para os acompanhar aqui.</p><a class="btn btn-brand" href="{% url 'search' %}">Pesquisar profissionais</a></div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Denunciar perfil | Kalitica{% endblock %}
+{% block content %}
+<main class="form-page"><div class="container narrow-container"><a class="back-link" href="{% url 'public-profile' profile.slug %}">Voltar ao perfil</a><span class="eyebrow">Segurança</span><h1>Denunciar {{ profile.public_name }}</h1><p class="lead">A equipa analisará o caso. O profissional não recebe a tua identidade através desta denúncia.</p><form class="editor-card" method="post">{% csrf_token %}{{ form.non_field_errors }}{% for field in form %}<div class="form-field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>{% endfor %}<button class="btn btn-danger-action" type="submit">Enviar denúncia</button></form></div></main>
+{% endblock %}

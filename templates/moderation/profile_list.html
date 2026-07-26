@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Perfis em moderação | Kalitica{% endblock %}
+
+{% block content %}
+<main class="admin-section">
+    <div class="container">
+        <div class="admin-heading">
+            <div><span class="eyebrow">Moderação</span><h1>Perfis profissionais</h1></div>
+            <a href="{% url 'moderation:dashboard' %}">Voltar ao painel</a>
+        </div>
+        <form class="admin-filter" method="get">
+            <label for="status">Estado</label>
+            <select id="status" name="status">
+                <option value="">Todos</option>
+                {% for value, label in status_choices %}<option value="{{ value }}"{% if selected_status == value %} selected{% endif %}>{{ label }}</option>{% endfor %}
+            </select>
+            <button class="btn btn-brand" type="submit">Filtrar</button>
+        </form>
+        <section class="admin-panel">
+            {% for profile in profiles %}
+                <a class="admin-list-row" href="{% url 'moderation:profile-review' profile.pk %}">
+                    <span><strong>{{ profile.public_name|default:profile.user.email }}</strong><small>{{ profile.professional_title|default:"Sem título profissional" }}</small></span>
+                    <span class="status-pill status-{{ profile.status }}">{{ profile.get_status_display }}</span>
+                </a>
+            {% empty %}<p class="empty-inline">Não existem perfis neste estado.</p>{% endfor %}
+        </section>
+    </div>
+</main>
+{% endblock %}

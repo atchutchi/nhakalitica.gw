@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Rever {{ profile.public_name|default:profile.user.email }} | Kalitica{% endblock %}
+
+{% block content %}
+<main class="admin-section">
+    <div class="container review-grid">
+        <section>
+            <a class="back-link" href="{% url 'moderation:profile-list' %}">Voltar à fila</a>
+            <span class="eyebrow">Revisão administrativa</span>
+            <h1>{{ profile.public_name|default:profile.user.email }}</h1>
+            <p class="lead">{{ profile.professional_title|default:"Sem título profissional" }}</p>
+            <article class="admin-panel review-content">
+                <div><span>Estado</span><strong>{{ profile.get_status_display }}</strong></div>
+                <div><span>Email da conta</span><strong>{{ profile.user.email }}</strong></div>
+                <div><span>Localização</span><strong>{{ profile.location|default:"Não indicada" }}</strong></div>
+                <div><span>Disponibilidade</span><strong>{{ profile.get_availability_display }}</strong></div>
+                <div class="review-wide"><span>Biografia</span><p>{{ profile.bio|default:"Não indicada"|linebreaksbr }}</p></div>
+                <div class="review-wide"><span>Competências</span><p>{% for skill in profile.skills.all %}{{ skill.name }}{% if not forloop.last %}, {% endif %}{% empty %}Nenhuma{% endfor %}</p></div>
+                <div class="review-wide"><span>Experiência</span><p>{% for item in profile.experiences.all %}{{ item }}{% if not forloop.last %}<br>{% endif %}{% empty %}Nenhuma{% endfor %}</p></div>
+                {% if profile.cv_file %}<div class="review-wide"><a href="{{ profile.cv_file.url }}" target="_blank" rel="noopener">Abrir currículo em PDF</a></div>{% endif %}
+            </article>
+        </section>
+        <aside class="decision-card">
+            <span class="step-number">Decisão</span>
+            <h2>Aplicar moderação</h2>
+            {% if error %}<div class="form-error" role="alert">{{ error }}</div>{% endif %}
+            <form method="post">
+                {% csrf_token %}
+                <label for="reason">Motivo ou orientação</label>
+                <textarea id="reason" name="reason" rows="5" placeholder="Obrigatório para rejeitar, pedir correções, suspender ou restaurar"></textarea>
+                <div class="decision-actions">
+                    <button class="btn btn-success-action" type="submit" name="action" value="approve">Aprovar</button>
+                    <button class="btn btn-outline-brand" type="submit" name="action" value="request_changes">Solicitar correções</button>
+                    <button class="btn btn-danger-action" type="submit" name="action" value="reject">Rejeitar</button>
+                    {% if profile.status == "suspended" %}
+                        <button class="btn btn-outline-brand" type="submit" name="action" value="restore">Restaurar</button>
+                    {% else %}
+                        <button class="btn btn-danger-action" type="submit" name="action" value="suspend">Suspender</button>
+                    {% endif %}
+                </div>
+            </form>
+            {% if profile.reviewed_at %}<p class="decision-history">Última decisão em {{ profile.reviewed_at|date:"d/m/Y H:i" }} por {{ profile.reviewed_by.email }}.</p>{% endif %}
+        </aside>
+    </div>
+</main>
+{% endblock %}
