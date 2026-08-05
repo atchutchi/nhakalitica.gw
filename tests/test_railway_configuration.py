@@ -1,10 +1,17 @@
 import tomllib
 
 from django.conf import settings
-from django.test import SimpleTestCase
+from django.test import TestCase, override_settings
 
 
-class RailwayConfigurationTests(SimpleTestCase):
+class RailwayConfigurationTests(TestCase):
+    @override_settings(SECURE_SSL_REDIRECT=True)
+    def test_healthcheck_accepts_railway_internal_http_request(self):
+        response = self.client.get("/saude/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), {"status": "ok"})
+
     def test_predeploy_uses_single_railway_command(self):
         config = tomllib.loads((settings.BASE_DIR / "railway.toml").read_text(encoding="utf-8"))
 
