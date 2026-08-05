@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Registos temporariamente encerrados" %} | Kalitica{% endblock %}
+{% block content %}
+  <section class="auth-shell">
+    {% include "registration/_auth_brand_panel.html" %}
+    <div class="auth-form-panel">
+      <div class="auth-form-wrap">
+        <p class="eyebrow">{% translate "Demonstração" %}</p>
+        <h1>{% translate "Registos temporariamente encerrados" %}</h1>
+        <p>{% translate "Este é um ambiente de demonstração reservado aos membros convidados da Kalitica." %}</p>
+        <a class="k-btn k-btn-primary" href="{% url 'accounts:login' %}">{% translate "Entrar com uma conta de demonstração" %}</a>
+      </div>
+    </div>
+  </section>
+{% endblock %}

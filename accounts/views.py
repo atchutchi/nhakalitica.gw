@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
+from django.conf import settings
 from django.core.cache import cache
 from django.db import transaction
 from django.shortcuts import redirect, render
@@ -51,6 +52,8 @@ class ThrottledLoginView(LoginView):
 def signup(request):
     if request.user.is_authenticated:
         return redirect("accounts:dashboard")
+    if not settings.PUBLIC_SIGNUP_ENABLED:
+        return render(request, "registration/signup_closed.html")
     form = SignUpForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         user = form.save()

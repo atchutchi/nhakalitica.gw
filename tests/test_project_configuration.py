@@ -1,4 +1,6 @@
 import os
+import subprocess
+import sys
 from pathlib import Path
 from unittest.mock import patch
 
@@ -26,6 +28,105 @@ class KaliticaConfigurationTests(SimpleTestCase):
         self.assertIn(settings.BASE_DIR / "templates", settings.TEMPLATES[0]["DIRS"])
         self.assertIn(settings.BASE_DIR / "static", settings.STATICFILES_DIRS)
         self.assertEqual(settings.MEDIA_ROOT, settings.BASE_DIR / "media")
+
+    def test_production_stack_serves_static_files_behind_https_proxy(self):
+        self.assertIn(
+            "whitenoise.middleware.WhiteNoiseMiddleware",
+            settings.MIDDLEWARE,
+        )
+        self.assertEqual(
+            getattr(settings, "SECURE_PROXY_SSL_HEADER", None),
+            ("HTTP_X_FORWARDED_PROTO", "https"),
+        )
+
+    def test_database_url_selects_postgresql(self):
+        environment = os.environ.copy()
+        environment.update(
+            {
+                "DJANGO_SETTINGS_MODULE": "config.settings",
+                "DEBUG": "True",
+                "DATABASE_URL": "postgresql://kalitica:secret@postgres.internal:5432/kalitica",
+            }
+        )
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                "from django.conf import settings; print(settings.DATABASES['default']['ENGINE'])",
+            ],
+            cwd=settings.BASE_DIR,
+            env=environment,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+
+        self.assertEqual(result.stdout.strip(), "django.db.backends.postgresql")
+
+    def test_railway_public_domain_is_trusted_automatically(self):
+        environment = os.environ.copy()
+        environment.update(
+            {
+                "DJANGO_SETTINGS_MODULE": "config.settings",
+                "DEBUG": "True",
+                "RAILWAY_PUBLIC_DOMAIN": "nha-kalitica-demo.up.railway.app",
+            }
+        )
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                (
+                    "from django.conf import settings; "
+                    "print(settings.ALLOWED_HOSTS[-1]); "
+                    "print(settings.CSRF_TRUSTED_ORIGINS[-1] if settings.CSRF_TRUSTED_ORIGINS else ''); "
+                    "print(settings.PUBLIC_BASE_URL)"
+                ),
+            ],
+            cwd=settings.BASE_DIR,
+            env=environment,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+
+        self.assertEqual(
+            result.stdout.splitlines(),
+            [
+                "nha-kalitica-demo.up.railway.app",
+                "https://nha-kalitica-demo.up.railway.app",
+                "https://nha-kalitica-demo.up.railway.app",
+            ],
+        )
+
+    def test_railway_volume_becomes_media_root(self):
+        environment = os.environ.copy()
+        environment.update(
+            {
+                "DJANGO_SETTINGS_MODULE": "config.settings",
+                "DEBUG": "True",
+                "RAILWAY_VOLUME_MOUNT_PATH": "/app/media",
+            }
+        )
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                "from django.conf import settings; print(settings.MEDIA_ROOT.as_posix())",
+            ],
+            cwd=settings.BASE_DIR,
+            env=environment,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+
+        self.assertEqual(result.stdout.strip(), "/app/media")
+
+    def test_demo_seed_command_is_registered(self):
+        from django.core.management import get_commands
+
+        self.assertIn("seed_demo_accounts", get_commands())
 
     def test_source_has_no_encoding_artifacts(self):
         suspicious = (

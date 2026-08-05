@@ -2834,3 +2834,15 @@ msgstr "The photograph must be in JPEG, PNG or WebP format."
 
 msgid "A fotografia não pode exceder 5 MB."
 msgstr "The photograph cannot exceed 5 MB."
+
+msgid "Demonstração"
+msgstr "Demo"
+
+msgid "Registos temporariamente encerrados"
+msgstr "Registrations temporarily closed"
+
+msgid "Este é um ambiente de demonstração reservado aos membros convidados da Kalitica."
+msgstr "This is a demo environment reserved for invited Kalitica members."
+
+msgid "Entrar com uma conta de demonstração"
+msgstr "Sign in with a demo account"

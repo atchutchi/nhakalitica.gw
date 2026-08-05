@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.utils import timezone
 
 
@@ -8,6 +8,27 @@ class AuthenticationFlowTests(TestCase):
         response = self.client.get("/conta/criar/")
 
         self.assertEqual(response.status_code, 200)
+
+    @override_settings(PUBLIC_SIGNUP_ENABLED=False)
+    def test_demo_environment_blocks_public_signup(self):
+        response = self.client.post(
+            "/conta/criar/",
+            {
+                "email": "novo-membro@example.com",
+                "first_name": "Novo",
+                "last_name": "Membro",
+                "country": "Guiné-Bissau",
+                "accept_terms": "on",
+                "password1": "PalavraPasseSegura2026!",
+                "password2": "PalavraPasseSegura2026!",
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "ambiente de demonstração")
+        self.assertFalse(
+            get_user_model().objects.filter(email="novo-membro@example.com").exists()
+        )
 
     def test_authentication_fields_expose_browser_autocomplete_hints(self):
         login_response = self.client.get("/conta/entrar/")

@@ -1,0 +1,11 @@
+[build]
+builder = "railpack"
+buildCommand = "python manage.py collectstatic --noinput"
+
+[deploy]
+preDeployCommand = ["python manage.py migrate", "python manage.py seed_demo_accounts"]
+startCommand = "gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 60"
+healthcheckPath = "/saude/"
+healthcheckTimeout = 300
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
