@@ -1,0 +1,9 @@
+Olá {{ profile.user.first_name|default:profile.user.email }},
+
+O estado do teu perfil profissional foi actualizado: {{ title }}.
+{% if reason %}
+Nota da equipa: {{ reason }}
+{% endif %}
+Consulta a tua conta: {{ dashboard_url }}
+
+Kalitica Networking Society

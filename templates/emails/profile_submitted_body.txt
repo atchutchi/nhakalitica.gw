@@ -1,0 +1,6 @@
+Foi submetido um perfil profissional para revisão.
+
+Membro: {{ profile.user.get_full_name|default:profile.user.email }}
+Email: {{ profile.user.email }}
+
+Rever perfil: {{ review_url }}

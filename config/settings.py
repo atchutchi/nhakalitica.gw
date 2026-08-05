@@ -125,13 +125,18 @@ LOGIN_REDIRECT_URL = "accounts:dashboard"
 LOGOUT_REDIRECT_URL = "accounts:login"
 DEFAULT_FROM_EMAIL = os.getenv(
     "DEFAULT_FROM_EMAIL",
-    "Kalitica <noreply@nhakalitica.gw>",
+    "Kalitica Networking Society <noreply@nhakalitica.gw>",
 )
 PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "http://127.0.0.1:8000").rstrip("/")
 KALITICA_CONTACT_EMAIL = os.getenv(
     "KALITICA_CONTACT_EMAIL",
     "info@nhakalitica.gw",
 )
+KALITICA_ADMIN_EMAILS = [
+    email.strip()
+    for email in os.getenv("KALITICA_ADMIN_EMAILS", KALITICA_CONTACT_EMAIL).split(",")
+    if email.strip()
+]
 LEGAL_DOCUMENT_VERSION = "1.0"
 LEGAL_EFFECTIVE_DATE = "2026-08-05"
 EMAIL_BACKEND = os.getenv(

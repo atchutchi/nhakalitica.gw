@@ -23,6 +23,8 @@ As variáveis suportadas estão documentadas em `.env.example`. O projecto lê a
 
 Define `PUBLIC_BASE_URL=https://nhakalitica.gw` para gerar ligações canónicas com o domínio oficial e `KALITICA_CONTACT_EMAIL=info@nhakalitica.gw` para centralizar o contacto público e legal.
 
+Define `KALITICA_ADMIN_EMAILS` com um ou mais endereços separados por vírgulas. Estes destinatários recebem avisos de novas candidaturas e novos perfis. As decisões são enviadas directamente ao membro e os pedidos de contacto nunca incluem a mensagem privada no email.
+
 Para PostgreSQL, define `DATABASE_ENGINE=postgresql` e preenche `DATABASE_NAME`, `DATABASE_USER`, `DATABASE_PASSWORD`, `DATABASE_HOST` e `DATABASE_PORT`.
 
 ## Testes

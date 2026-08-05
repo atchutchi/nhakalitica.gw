@@ -1,11 +1,15 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
+from django.db import transaction
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
 from accounts.legal import record_legal_acceptance
 from accounts.models import LegalAcceptance
+from core.emailing import send_template_email
 
 from .forms import MembershipApplicationForm
 from .models import Membership
@@ -162,6 +166,7 @@ def review(request):
 
 @login_required
 @require_POST
+@transaction.atomic
 def submit(request):
     membership = get_or_create_membership(request.user)
     if not membership.can_edit_application:
@@ -183,6 +188,19 @@ def submit(request):
         request.user,
         LegalAcceptance.DocumentType.PRIVACY,
         LegalAcceptance.Source.MEMBERSHIP,
+    )
+    transaction.on_commit(
+        lambda: send_template_email(
+            "membership_submitted",
+            settings.KALITICA_ADMIN_EMAILS,
+            {
+                "membership": membership,
+                "review_url": (
+                    f"{settings.PUBLIC_BASE_URL}"
+                    f"{reverse('moderation:membership-review', args=(membership.pk,))}"
+                ),
+            },
+        )
     )
     record_legal_acceptance(
         request.user,

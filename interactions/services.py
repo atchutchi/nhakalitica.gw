@@ -6,7 +6,6 @@ from hashlib import sha256
 
 from django.conf import settings
 from django.core.exceptions import PermissionDenied, ValidationError
-from django.core.mail import send_mail
 from django.db import transaction
 from django.db.models import Case, IntegerField, Prefetch, When
 from django.urls import reverse
@@ -14,6 +13,7 @@ from django.utils import timezone
 
 from memberships.models import Membership
 from profiles.models import Profile
+from core.emailing import send_template_email
 
 from .models import ContactRequest, Favorite, Notification, ProfileLike, RecruitmentTag, Report, SavedSearch
 
@@ -202,12 +202,15 @@ def create_contact(sender, profile, subject, message, remote_address=""):
         body=f"Recebeste uma mensagem sobre: {subject}",
         link=reverse("interactions:contacts"),
     )
-    send_mail(
-        subject=f"Kalitica: {subject}",
-        message="Recebeste um novo pedido de contacto. Inicia sessão na Kalitica para consultar a mensagem.",
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        recipient_list=[profile.user.email],
-        fail_silently=True,
+    transaction.on_commit(
+        lambda: send_template_email(
+            "contact_request",
+            [profile.user.email],
+            {
+                "subject": subject,
+                "contacts_url": f"{settings.PUBLIC_BASE_URL}{reverse('interactions:contacts')}",
+            },
+        )
     )
     return contact
 

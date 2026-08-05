@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.conf import settings
+from django.db import transaction
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
@@ -7,6 +8,7 @@ from django.utils import timezone
 
 from accounts.legal import record_legal_acceptance
 from accounts.models import LegalAcceptance
+from core.emailing import send_template_email
 
 from .forms import (
     CertificationForm,
@@ -68,6 +70,7 @@ def edit_profile(request):
 
 
 @login_required
+@transaction.atomic
 def submit_profile(request):
     if request.method != "POST":
         return redirect("accounts:dashboard")
@@ -122,6 +125,19 @@ def submit_profile(request):
                 )
                 for user_id in staff_ids
             ]
+        )
+        transaction.on_commit(
+            lambda: send_template_email(
+                "profile_submitted",
+                settings.KALITICA_ADMIN_EMAILS,
+                {
+                    "profile": profile,
+                    "review_url": (
+                        f"{settings.PUBLIC_BASE_URL}"
+                        f"/administracao/perfis/{profile.pk}/"
+                    ),
+                },
+            )
         )
         messages.success(request, "Perfil submetido para revisão.")
     return redirect("accounts:dashboard")

@@ -63,15 +63,18 @@ class InteractionViewTests(TestCase):
 
     def test_contact_creates_private_request_notification_and_email(self):
         self.client.force_login(self.user)
-        response = self.client.post(
-            reverse("interactions:contact", args=(self.profile.slug,)),
-            {"subject": "Proposta de projecto", "message": "Gostaria de apresentar uma oportunidade profissional."},
-        )
+        private_message = "Gostaria de apresentar uma oportunidade profissional."
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("interactions:contact", args=(self.profile.slug,)),
+                {"subject": "Proposta de projecto", "message": private_message},
+            )
 
         self.assertRedirects(response, reverse("interactions:contacts"))
         self.assertTrue(ContactRequest.objects.filter(sender=self.user, profile=self.profile).exists())
         self.assertTrue(Notification.objects.filter(user=self.owner, type="new_contact").exists())
         self.assertEqual(len(mail.outbox), 1)
+        self.assertNotIn(private_message, mail.outbox[0].body)
 
     def test_unverified_sender_cannot_contact(self):
         self.user.email_verified_at = None

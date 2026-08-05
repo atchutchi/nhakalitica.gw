@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.utils import timezone
@@ -5,6 +6,7 @@ from django.utils import timezone
 from memberships.models import Membership
 from memberships.services import transition_membership
 from profiles.models import Profile, ProfileRevision
+from core.emailing import send_template_email
 
 from .models import AuditLog
 
@@ -52,6 +54,18 @@ def moderate_membership(membership, actor, target_status, note=""):
         title=MEMBERSHIP_NOTIFICATION_TITLES[target_status],
         body=note.strip(),
         link="/adesao/",
+    )
+    transaction.on_commit(
+        lambda: send_template_email(
+            "membership_decision",
+            [locked_membership.user.email],
+            {
+                "membership": locked_membership,
+                "title": MEMBERSHIP_NOTIFICATION_TITLES[target_status],
+                "note": note.strip(),
+                "dashboard_url": f"{settings.PUBLIC_BASE_URL}/adesao/",
+            },
+        )
     )
     return decision
 
@@ -200,6 +214,18 @@ def moderate_profile(profile, actor, action, reason=""):
         title=notification_titles[action],
         body=clean_reason,
         link="/conta/painel/",
+    )
+    transaction.on_commit(
+        lambda: send_template_email(
+            "profile_decision",
+            [locked_profile.user.email],
+            {
+                "profile": locked_profile,
+                "title": notification_titles[action],
+                "reason": clean_reason,
+                "dashboard_url": f"{settings.PUBLIC_BASE_URL}/conta/painel/",
+            },
+        )
     )
     return locked_profile
 

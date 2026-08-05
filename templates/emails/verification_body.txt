@@ -1,0 +1,7 @@
+Olá {{ user.first_name|default:user.email }},
+
+Confirma o teu endereço de email através desta ligação temporária:
+
+{{ verification_url }}
+
+Kalitica Networking Society

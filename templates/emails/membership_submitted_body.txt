@@ -1,0 +1,7 @@
+Foi submetida uma nova candidatura à Kalitica.
+
+Candidato: {{ membership.user.get_full_name|default:membership.user.email }}
+Email: {{ membership.user.email }}
+Tipo: {{ membership.get_member_type_display }}
+
+Rever candidatura: {{ review_url }}

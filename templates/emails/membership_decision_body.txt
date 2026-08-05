@@ -1,0 +1,9 @@
+Olá {{ membership.user.first_name|default:membership.user.email }},
+
+A tua candidatura à Kalitica foi actualizada para: {{ membership.get_status_display }}.
+{% if note %}
+Nota da equipa: {{ note }}
+{% endif %}
+Consulta a tua candidatura: {{ dashboard_url }}
+
+Kalitica Networking Society

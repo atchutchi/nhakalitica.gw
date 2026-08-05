@@ -1,0 +1,5 @@
+Recebeste um novo pedido de contacto profissional sobre: {{ subject }}.
+
+Por motivos de privacidade, a mensagem só está disponível dentro da Kalitica.
+
+Consultar pedido: {{ contacts_url }}
