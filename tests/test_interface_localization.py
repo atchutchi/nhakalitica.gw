@@ -13,6 +13,8 @@ class InterfaceLocalizationTests(TestCase):
 
         self.assertContains(response, "Guinea-Bissau’s professional network")
         self.assertContains(response, "Request membership")
+        self.assertContains(response, "Contact and languages")
+        self.assertContains(response, "All rights reserved.")
 
     def test_public_home_is_rendered_in_french(self):
         self.client.post("/i18n/setlang/", {"language": "fr", "next": "/"})
@@ -21,6 +23,8 @@ class InterfaceLocalizationTests(TestCase):
 
         self.assertContains(response, "Le réseau professionnel de Guinée-Bissau")
         self.assertContains(response, "Demander l’adhésion")
+        self.assertContains(response, "Contact et langues")
+        self.assertContains(response, "Tous droits réservés.")
 
     def test_profile_form_labels_and_help_text_follow_active_language(self):
         with translation.override("en"):

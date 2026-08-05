@@ -577,6 +577,12 @@ msgstr "Code of Conduct"
 msgid "Contacto"
 msgstr "Contact"
 
+msgid "Contacto e idiomas"
+msgstr "Contact and languages"
+
+msgid "Todos os direitos reservados."
+msgstr "All rights reserved."
+
 #, python-format
 msgid "Versão %(legal_version)s"
 msgstr "Version %(legal_version)s"

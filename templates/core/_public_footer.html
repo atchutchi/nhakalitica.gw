@@ -2,21 +2,37 @@
 {% get_current_language as LANGUAGE_CODE %}
 {% get_available_languages as LANGUAGES %}
 <footer class="public-footer">
-  <div class="public-container public-footer-inner">
-    <div class="public-footer-brand">
-      <img src="{% static 'img/kalitica-logo.png' %}" alt="Kalitica Networking Society">
-      <span>{% translate "Plataforma privada para profissionais na Guiné-Bissau, na diáspora guineense e profissionais com ligação relevante ao país." %}</span>
+  <div class="public-container">
+    <div class="public-footer-grid">
+      <div class="public-footer-brand">
+        <a href="{% url 'home' %}" aria-label="{% translate 'Kalitica, página inicial' %}">
+          <img src="{% static 'img/kalitica-logo.png' %}" alt="Kalitica Networking Society">
+        </a>
+        <p>{% translate "Plataforma privada para profissionais na Guiné-Bissau, na diáspora guineense e profissionais com ligação relevante ao país." %}</p>
+      </div>
+
+      <nav class="public-footer-nav" aria-labelledby="footer-legal-title">
+        <h2 class="public-footer-heading" id="footer-legal-title">{% translate "Informação legal" %}</h2>
+        <div class="public-footer-link-list">
+          <a href="{% url 'terms' %}">{% translate "Termos" %}</a>
+          <a href="{% url 'privacy' %}">{% translate "Privacidade" %}</a>
+          <a href="{% url 'code-of-conduct' %}">{% translate "Código de Conduta" %}</a>
+        </div>
+      </nav>
+
+      <div class="public-footer-meta">
+        <div>
+          <h2 class="public-footer-heading">{% translate "Contacto e idiomas" %}</h2>
+          <a class="public-footer-email" href="mailto:info@nhakalitica.gw">info@nhakalitica.gw</a>
+        </div>
+        <nav class="public-footer-languages" aria-label="{% translate 'Idiomas' %}">
+          {% for code, name in LANGUAGES %}<form action="{% url 'set_language' %}" method="post">{% csrf_token %}<input type="hidden" name="next" value="{{ request.path }}"><button type="submit" name="language" value="{{ code }}"{% if LANGUAGE_CODE == code %} aria-current="true"{% endif %}>{{ name }}</button></form>{% endfor %}
+        </nav>
+      </div>
     </div>
-    <div class="public-footer-links">
-      <nav aria-label="{% translate 'Informação legal' %}">
-        <a href="{% url 'terms' %}">{% translate "Termos" %}</a>
-        <a href="{% url 'privacy' %}">{% translate "Privacidade" %}</a>
-        <a href="{% url 'code-of-conduct' %}">{% translate "Código de Conduta" %}</a>
-        <a href="mailto:info@nhakalitica.gw">{% translate "Contacto" %}</a>
-      </nav>
-      <nav aria-label="{% translate 'Idiomas' %}">
-        {% for code, name in LANGUAGES %}<form action="{% url 'set_language' %}" method="post">{% csrf_token %}<input type="hidden" name="next" value="{{ request.path }}"><button type="submit" name="language" value="{{ code }}"{% if LANGUAGE_CODE == code %} aria-current="true"{% endif %}>{{ name }}</button></form>{% endfor %}
-      </nav>
+
+    <div class="public-footer-bottom">
+      <p>&copy; {% now "Y" %} Kalitica Networking Society. {% translate "Todos os direitos reservados." %}</p>
     </div>
   </div>
 </footer>

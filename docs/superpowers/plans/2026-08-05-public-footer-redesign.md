@@ -27,10 +27,10 @@
 - Consumes: `LANGUAGES`, `LANGUAGE_CODE` e rotas legais Django existentes.
 - Produces: `.public-footer-grid`, `.public-footer-brand`, `.public-footer-nav`, `.public-footer-meta` e `.public-footer-bottom`.
 
-- [ ] **Step 1: Escrever um teste que exija os três grupos, os títulos e a linha inferior**
-- [ ] **Step 2: Executar o teste e confirmar a falha por ausência da nova estrutura**
-- [ ] **Step 3: Actualizar o template com a estrutura mínima aprovada**
-- [ ] **Step 4: Executar o teste e confirmar que passa**
+- [x] **Step 1: Escrever um teste que exija os três grupos, os títulos e a linha inferior**
+- [x] **Step 2: Executar o teste e confirmar a falha por ausência da nova estrutura**
+- [x] **Step 3: Actualizar o template com a estrutura mínima aprovada**
+- [x] **Step 4: Executar o teste e confirmar que passa**
 
 ### Task 2: Layout responsivo e acabamento
 
@@ -41,10 +41,10 @@
 - Consumes: classes produzidas pelo template e tokens de `static/css/tokens.css`.
 - Produces: grelha de três colunas, transição para tablet e empilhamento móvel.
 
-- [ ] **Step 1: Substituir o layout flexível actual pela grelha de três áreas**
-- [ ] **Step 2: Aplicar espaçamento, tipografia, estados interactivos e divisores**
-- [ ] **Step 3: Adicionar os breakpoints de tablet e telemóvel**
-- [ ] **Step 4: Executar o detector de layout e corrigir todos os achados do rodapé**
+- [x] **Step 1: Substituir o layout flexível actual pela grelha de três áreas**
+- [x] **Step 2: Aplicar espaçamento, tipografia, estados interactivos e divisores**
+- [x] **Step 3: Adicionar os breakpoints de tablet e telemóvel**
+- [x] **Step 4: Executar o detector de layout e corrigir todos os achados do rodapé**
 
 ### Task 3: Verificação e publicação
 
@@ -55,9 +55,9 @@
 - Consumes: aplicação Django e serviço Railway existentes.
 - Produces: alteração testada, commit publicado e produção verificada.
 
-- [ ] **Step 1: Executar o teste focalizado e a suite completa**
-- [ ] **Step 2: Executar `python manage.py check`**
-- [ ] **Step 3: Verificar visualmente desktop, tablet e telemóvel**
+- [x] **Step 1: Executar o teste focalizado e a suite completa**
+- [x] **Step 2: Executar `python manage.py check`**
+- [x] **Step 3: Verificar visualmente desktop, tablet e telemóvel**
 - [ ] **Step 4: Fazer commit e push para a branch principal**
 - [ ] **Step 5: Confirmar a versão publicada e o estado HTTP**
 
