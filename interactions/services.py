@@ -10,6 +10,7 @@ from django.db import transaction
 from django.db.models import Case, IntegerField, Prefetch, When
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext as _
 
 from memberships.models import Membership
 from profiles.models import Profile
@@ -148,9 +149,9 @@ def build_shortlist_csv(user, favorites) -> str:
 
 def ensure_member_profile_action(user, profile):
     if profile.user_id == user.id:
-        raise PermissionDenied("Não podes executar esta ação no teu próprio perfil.")
+        raise PermissionDenied(_("Não podes executar esta ação no teu próprio perfil."))
     if not profile.is_visible_to(user):
-        raise PermissionDenied("Este perfil não está disponível.")
+        raise PermissionDenied(_("Este perfil não está disponível."))
 
 
 def toggle_relation(model, user, profile):
@@ -178,15 +179,15 @@ def toggle_like(user, profile):
 def create_contact(sender, profile, subject, message, remote_address=""):
     ensure_member_profile_action(sender, profile)
     if not sender.email_verified_at:
-        raise ValidationError("Confirma o teu email antes de enviares contactos.")
+        raise ValidationError(_("Confirma o teu email antes de enviares contactos."))
     if not profile.consent_contact or profile.contact_visibility == Profile.ContactVisibility.HIDDEN:
-        raise ValidationError("Este profissional não está a aceitar contactos.")
+        raise ValidationError(_("Este profissional não está a aceitar contactos."))
     since = timezone.now() - timedelta(hours=1)
     recent_count = ContactRequest.objects.filter(
         sender=sender, profile=profile, created_at__gte=since
     ).count()
     if recent_count >= 3:
-        raise ValidationError("Atingiste o limite de mensagens para este perfil. Tenta novamente mais tarde.")
+        raise ValidationError(_("Atingiste o limite de mensagens para este perfil. Tenta novamente mais tarde."))
     ip_hash = sha256(f"{settings.SECRET_KEY}:{remote_address}".encode()).hexdigest() if remote_address else ""
     contact = ContactRequest.objects.create(
         sender=sender,
@@ -223,7 +224,7 @@ def create_report(reporter, profile, reason, description=""):
         profile=profile,
         status__in=(Report.Status.OPEN, Report.Status.REVIEWING),
     ).exists():
-        raise ValidationError("Já existe uma denúncia activa para este perfil.")
+        raise ValidationError(_("Já existe uma denúncia activa para este perfil."))
     report = Report.objects.create(
         reporter=reporter, profile=profile, reason=reason, description=description
     )

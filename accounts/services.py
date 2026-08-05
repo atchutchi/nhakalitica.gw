@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
+from django.utils.translation import gettext as _
 
 from core.emailing import send_template_email
 from profiles.models import Profile
@@ -65,7 +66,7 @@ def restore_scheduled_account(user, now=None):
         not locked_user.scheduled_deletion_at
         or locked_user.scheduled_deletion_at <= now
     ):
-        raise ValidationError("A conta já não pode ser recuperada.")
+        raise ValidationError(_("A conta já não pode ser recuperada."))
     locked_user.deletion_requested_at = None
     locked_user.scheduled_deletion_at = None
     locked_user.is_active = True

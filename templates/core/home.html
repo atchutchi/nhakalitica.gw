@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% load static i18n %}
 
-{% block title %}Kalitica | A rede profissional da Guiné-Bissau{% endblock %}
-{% block meta_description %}Uma comunidade profissional privada para a Guiné-Bissau, a diáspora guineense e profissionais com ligação relevante ao país.{% endblock %}
+{% block title %}{% translate "Kalitica" %} | {% translate "A rede profissional da Guiné-Bissau" %}{% endblock %}
+{% block meta_description %}{% translate "Uma comunidade profissional privada para a Guiné-Bissau, a diáspora guineense e profissionais com ligação relevante ao país." %}{% endblock %}
 {% block robots %}index,follow{% endblock %}
 {% block body_class %}public-page{% endblock %}
 {% block site_header %}{% include "core/_public_header.html" %}{% endblock %}
@@ -16,7 +16,7 @@
       <p>{% translate "Uma comunidade privada que liga profissionais dentro e fora da Guiné-Bissau. Colabora, partilha conhecimento e cria oportunidades." %}</p>
       <div class="hero-network-actions">
         {% if request.user.is_authenticated %}
-          <a class="k-btn k-btn-primary" href="{% if can_access_network %}{% url 'search' %}{% else %}{% url 'memberships:dashboard' %}{% endif %}">{% if can_access_network %}Aceder à rede{% else %}A minha adesão{% endif %}</a>
+          <a class="k-btn k-btn-primary" href="{% if can_access_network %}{% url 'search' %}{% else %}{% url 'memberships:dashboard' %}{% endif %}">{% if can_access_network %}{% translate "Aceder à rede" %}{% else %}{% translate "A minha adesão" %}{% endif %}</a>
         {% else %}
           <a class="k-btn k-btn-primary" href="{% url 'accounts:signup' %}">{% translate "Pedir adesão" %}</a>
           <a class="k-btn k-btn-secondary" href="{% url 'accounts:login' %}">{% translate "Entrar" %}</a>
@@ -25,7 +25,7 @@
     </div>
     <div class="hero-leaf-mark" aria-hidden="true"><img src="{% static 'img/kalitica-logo.png' %}" alt=""></div>
   </div>
-  <div class="public-container public-trust-row" aria-label="Princípios da rede">
+  <div class="public-container public-trust-row" aria-label="{% translate 'Princípios da rede' %}">
     <span><i class="bi bi-lock" aria-hidden="true"></i> {% translate "Rede privada e segura" %}</span>
     <span><i class="bi bi-patch-check" aria-hidden="true"></i> {% translate "Adesão por aprovação" %}</span>
     <span><i class="bi bi-people" aria-hidden="true"></i> {% translate "Comunidade de confiança" %}</span>

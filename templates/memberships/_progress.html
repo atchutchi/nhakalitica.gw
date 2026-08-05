@@ -1,5 +1,5 @@
-<div class="application-progress" aria-label="Progresso da candidatura">
-  <div class="application-progress-heading"><strong>{{ completed_count }} de 6 etapas concluídas</strong><span>{{ progress_percent }}%</span></div>
+{% load i18n %}<div class="application-progress" aria-label="{% translate 'Progresso da candidatura' %}">
+  <div class="application-progress-heading"><strong>{% blocktranslate with count=completed_count %}{{ count }} de 6 etapas concluídas{% endblocktranslate %}</strong><span>{{ progress_percent }}%</span></div>
   <div class="application-progress-track" role="progressbar" aria-valuenow="{{ progress_percent }}" aria-valuemin="0" aria-valuemax="100"><span style="width: {{ progress_percent }}%"></span></div>
 </div>
 <ol class="application-step-list">

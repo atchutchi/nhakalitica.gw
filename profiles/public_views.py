@@ -4,6 +4,7 @@ from django.core.paginator import Paginator
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
+from django.utils.translation import gettext as _
 
 from taxonomy.models import Area, Sector, Skill, Specialization
 from memberships.access import network_member_required
@@ -34,36 +35,36 @@ def search(request):
     # Expor filtros ativos como etiquetas removíveis para que o recrutador
     # perceba rapidamente o contexto da pesquisa e possa ajustar um critério.
     labels = {
-        "q": "Pesquisa",
-        "sector": "Setor",
-        "area": "Área",
-        "specialization": "Especialização",
-        "skill": "Competência",
-        "location": "Localização",
-        "availability": "Disponibilidade",
-        "work_preference": "Modalidade",
-        "seniority": "Nível",
-        "language": "Idioma",
-        "country": "País",
-        "experience": "Experiência mínima",
-        "cv": "Currículo disponível",
-        "relationship": "Relação",
+        "q": _("Pesquisa"),
+        "sector": _("Setor"),
+        "area": _("Área"),
+        "specialization": _("Especialização"),
+        "skill": _("Competência"),
+        "location": _("Localização"),
+        "availability": _("Disponibilidade"),
+        "work_preference": _("Modalidade"),
+        "seniority": _("Nível"),
+        "language": _("Idioma"),
+        "country": _("País"),
+        "experience": _("Experiência mínima"),
+        "cv": _("Currículo disponível"),
+        "relationship": _("Relação"),
     }
     option_maps = {
-        "sector": {item.slug: item.name for item in context["sectors"]},
-        "area": {item.slug: item.name for item in context["areas"]},
-        "specialization": {item.slug: item.name for item in context["specializations"]},
-        "skill": {item.slug: item.name for item in context["skills"]},
+        "sector": {item.slug: item.localized_name for item in context["sectors"]},
+        "area": {item.slug: item.localized_name for item in context["areas"]},
+        "specialization": {item.slug: item.localized_name for item in context["specializations"]},
+        "skill": {item.slug: item.localized_name for item in context["skills"]},
         "availability": dict(Profile.Availability.choices),
         "work_preference": dict(Profile.WorkPreference.choices),
         "seniority": dict(Profile.Seniority.choices),
         "experience": {
-            "1": "1 ano ou mais",
-            "3": "3 anos ou mais",
-            "5": "5 anos ou mais",
-            "10": "10 anos ou mais",
+            "1": _("1 ano ou mais"),
+            "3": _("3 anos ou mais"),
+            "5": _("5 anos ou mais"),
+            "10": _("10 anos ou mais"),
         },
-        "cv": {"1": "Currículo disponível"},
+        "cv": {"1": _("Currículo disponível")},
         "relationship": dict(Membership.Relationship.choices),
     }
     active_filters = []

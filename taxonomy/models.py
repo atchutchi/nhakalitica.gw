@@ -1,8 +1,11 @@
 from django.db import models
+from django.utils.translation import get_language
 
 
 class NamedActiveModel(models.Model):
     name = models.CharField("nome", max_length=160)
+    name_en = models.CharField("nome em inglês", max_length=160, blank=True)
+    name_fr = models.CharField("nome em francês", max_length=160, blank=True)
     slug = models.SlugField("slug", max_length=180, unique=True)
     is_active = models.BooleanField("ativo", default=True)
     created_at = models.DateTimeField("criado em", auto_now_add=True)
@@ -13,6 +16,15 @@ class NamedActiveModel(models.Model):
         ordering = ("name",)
 
     def __str__(self):
+        return self.name
+
+    @property
+    def localized_name(self):
+        language = (get_language() or "pt").split("-", 1)[0]
+        if language == "en" and self.name_en.strip():
+            return self.name_en
+        if language == "fr" and self.name_fr.strip():
+            return self.name_fr
         return self.name
 
 

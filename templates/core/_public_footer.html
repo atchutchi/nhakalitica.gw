@@ -14,7 +14,7 @@
         <a href="{% url 'code-of-conduct' %}">{% translate "Código de Conduta" %}</a>
         <a href="mailto:info@nhakalitica.gw">{% translate "Contacto" %}</a>
       </nav>
-      <nav aria-label="Idiomas">
+      <nav aria-label="{% translate 'Idiomas' %}">
         {% for code, name in LANGUAGES %}<form action="{% url 'set_language' %}" method="post">{% csrf_token %}<input type="hidden" name="next" value="{{ request.path }}"><button type="submit" name="language" value="{{ code }}"{% if LANGUAGE_CODE == code %} aria-current="true"{% endif %}>{{ name }}</button></form>{% endfor %}
       </nav>
     </div>

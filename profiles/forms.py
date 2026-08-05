@@ -1,6 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
+from django.utils.translation import gettext_lazy as _
 
 from .models import Certification, Education, Experience, Profile, ProfileLanguage
 
@@ -9,16 +10,16 @@ class ProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["cv_visibility"].required = False
-        self.fields["target_roles"].help_text = (
+        self.fields["target_roles"].help_text = _(
             "Lista os cargos e funções pelos quais queres ser encontrado. "
             "Ex.: engenheiro civil, director de obra, fiscal de construção."
         )
-        self.fields["search_keywords"].help_text = (
+        self.fields["search_keywords"].help_text = _(
             "Inclui termos que recrutadores podem escrever na pesquisa. "
             "Separa por vírgulas. Ex.: AutoCAD, orçamento, fiscalização, betão armado."
         )
-        self.fields["years_experience"].help_text = "Ajuda o filtro de experiência quando o teu percurso tem datas incompletas."
-        self.fields["seniority_level"].help_text = "Ajuda recrutadores a distinguir entrada, júnior, intermédio, sénior e liderança."
+        self.fields["years_experience"].help_text = _("Ajuda o filtro de experiência quando o teu percurso tem datas incompletas.")
+        self.fields["seniority_level"].help_text = _("Ajuda recrutadores a distinguir entrada, júnior, intermédio, sénior e liderança.")
         membership = (
             getattr(self.instance.user, "membership", None)
             if self.instance.user_id
@@ -59,21 +60,46 @@ class ProfileForm(forms.ModelForm):
         )
         widgets = {
             "bio": forms.Textarea(attrs={"rows": 5}),
-            "target_roles": forms.Textarea(attrs={"rows": 3, "placeholder": "Ex.: Engenheiro civil, director de obra, fiscal de construção"}),
-            "search_keywords": forms.Textarea(attrs={"rows": 3, "placeholder": "Ex.: AutoCAD, orçamento, fiscalização, betão armado, MS Project"}),
+            "target_roles": forms.Textarea(attrs={"rows": 3, "placeholder": _("Ex.: Engenheiro civil, director de obra, fiscal de construção")}),
+            "search_keywords": forms.Textarea(attrs={"rows": 3, "placeholder": _("Ex.: AutoCAD, orçamento, fiscalização, betão armado, MS Project")}),
             "specializations": forms.SelectMultiple(attrs={"size": 6}),
             "skills": forms.SelectMultiple(attrs={"size": 8}),
+        }
+        labels = {
+            "public_name": _("Nome público"),
+            "professional_title": _("Título profissional"),
+            "target_roles": _("Funções alvo"),
+            "search_keywords": _("Palavras-chave de pesquisa"),
+            "bio": _("Biografia"),
+            "location": _("Localização"),
+            "location_is_public": _("Mostrar localização"),
+            "country": _("País"),
+            "photo": _("Fotografia"),
+            "specializations": _("Especializações"),
+            "skills": _("Competências"),
+            "availability": _("Disponibilidade"),
+            "work_preference": _("Preferência de trabalho"),
+            "years_experience": _("Anos de experiência"),
+            "seniority_level": _("Nível profissional"),
+            "willing_to_relocate": _("Disponível para mudança"),
+            "phone": _("Telefone"),
+            "contact_visibility": _("Visibilidade dos contactos"),
+            "is_discoverable": _("Visível na rede"),
+            "cv_file": _("Currículo em PDF"),
+            "cv_visibility": _("Visibilidade do currículo"),
+            "consent_marketing": _("Consentimento de marketing"),
+            "show_organization_on_profile": _("Mostrar organização no perfil"),
         }
 
     def clean_cv_file(self):
         upload = self.cleaned_data.get("cv_file")
         if not upload:
             return upload
-        FileExtensionValidator(["pdf"], "O currículo deve ser um ficheiro PDF.")(upload)
+        FileExtensionValidator(["pdf"], _("O currículo deve ser um ficheiro PDF."))(upload)
         if getattr(upload, "content_type", "application/pdf") != "application/pdf":
-            raise ValidationError("O currículo deve ser um ficheiro PDF.")
+            raise ValidationError(_("O currículo deve ser um ficheiro PDF."))
         if upload.size > 10 * 1024 * 1024:
-            raise ValidationError("O currículo não pode exceder 10 MB.")
+            raise ValidationError(_("O currículo não pode exceder 10 MB."))
         return upload
 
     def clean_cv_visibility(self):
@@ -89,15 +115,24 @@ class ExperienceForm(forms.ModelForm):
         model = Experience
         exclude = ("profile",)
         widgets = {"start_date": DateInput(), "end_date": DateInput(), "description": forms.Textarea(attrs={"rows": 4})}
+        labels = {
+            "title": _("Cargo"),
+            "organization": _("Organização"),
+            "location": _("Localização"),
+            "description": _("Descrição"),
+            "start_date": _("Data de início"),
+            "end_date": _("Data de fim"),
+            "is_current": _("Cargo actual"),
+        }
 
     def clean(self):
         cleaned = super().clean()
         start_date = cleaned.get("start_date")
         end_date = cleaned.get("end_date")
         if start_date and end_date and end_date < start_date:
-            self.add_error("end_date", "A data de fim não pode ser anterior à data de início.")
+            self.add_error("end_date", _("A data de fim não pode ser anterior à data de início."))
         if cleaned.get("is_current") and end_date:
-            self.add_error("end_date", "Um cargo actual não pode ter data de fim.")
+            self.add_error("end_date", _("Um cargo actual não pode ter data de fim."))
         return cleaned
 
 
@@ -106,11 +141,19 @@ class EducationForm(forms.ModelForm):
         model = Education
         exclude = ("profile",)
         widgets = {"start_date": DateInput(), "end_date": DateInput(), "description": forms.Textarea(attrs={"rows": 4})}
+        labels = {
+            "institution": _("Instituição"),
+            "qualification": _("Qualificação"),
+            "field_of_study": _("Área de estudo"),
+            "start_date": _("Data de início"),
+            "end_date": _("Data de fim"),
+            "description": _("Descrição"),
+        }
 
     def clean(self):
         cleaned = super().clean()
         if cleaned.get("start_date") and cleaned.get("end_date") and cleaned["end_date"] < cleaned["start_date"]:
-            self.add_error("end_date", "A data de fim não pode ser anterior à data de início.")
+            self.add_error("end_date", _("A data de fim não pode ser anterior à data de início."))
         return cleaned
 
 
@@ -119,11 +162,18 @@ class CertificationForm(forms.ModelForm):
         model = Certification
         exclude = ("profile",)
         widgets = {"issue_date": DateInput(), "expiry_date": DateInput()}
+        labels = {
+            "name": _("Certificação"),
+            "issuer": _("Entidade emissora"),
+            "issue_date": _("Data de emissão"),
+            "expiry_date": _("Data de validade"),
+            "credential_url": _("Ligação da credencial"),
+        }
 
     def clean(self):
         cleaned = super().clean()
         if cleaned.get("issue_date") and cleaned.get("expiry_date") and cleaned["expiry_date"] < cleaned["issue_date"]:
-            self.add_error("expiry_date", "A validade não pode ser anterior à emissão.")
+            self.add_error("expiry_date", _("A validade não pode ser anterior à emissão."))
         return cleaned
 
 
@@ -131,3 +181,4 @@ class ProfileLanguageForm(forms.ModelForm):
     class Meta:
         model = ProfileLanguage
         exclude = ("profile",)
+        labels = {"name": _("Idioma"), "level": _("Nível")}

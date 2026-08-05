@@ -180,10 +180,19 @@ def _profile_search_data(profile):
         ]
         if profile.location_is_public:
             values.extend((profile.location, profile.country))
-        values.extend(profile.specializations.values_list("name", flat=True))
-        values.extend(profile.specializations.values_list("area__name", flat=True))
-        values.extend(profile.specializations.values_list("area__sector__name", flat=True))
-        values.extend(profile.skills.values_list("name", flat=True))
+        for fields in (
+            ("name", "name_en", "name_fr"),
+            ("area__name", "area__name_en", "area__name_fr"),
+            (
+                "area__sector__name",
+                "area__sector__name_en",
+                "area__sector__name_fr",
+            ),
+        ):
+            for names in profile.specializations.values_list(*fields):
+                values.extend(names)
+        for names in profile.skills.values_list("name", "name_en", "name_fr"):
+            values.extend(names)
         for experience in profile.experiences.all():
             values.extend((experience.title, experience.organization, experience.description))
         for education in profile.education_entries.all():

@@ -3,6 +3,7 @@ from uuid import uuid4
 from django.conf import settings
 from django.db import models
 from django.utils.text import slugify
+from django.utils import translation
 from django.utils.translation import gettext_lazy as _
 
 from taxonomy.models import Skill, Specialization
@@ -57,68 +58,68 @@ class Profile(models.Model):
 
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
-        verbose_name="utilizador",
+        verbose_name=_("utilizador"),
         related_name="profile",
         on_delete=models.CASCADE,
     )
-    slug = models.SlugField("slug público", max_length=190, unique=True, null=True, blank=True, editable=False)
-    public_name = models.CharField("nome público", max_length=160, blank=True)
-    professional_title = models.CharField("título profissional", max_length=180, blank=True)
-    bio = models.TextField("biografia", blank=True)
+    slug = models.SlugField(_("slug público"), max_length=190, unique=True, null=True, blank=True, editable=False)
+    public_name = models.CharField(_("nome público"), max_length=160, blank=True)
+    professional_title = models.CharField(_("título profissional"), max_length=180, blank=True)
+    bio = models.TextField(_("biografia"), blank=True)
     target_roles = models.TextField(
-        "funções alvo",
+        _("funções alvo"),
         blank=True,
-        help_text="Cargos pelos quais queres ser encontrado. Ex.: Engenheiro civil, gestor de projectos, consultor técnico.",
+        help_text=_("Cargos pelos quais queres ser encontrado. Ex.: Engenheiro civil, gestor de projectos, consultor técnico."),
     )
     search_keywords = models.TextField(
-        "palavras-chave de pesquisa",
+        _("palavras-chave de pesquisa"),
         blank=True,
-        help_text="Termos que recrutadores podem usar. Ex.: obras, fiscalização, AutoCAD, procurement, RH.",
+        help_text=_("Termos que recrutadores podem usar. Ex.: obras, fiscalização, AutoCAD, procurement, RH."),
     )
-    location = models.CharField("localização", max_length=160, blank=True)
-    location_is_public = models.BooleanField("mostrar localização", default=True)
-    country = models.CharField("país", max_length=100, default="Guiné-Bissau")
-    phone = models.CharField("telefone", max_length=40, blank=True)
+    location = models.CharField(_("localização"), max_length=160, blank=True)
+    location_is_public = models.BooleanField(_("mostrar localização"), default=True)
+    country = models.CharField(_("país"), max_length=100, default="Guiné-Bissau")
+    phone = models.CharField(_("telefone"), max_length=40, blank=True)
     whatsapp = models.CharField("WhatsApp", max_length=40, blank=True)
     website = models.URLField("website", blank=True)
     linkedin_url = models.URLField("LinkedIn", blank=True)
     availability = models.CharField(
-        "disponibilidade",
+        _("disponibilidade"),
         max_length=20,
         choices=Availability.choices,
         default=Availability.OPEN,
     )
     work_preference = models.CharField(
-        "preferência de trabalho",
+        _("preferência de trabalho"),
         max_length=20,
         choices=WorkPreference.choices,
         default=WorkPreference.HYBRID,
     )
-    willing_to_relocate = models.BooleanField("disponível para mudança", default=False)
-    years_experience = models.PositiveSmallIntegerField("anos de experiência", null=True, blank=True)
+    willing_to_relocate = models.BooleanField(_("disponível para mudança"), default=False)
+    years_experience = models.PositiveSmallIntegerField(_("anos de experiência"), null=True, blank=True)
     seniority_level = models.CharField(
-        "nível profissional",
+        _("nível profissional"),
         max_length=20,
         choices=Seniority.choices,
         blank=True,
     )
     contact_visibility = models.CharField(
-        "visibilidade dos contactos",
+        _("visibilidade dos contactos"),
         max_length=20,
         choices=ContactVisibility.choices,
         default=ContactVisibility.FORM,
     )
-    photo = models.ImageField("fotografia", upload_to="profile_photos/%Y/%m/", blank=True)
-    cv_file = models.FileField("currículo em PDF", upload_to="resumes/%Y/%m/", blank=True)
+    photo = models.ImageField(_("fotografia"), upload_to="profile_photos/%Y/%m/", blank=True)
+    cv_file = models.FileField(_("currículo em PDF"), upload_to="resumes/%Y/%m/", blank=True)
     cv_uploaded_at = models.DateTimeField("currículo atualizado em", null=True, blank=True)
     cv_visibility = models.CharField(
-        "visibilidade do currículo",
+        _("visibilidade do currículo"),
         max_length=20,
         choices=CVVisibility.choices,
         default=CVVisibility.PRIVATE,
     )
     status = models.CharField(
-        "estado",
+        _("estado"),
         max_length=24,
         choices=Status.choices,
         default=Status.DRAFT,
@@ -126,14 +127,14 @@ class Profile(models.Model):
     )
     is_public = models.BooleanField("público", default=False, db_index=True)
     review_status = models.CharField(
-        "estado da publicação",
+        _("estado da publicação"),
         max_length=24,
         choices=ReviewStatus.choices,
         default=ReviewStatus.DRAFT,
         db_index=True,
     )
     is_discoverable = models.BooleanField(
-        "visível na rede",
+        _("visível na rede"),
         default=False,
         db_index=True,
     )
@@ -147,24 +148,24 @@ class Profile(models.Model):
         null=True,
         blank=True,
     )
-    review_note = models.TextField("nota de revisão", blank=True)
+    review_note = models.TextField(_("nota de revisão"), blank=True)
     published_snapshot = models.JSONField("versão pública", default=dict, blank=True)
     published_at = models.DateTimeField("versão pública em", null=True, blank=True)
     specializations = models.ManyToManyField(
         Specialization,
-        verbose_name="especializações",
+        verbose_name=_("especializações"),
         related_name="profiles",
         blank=True,
     )
     skills = models.ManyToManyField(
         Skill,
-        verbose_name="competências",
+        verbose_name=_("competências"),
         related_name="profiles",
         blank=True,
     )
     consent_profile_public = models.BooleanField("consentimento para perfil público", default=False)
     consent_contact = models.BooleanField("consentimento para contacto", default=False)
-    consent_marketing = models.BooleanField("consentimento de marketing", default=False)
+    consent_marketing = models.BooleanField(_("consentimento de marketing"), default=False)
     show_organization_on_profile = models.BooleanField(
         _("mostrar organização no perfil"),
         default=False,
@@ -192,15 +193,15 @@ class Profile(models.Model):
 
     def missing_required_sections(self):
         checks = (
-            ("nome público", bool(self.public_name.strip())),
-            ("título profissional", bool(self.professional_title.strip())),
-            ("biografia", bool(self.bio.strip())),
-            ("localização", bool(self.location.strip())),
-            ("especialização", self.specializations.exists()),
-            ("competência", self.skills.exists()),
-            ("experiência", self.experiences.exists()),
-            ("formação", self.education_entries.exists()),
-            ("idioma", self.languages.exists()),
+            (_("nome público"), bool(self.public_name.strip())),
+            (_("título profissional"), bool(self.professional_title.strip())),
+            (_("biografia"), bool(self.bio.strip())),
+            (_("localização"), bool(self.location.strip())),
+            (_("especialização"), self.specializations.exists()),
+            (_("competência"), self.skills.exists()),
+            (_("experiência"), self.experiences.exists()),
+            (_("formação"), self.education_entries.exists()),
+            (_("idioma"), self.languages.exists()),
         )
         return [label for label, complete in checks if not complete]
 
@@ -227,6 +228,25 @@ class Profile(models.Model):
         )
 
     def build_public_snapshot(self):
+        def labels_for(get_label):
+            labels = {}
+            for language in ("pt", "fr", "en"):
+                with translation.override(language):
+                    labels[language] = str(get_label())
+            return labels
+
+        def taxonomy_labels(items):
+            labels = {}
+            for language in ("pt", "fr", "en"):
+                with translation.override(language):
+                    labels[language] = [item.localized_name for item in items]
+            return labels
+
+        specializations = list(
+            self.specializations.select_related("area", "area__sector")
+        )
+        skills = list(self.skills.all())
+
         payload = {
             "public_name": self.public_name,
             "professional_title": self.professional_title,
@@ -238,15 +258,32 @@ class Profile(models.Model):
             "country": self.country,
             "availability": self.availability,
             "availability_label": self.get_availability_display(),
+            "availability_labels": labels_for(self.get_availability_display),
             "work_preference": self.work_preference,
             "work_preference_label": self.get_work_preference_display(),
+            "work_preference_labels": labels_for(self.get_work_preference_display),
             "years_experience": self.years_experience,
             "seniority_level": self.seniority_level,
             "seniority_label": self.get_seniority_level_display() if self.seniority_level else "",
-            "skills": list(self.skills.values_list("name", flat=True)),
-            "specializations": list(self.specializations.values_list("name", flat=True)),
-            "areas": list(self.specializations.values_list("area__name", flat=True).distinct()),
-            "sectors": list(self.specializations.values_list("area__sector__name", flat=True).distinct()),
+            "seniority_labels": (
+                labels_for(self.get_seniority_level_display)
+                if self.seniority_level
+                else {"pt": "", "fr": "", "en": ""}
+            ),
+            "skills": [item.name for item in skills],
+            "skills_i18n": taxonomy_labels(skills),
+            "specializations": [item.name for item in specializations],
+            "specializations_i18n": taxonomy_labels(specializations),
+            "areas": list(dict.fromkeys(item.area.name for item in specializations)),
+            "areas_i18n": taxonomy_labels(
+                list(dict.fromkeys(item.area for item in specializations))
+            ),
+            "sectors": list(
+                dict.fromkeys(item.area.sector.name for item in specializations)
+            ),
+            "sectors_i18n": taxonomy_labels(
+                list(dict.fromkeys(item.area.sector for item in specializations))
+            ),
             "experiences": [
                 {
                     "title": item.title,
@@ -270,7 +307,12 @@ class Profile(models.Model):
                 for item in self.certifications.all()
             ],
             "languages": [
-                {"name": item.name, "level": item.get_level_display()}
+                {
+                    "name": item.name,
+                    "level": item.get_level_display(),
+                    "level_code": item.level,
+                    "level_labels": labels_for(item.get_level_display),
+                }
                 for item in self.languages.all()
             ],
         }
@@ -287,7 +329,29 @@ class Profile(models.Model):
 
     @property
     def public_payload(self):
-        return self.published_snapshot or self.build_public_snapshot()
+        payload = dict(self.published_snapshot or self.build_public_snapshot())
+        language = (translation.get_language() or "pt").split("-", 1)[0]
+        for value_key, labels_key in (
+            ("availability_label", "availability_labels"),
+            ("work_preference_label", "work_preference_labels"),
+            ("seniority_label", "seniority_labels"),
+        ):
+            labels = payload.get(labels_key, {})
+            payload[value_key] = labels.get(language, labels.get("pt", payload.get(value_key, "")))
+        for key in ("skills", "specializations", "areas", "sectors"):
+            labels = payload.get(f"{key}_i18n", {})
+            payload[key] = labels.get(language, labels.get("pt", payload.get(key, [])))
+        payload["languages"] = [
+            {
+                **item,
+                "level": item.get("level_labels", {}).get(
+                    language,
+                    item.get("level_labels", {}).get("pt", item.get("level", "")),
+                ),
+            }
+            for item in payload.get("languages", [])
+        ]
+        return payload
 
     @property
     def public_display_name(self):
@@ -335,10 +399,10 @@ class Profile(models.Model):
 
 class ProfileRevision(models.Model):
     class Status(models.TextChoices):
-        PENDING = "pending", "Pendente"
-        APPROVED = "approved", "Aprovada"
-        REJECTED = "rejected", "Rejeitada"
-        CANCELLED = "cancelled", "Cancelada"
+        PENDING = "pending", _("Pendente")
+        APPROVED = "approved", _("Aprovada")
+        REJECTED = "rejected", _("Rejeitada")
+        CANCELLED = "cancelled", _("Cancelada")
 
     profile = models.ForeignKey(Profile, related_name="revisions", on_delete=models.CASCADE)
     submitted_by = models.ForeignKey(
@@ -368,13 +432,13 @@ class ProfileRevision(models.Model):
 
 class Experience(models.Model):
     profile = models.ForeignKey(Profile, related_name="experiences", on_delete=models.CASCADE)
-    title = models.CharField("cargo", max_length=180)
-    organization = models.CharField("organização", max_length=180)
-    location = models.CharField("localização", max_length=160, blank=True)
-    description = models.TextField("descrição", blank=True)
-    start_date = models.DateField("data de início")
-    end_date = models.DateField("data de fim", null=True, blank=True)
-    is_current = models.BooleanField("cargo atual", default=False)
+    title = models.CharField(_("cargo"), max_length=180)
+    organization = models.CharField(_("organização"), max_length=180)
+    location = models.CharField(_("localização"), max_length=160, blank=True)
+    description = models.TextField(_("descrição"), blank=True)
+    start_date = models.DateField(_("data de início"))
+    end_date = models.DateField(_("data de fim"), null=True, blank=True)
+    is_current = models.BooleanField(_("cargo atual"), default=False)
 
     class Meta:
         ordering = ("-start_date", "-id")
@@ -387,12 +451,12 @@ class Experience(models.Model):
 
 class Education(models.Model):
     profile = models.ForeignKey(Profile, related_name="education_entries", on_delete=models.CASCADE)
-    institution = models.CharField("instituição", max_length=180)
-    qualification = models.CharField("qualificação", max_length=180)
-    field_of_study = models.CharField("área de estudo", max_length=180, blank=True)
-    start_date = models.DateField("data de início", null=True, blank=True)
-    end_date = models.DateField("data de fim", null=True, blank=True)
-    description = models.TextField("descrição", blank=True)
+    institution = models.CharField(_("instituição"), max_length=180)
+    qualification = models.CharField(_("qualificação"), max_length=180)
+    field_of_study = models.CharField(_("área de estudo"), max_length=180, blank=True)
+    start_date = models.DateField(_("data de início"), null=True, blank=True)
+    end_date = models.DateField(_("data de fim"), null=True, blank=True)
+    description = models.TextField(_("descrição"), blank=True)
 
     class Meta:
         ordering = ("-end_date", "-id")
@@ -405,11 +469,11 @@ class Education(models.Model):
 
 class Certification(models.Model):
     profile = models.ForeignKey(Profile, related_name="certifications", on_delete=models.CASCADE)
-    name = models.CharField("certificação", max_length=180)
-    issuer = models.CharField("entidade emissora", max_length=180)
-    issue_date = models.DateField("data de emissão", null=True, blank=True)
-    expiry_date = models.DateField("data de validade", null=True, blank=True)
-    credential_url = models.URLField("ligação da credencial", blank=True)
+    name = models.CharField(_("certificação"), max_length=180)
+    issuer = models.CharField(_("entidade emissora"), max_length=180)
+    issue_date = models.DateField(_("data de emissão"), null=True, blank=True)
+    expiry_date = models.DateField(_("data de validade"), null=True, blank=True)
+    credential_url = models.URLField(_("ligação da credencial"), blank=True)
 
     class Meta:
         ordering = ("-issue_date", "name")
@@ -422,15 +486,15 @@ class Certification(models.Model):
 
 class ProfileLanguage(models.Model):
     class Level(models.TextChoices):
-        BASIC = "basic", "Básico"
-        INTERMEDIATE = "intermediate", "Intermédio"
-        ADVANCED = "advanced", "Avançado"
-        FLUENT = "fluent", "Fluente"
-        NATIVE = "native", "Nativo"
+        BASIC = "basic", _("Básico")
+        INTERMEDIATE = "intermediate", _("Intermédio")
+        ADVANCED = "advanced", _("Avançado")
+        FLUENT = "fluent", _("Fluente")
+        NATIVE = "native", _("Nativo")
 
     profile = models.ForeignKey(Profile, related_name="languages", on_delete=models.CASCADE)
-    name = models.CharField("idioma", max_length=100)
-    level = models.CharField("nível", max_length=20, choices=Level.choices)
+    name = models.CharField(_("idioma"), max_length=100)
+    level = models.CharField(_("nível"), max_length=20, choices=Level.choices)
 
     class Meta:
         ordering = ("name",)

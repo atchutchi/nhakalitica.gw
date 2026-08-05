@@ -2,6 +2,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.utils import timezone
+from django.utils.translation import gettext as _
 
 from memberships.models import Membership
 from memberships.services import transition_membership
@@ -26,7 +27,7 @@ def moderate_membership(membership, actor, target_status, note=""):
     from interactions.models import Notification
 
     if target_status not in MEMBERSHIP_MODERATION_TARGETS:
-        raise ValidationError("Decisão de adesão inválida.")
+        raise ValidationError(_("Decisão de adesão inválida."))
     locked_membership = Membership.objects.select_for_update().select_related("user").get(
         pk=membership.pk
     )
@@ -114,14 +115,14 @@ def moderate_profile(profile, actor, action, reason=""):
     try:
         config = ACTION_CONFIG[action]
     except KeyError as error:
-        raise ValidationError("Ação de moderação inválida.") from error
+        raise ValidationError(_("Ação de moderação inválida.")) from error
 
     locked_profile = Profile.objects.select_for_update().select_related("user").get(pk=profile.pk)
     clean_reason = reason.strip()
     if locked_profile.status not in config["allowed"]:
-        raise ValidationError("Esta ação não é válida para o estado atual do perfil.")
+        raise ValidationError(_("Esta ação não é válida para o estado atual do perfil."))
     if config["requires_reason"] and not clean_reason:
-        raise ValidationError("Indica o motivo da decisão.")
+        raise ValidationError(_("Indica o motivo da decisão."))
 
     previous_status = locked_profile.status
     now = timezone.now()
@@ -242,10 +243,10 @@ def moderate_report(report, actor, action, note=""):
     try:
         new_status, audit_action = statuses[action]
     except KeyError as error:
-        raise ValidationError("Ação de denúncia inválida.") from error
+        raise ValidationError(_("Ação de denúncia inválida.")) from error
     clean_note = note.strip()
     if action in {"resolve", "dismiss"} and not clean_note:
-        raise ValidationError("Indica a resolução da denúncia.")
+        raise ValidationError(_("Indica a resolução da denúncia."))
 
     locked_report = Report.objects.select_for_update().get(pk=report.pk)
     locked_report.status = new_status

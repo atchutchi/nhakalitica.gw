@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.translation import gettext as _
 
 from memberships.models import Membership
 from memberships.services import VALID_TRANSITIONS
@@ -90,10 +91,10 @@ def membership_review(request, pk):
             error = (
                 exception.messages[0]
                 if isinstance(exception, ValidationError)
-                else "Decisão de adesão inválida."
+                else _("Decisão de adesão inválida.")
             )
         else:
-            messages.success(request, "Decisão de adesão registada.")
+            messages.success(request, _("Decisão de adesão registada."))
             return redirect("moderation:membership-list")
     allowed_actions = VALID_TRANSITIONS.get(membership.status, set()) & MEMBERSHIP_MODERATION_TARGETS
     actions = [
@@ -139,7 +140,7 @@ def profile_review(request, pk):
         except ValidationError as exception:
             error = exception.messages[0]
         else:
-            messages.success(request, "Decisão de moderação registada.")
+            messages.success(request, _("Decisão de moderação registada."))
             return redirect("moderation:profile-list")
     return render(
         request,
@@ -191,6 +192,6 @@ def report_review(request, pk):
         except ValidationError as exception:
             error = exception.messages[0]
         else:
-            messages.success(request, "Denúncia actualizada.")
+            messages.success(request, _("Denúncia actualizada."))
             return redirect("moderation:report-list")
     return render(request, "moderation/report_review.html", {"report": report, "error": error})

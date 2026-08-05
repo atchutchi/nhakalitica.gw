@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.http import url_has_allowed_host_and_scheme
+from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from urllib.parse import urlencode
 
@@ -39,7 +40,7 @@ def get_member_profile(user, slug):
 def favorite_toggle(request, slug):
     profile = get_member_profile(request.user, slug)
     added = toggle_favorite(request.user, profile)
-    messages.success(request, "Perfil guardado." if added else "Perfil removido dos favoritos.")
+    messages.success(request, _("Perfil guardado.") if added else _("Perfil removido dos favoritos."))
     return redirect("public-profile", slug=profile.slug)
 
 
@@ -48,7 +49,7 @@ def favorite_toggle(request, slug):
 def favorite_add(request, slug):
     profile = get_member_profile(request.user, slug)
     _favorite, created = add_favorite(request.user, profile)
-    messages.success(request, "Perfil guardado." if created else "Perfil já está na shortlist.")
+    messages.success(request, _("Perfil guardado.") if created else _("Perfil já está na shortlist."))
     return redirect("public-profile", slug=profile.slug)
 
 
@@ -57,7 +58,7 @@ def favorite_add(request, slug):
 def like_toggle(request, slug):
     profile = get_member_profile(request.user, slug)
     added = toggle_like(request.user, profile)
-    messages.success(request, "Gosto registado." if added else "Gosto removido.")
+    messages.success(request, _("Gosto registado.") if added else _("Gosto removido."))
     return redirect("public-profile", slug=profile.slug)
 
 
@@ -77,7 +78,7 @@ def contact(request, slug):
         except ValidationError as exception:
             form.add_error(None, exception.messages[0])
         else:
-            messages.success(request, "Pedido de contacto enviado com sucesso.")
+            messages.success(request, _("Pedido de contacto enviado com sucesso."))
             return redirect("interactions:contacts")
     return render(request, "interactions/contact_form.html", {"form": form, "profile": profile})
 
@@ -97,7 +98,7 @@ def report(request, slug):
         except ValidationError as exception:
             form.add_error(None, exception.messages[0])
         else:
-            messages.success(request, "Denúncia enviada para análise.")
+            messages.success(request, _("Denúncia enviada para análise."))
             return redirect("public-profile", slug=profile.slug)
     return render(request, "interactions/report_form.html", {"form": form, "profile": profile})
 
@@ -146,9 +147,9 @@ def favorite_update(request, pk):
     if form.is_valid():
         favorite = form.save()
         sync_favorite_tags(favorite, form.cleaned_data["tags"])
-        messages.success(request, "Favorito actualizado.")
+        messages.success(request, _("Favorito actualizado."))
     else:
-        messages.error(request, "Não foi possível actualizar o favorito.")
+        messages.error(request, _("Não foi possível actualizar o favorito."))
     return redirect("interactions:favorites")
 
 
@@ -157,7 +158,7 @@ def favorite_update(request, pk):
 def saved_search_create(request):
     form = SavedSearchForm(request.POST)
     if not form.is_valid():
-        messages.error(request, "Não foi possível guardar a pesquisa.")
+        messages.error(request, _("Não foi possível guardar a pesquisa."))
         return redirect("interactions:favorites")
     query_params = clean_saved_search_params(request.POST)
     saved_search = SavedSearch(user=request.user, name=form.cleaned_data["name"], query_params=query_params)
@@ -165,9 +166,9 @@ def saved_search_create(request):
         saved_search.full_clean()
         saved_search.save()
     except ValidationError:
-        messages.error(request, "Não foi possível guardar a pesquisa.")
+        messages.error(request, _("Não foi possível guardar a pesquisa."))
         return redirect("interactions:favorites")
-    messages.success(request, "Pesquisa guardada.")
+    messages.success(request, _("Pesquisa guardada."))
     return redirect(f"{reverse('search')}?{urlencode(saved_search.query_params)}")
 
 
@@ -176,7 +177,7 @@ def saved_search_create(request):
 def saved_search_delete(request, pk):
     saved_search = get_object_or_404(SavedSearch, pk=pk, user=request.user)
     saved_search.delete()
-    messages.success(request, "Pesquisa apagada.")
+    messages.success(request, _("Pesquisa apagada."))
     next_url = request.POST.get("next", "")
     if next_url and url_has_allowed_host_and_scheme(
         next_url,
@@ -229,16 +230,16 @@ def contact_action(request, pk):
     action = request.POST.get("action")
     if action == "accept":
         contact_request.status = ContactRequest.Status.ACCEPTED
-        message = "Pedido de contacto aceite."
+        message = _("Pedido de contacto aceite.")
     elif action == "decline":
         contact_request.status = ContactRequest.Status.DECLINED
-        message = "Pedido de contacto recusado."
+        message = _("Pedido de contacto recusado.")
     elif action == "block":
         contact_request.status = ContactRequest.Status.BLOCKED
-        message = "Contacto bloqueado."
+        message = _("Contacto bloqueado.")
     elif action == "report":
         contact_request.status = ContactRequest.Status.REPORTED
-        message = "Contacto denunciado à administração."
+        message = _("Contacto denunciado à administração.")
         staff_ids = request.user.__class__.objects.filter(is_staff=True, is_active=True).values_list("id", flat=True)
         Notification.objects.bulk_create(
             [
@@ -253,7 +254,7 @@ def contact_action(request, pk):
             ]
         )
     else:
-        messages.error(request, "Ação inválida.")
+        messages.error(request, _("Ação inválida."))
         return redirect("interactions:contacts")
     contact_request.save(update_fields=("status",))
     messages.success(request, message)

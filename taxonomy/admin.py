@@ -4,9 +4,9 @@ from .models import Area, Sector, Skill, Specialization
 
 
 class NamedActiveAdmin(admin.ModelAdmin):
-    list_display = ("name", "slug", "is_active", "updated_at")
+    list_display = ("name", "name_en", "name_fr", "slug", "is_active", "updated_at")
     list_filter = ("is_active",)
-    search_fields = ("name", "slug")
+    search_fields = ("name", "name_en", "name_fr", "slug")
     prepopulated_fields = {"slug": ("name",)}
 
 
@@ -17,13 +17,13 @@ class SectorAdmin(NamedActiveAdmin):
 
 @admin.register(Area)
 class AreaAdmin(NamedActiveAdmin):
-    list_display = ("name", "sector", "is_active", "updated_at")
+    list_display = ("name", "name_en", "name_fr", "sector", "is_active", "updated_at")
     list_filter = ("sector", "is_active")
 
 
 @admin.register(Specialization)
 class SpecializationAdmin(NamedActiveAdmin):
-    list_display = ("name", "area", "is_active", "updated_at")
+    list_display = ("name", "name_en", "name_fr", "area", "is_active", "updated_at")
     list_filter = ("area", "is_active")
 
 

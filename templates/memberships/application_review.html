@@ -1,15 +1,15 @@
-{% extends "memberships/base_onboarding.html" %}
-{% block title %}Rever candidatura | Kalitica{% endblock %}
-{% block onboarding_content %}
-<div class="onboarding-page-heading"><div><p class="onboarding-eyebrow">Passo 5 de 6</p><h1>Rever e confirmar</h1><p>Confirma os dados antes de submeteres a candidatura.</p></div></div>
-{% if submission_errors %}<div class="onboarding-alert" role="alert"><strong>Completa estes pontos antes de submeter:</strong><ul>{% for error in submission_errors %}<li>{{ error }}</li>{% endfor %}</ul></div>{% endif %}
+{% extends "memberships/base_onboarding.html" %}{% load i18n %}
+{% block title %}{% translate "Rever candidatura" %} | Kalitica{% endblock %}
+{% block onboarding_content %}{% translate "Por preencher" as pending_value %}
+<div class="onboarding-page-heading"><div><p class="onboarding-eyebrow">{% translate "Passo 5 de 6" %}</p><h1>{% translate "Rever e confirmar" %}</h1><p>{% translate "Confirma os dados antes de submeteres a candidatura." %}</p></div></div>
+{% if submission_errors %}<div class="onboarding-alert" role="alert"><strong>{% translate "Completa estes pontos antes de submeter:" %}</strong><ul>{% for error in submission_errors %}<li>{{ error }}</li>{% endfor %}</ul></div>{% endif %}
 <section class="application-summary">
-  <div><span>Tipo de adesão</span><strong>{{ membership.get_member_type_display|default:"Por preencher" }}</strong></div>
-  <div><span>Ligação à Guiné-Bissau</span><strong>{{ membership.get_relationship_display|default:"Por preencher" }}</strong></div>
-  <div class="application-summary-wide"><span>Motivação</span><p>{{ membership.motivation|default:"Por preencher" }}</p></div>
-  <div><span>Representa uma organização</span><strong>{{ membership.represents_organization|yesno:"Sim,Não" }}</strong></div>
-  {% if membership.represents_organization %}<div><span>Organização</span><strong>{{ membership.organization_name|default:"Por preencher" }}</strong></div><div><span>Função do representante</span><strong>{{ membership.organization_role|default:"Por preencher" }}</strong></div><div class="application-summary-wide"><span>Objectivo na rede</span><p>{{ membership.organization_purpose|default:"Por preencher" }}</p></div>{% endif %}
+  <div><span>{% translate "Tipo de adesão" %}</span><strong>{{ membership.get_member_type_display|default:pending_value }}</strong></div>
+  <div><span>{% translate "Ligação à Guiné-Bissau" %}</span><strong>{{ membership.get_relationship_display|default:pending_value }}</strong></div>
+  <div class="application-summary-wide"><span>{% translate "Motivação" %}</span><p>{{ membership.motivation|default:pending_value }}</p></div>
+  <div><span>{% translate "Representa uma organização" %}</span><strong>{{ membership.represents_organization|yesno:"Sim,Não" }}</strong></div>
+  {% if membership.represents_organization %}<div><span>{% translate "Organização" %}</span><strong>{{ membership.organization_name|default:pending_value }}</strong></div><div><span>{% translate "Função do representante" %}</span><strong>{{ membership.organization_role|default:pending_value }}</strong></div><div class="application-summary-wide"><span>{% translate "Objectivo na rede" %}</span><p>{{ membership.organization_purpose|default:pending_value }}</p></div>{% endif %}
 </section>
-<div class="onboarding-form-actions"><a class="k-btn k-btn-secondary" href="{% url 'memberships:edit' %}">Editar candidatura</a><form method="post" action="{% url 'memberships:submit' %}">{% csrf_token %}<button class="k-btn k-btn-primary" type="submit"{% if submission_errors %} disabled{% endif %}>Submeter candidatura <i class="bi bi-arrow-right" aria-hidden="true"></i></button></form></div>
-<aside class="manual-review-note"><i class="bi bi-lock" aria-hidden="true"></i><p><strong>Revisão manual</strong>Todos os pedidos são revistos pela equipa Kalitica. Receberás uma resposta por email.</p></aside>
+<div class="onboarding-form-actions"><a class="k-btn k-btn-secondary" href="{% url 'memberships:edit' %}">{% translate "Editar candidatura" %}</a><form method="post" action="{% url 'memberships:submit' %}">{% csrf_token %}<button class="k-btn k-btn-primary" type="submit"{% if submission_errors %} disabled{% endif %}>{% translate "Submeter candidatura" %} <i class="bi bi-arrow-right" aria-hidden="true"></i></button></form></div>
+<aside class="manual-review-note"><i class="bi bi-lock" aria-hidden="true"></i><p><strong>{% translate "Revisão manual" %}</strong>{% translate "Todos os pedidos são revistos pela equipa Kalitica. Receberás uma resposta por email." %}</p></aside>
 {% endblock %}

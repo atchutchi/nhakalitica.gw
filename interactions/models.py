@@ -2,6 +2,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
+from django.utils.translation import gettext_lazy as _
 
 from profiles.models import Profile
 
@@ -17,13 +18,13 @@ class UserProfileRelation(models.Model):
 
 class Favorite(UserProfileRelation):
     class Status(models.TextChoices):
-        SAVED = "saved", "Guardado"
-        TO_CONTACT = "to_contact", "Para contactar"
-        CONTACTED = "contacted", "Contactado"
-        INTERVIEW = "interview", "Entrevista"
-        OFFER = "offer", "Proposta"
-        HIRED = "hired", "Contratado"
-        ARCHIVED = "archived", "Arquivado"
+        SAVED = "saved", _("Guardado")
+        TO_CONTACT = "to_contact", _("Para contactar")
+        CONTACTED = "contacted", _("Contactado")
+        INTERVIEW = "interview", _("Entrevista")
+        OFFER = "offer", _("Proposta")
+        HIRED = "hired", _("Contratado")
+        ARCHIVED = "archived", _("Arquivado")
 
     status = models.CharField(max_length=24, choices=Status.choices, default=Status.SAVED, db_index=True)
     notes = models.TextField(blank=True, max_length=3000)
@@ -56,7 +57,7 @@ class RecruitmentTag(models.Model):
         self.normalized_name = type(self).objects.normalise_name(self.name)
         max_length = self._meta.get_field("name").max_length
         if len(self.name) > max_length or len(self.normalized_name) > max_length:
-            raise ValidationError({"name": f"Etiqueta com mais de {max_length} caracteres."})
+            raise ValidationError({"name": _("Etiqueta com mais de %(max_length)s caracteres.") % {"max_length": max_length}})
 
     def save(self, *args, **kwargs):
         self.clean()
@@ -101,7 +102,7 @@ class SavedSearch(models.Model):
 
     def clean(self):
         if not isinstance(self.query_params, dict):
-            raise ValidationError({"query_params": "Os parâmetros da pesquisa têm de ser um objeto JSON."})
+            raise ValidationError({"query_params": _("Os parâmetros da pesquisa têm de ser um objeto JSON.")})
 
         self.query_params = {
             key: value
@@ -127,11 +128,11 @@ class ProfileLike(UserProfileRelation):
 
 class ContactRequest(models.Model):
     class Status(models.TextChoices):
-        PENDING = "pending", "Pendente"
-        ACCEPTED = "accepted", "Aceite"
-        DECLINED = "declined", "Recusado"
-        BLOCKED = "blocked", "Bloqueado"
-        REPORTED = "reported", "Denunciado"
+        PENDING = "pending", _("Pendente")
+        ACCEPTED = "accepted", _("Aceite")
+        DECLINED = "declined", _("Recusado")
+        BLOCKED = "blocked", _("Bloqueado")
+        REPORTED = "reported", _("Denunciado")
 
     sender = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name="sent_contact_requests", on_delete=models.CASCADE
@@ -151,18 +152,18 @@ class ContactRequest(models.Model):
 
 class Report(models.Model):
     class Reason(models.TextChoices):
-        FALSE_DATA = "false_data", "Informação falsa"
-        FRAUD = "fraud", "Suspeita de fraude"
-        IMPERSONATION = "impersonation", "Dados de outra pessoa"
-        PROHIBITED = "prohibited", "Conteúdo proibido"
-        SPAM = "spam", "Conteúdo promocional ou spam"
-        OTHER = "other", "Outro motivo"
+        FALSE_DATA = "false_data", _("Informação falsa")
+        FRAUD = "fraud", _("Suspeita de fraude")
+        IMPERSONATION = "impersonation", _("Dados de outra pessoa")
+        PROHIBITED = "prohibited", _("Conteúdo proibido")
+        SPAM = "spam", _("Conteúdo promocional ou spam")
+        OTHER = "other", _("Outro motivo")
 
     class Status(models.TextChoices):
-        OPEN = "open", "Aberta"
-        REVIEWING = "reviewing", "Em análise"
-        RESOLVED = "resolved", "Resolvida"
-        DISMISSED = "dismissed", "Arquivada"
+        OPEN = "open", _("Aberta")
+        REVIEWING = "reviewing", _("Em análise")
+        RESOLVED = "resolved", _("Resolvida")
+        DISMISSED = "dismissed", _("Arquivada")
 
     reporter = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="reports", on_delete=models.CASCADE)
     profile = models.ForeignKey(Profile, related_name="reports", on_delete=models.CASCADE)
@@ -194,6 +195,23 @@ class Report(models.Model):
 
 
 class Notification(models.Model):
+    TITLES = {
+        "new_contact": _("Novo pedido de contacto"),
+        "new_report": _("Nova denúncia de perfil"),
+        "contact_reported": _("Contacto denunciado"),
+        "profile_submitted": _("Novo perfil para revisão"),
+        "profile_approve": _("Perfil aprovado"),
+        "profile_reject": _("Perfil rejeitado"),
+        "profile_request_changes": _("Correcções solicitadas"),
+        "profile_suspend": _("Conta suspensa"),
+        "profile_restore": _("Conta restaurada"),
+        "membership_under_review": _("Candidatura em análise"),
+        "membership_corrections_required": _("Correcções solicitadas"),
+        "membership_approved": _("Adesão aprovada"),
+        "membership_refused": _("Decisão sobre a adesão"),
+        "membership_suspended": _("Adesão suspensa"),
+        "report_resolved": _("Denúncia analisada"),
+    }
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="notifications", on_delete=models.CASCADE)
     type = models.CharField("tipo", max_length=60, db_index=True)
     title = models.CharField("título", max_length=180)
@@ -206,3 +224,7 @@ class Notification(models.Model):
         ordering = ("-created_at",)
         verbose_name = "notificação"
         verbose_name_plural = "notificações"
+
+    @property
+    def localized_title(self):
+        return self.TITLES.get(self.type, self.title)

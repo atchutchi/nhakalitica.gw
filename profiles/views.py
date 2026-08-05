@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+from django.utils.translation import gettext as _
 
 from accounts.legal import record_legal_acceptance
 from accounts.models import LegalAcceptance
@@ -21,10 +22,10 @@ from .models import Certification, Education, Experience, Profile, ProfileLangua
 
 
 SECTION_CONFIG = {
-    "experiencia": (Experience, ExperienceForm, "Experiência profissional"),
-    "formacao": (Education, EducationForm, "Formação"),
-    "certificacao": (Certification, CertificationForm, "Certificação"),
-    "idioma": (ProfileLanguage, ProfileLanguageForm, "Idioma"),
+    "experiencia": (Experience, ExperienceForm, _("Experiência profissional")),
+    "formacao": (Education, EducationForm, _("Formação")),
+    "certificacao": (Certification, CertificationForm, _("Certificação")),
+    "idioma": (ProfileLanguage, ProfileLanguageForm, _("Idioma")),
 }
 
 
@@ -64,7 +65,7 @@ def edit_profile(request):
         form.save_m2m()
         if updated.status == Profile.Status.CHANGES_PENDING:
             record_pending_revision(updated)
-        messages.success(request, "Perfil guardado com sucesso.")
+        messages.success(request, _("Perfil guardado com sucesso."))
         return redirect("accounts:dashboard")
     return render(request, "profiles/edit.html", {"form": form, "profile": profile})
 
@@ -81,13 +82,13 @@ def submit_profile(request):
     )
     membership = getattr(request.user, "membership", None)
     if not membership or not membership.can_access_network:
-        messages.error(request, "A tua adesão tem de ser aprovada antes da publicação do perfil.")
+        messages.error(request, _("A tua adesão tem de ser aprovada antes da publicação do perfil."))
     elif not request.user.email_verified_at:
-        messages.error(request, "Confirma o teu email antes de submeter o perfil.")
+        messages.error(request, _("Confirma o teu email antes de submeter o perfil."))
     elif not profile.can_submit:
-        messages.error(request, "Completa todas as secções obrigatórias antes de submeter.")
+        messages.error(request, _("Completa todas as secções obrigatórias antes de submeter."))
     elif not required_consents:
-        messages.error(request, "Aceita os consentimentos obrigatórios antes de submeter.")
+        messages.error(request, _("Aceita os consentimentos obrigatórios antes de submeter."))
     else:
         now = timezone.now()
         profile.status = Profile.Status.PENDING
@@ -139,7 +140,7 @@ def submit_profile(request):
                 },
             )
         )
-        messages.success(request, "Perfil submetido para revisão.")
+        messages.success(request, _("Perfil submetido para revisão."))
     return redirect("accounts:dashboard")
 
 
@@ -162,7 +163,7 @@ def add_section(request, section):
         entry.save()
         if entry.profile.status == Profile.Status.CHANGES_PENDING:
             record_pending_revision(entry.profile)
-        messages.success(request, f"{title} adicionada com sucesso.")
+        messages.success(request, _("%(section)s adicionada com sucesso.") % {"section": title})
         return redirect("accounts:dashboard")
     return render(request, "profiles/section_form.html", {"form": form, "title": title})
 
@@ -179,7 +180,7 @@ def edit_section(request, section, pk):
         form.save()
         if profile.status == Profile.Status.CHANGES_PENDING:
             record_pending_revision(profile)
-        messages.success(request, f"{title} actualizada com sucesso.")
+        messages.success(request, _("%(section)s actualizada com sucesso.") % {"section": title})
         return redirect("accounts:dashboard")
     return render(
         request,
@@ -209,6 +210,6 @@ def delete_section(request, section, pk):
         entry.delete()
         if profile.status == Profile.Status.CHANGES_PENDING:
             record_pending_revision(profile)
-        messages.success(request, f"{title} eliminada.")
+        messages.success(request, _("%(section)s eliminada.") % {"section": title})
         return redirect("accounts:dashboard")
     return render(request, "profiles/section_confirm_delete.html", {"entry": entry, "title": title})

@@ -1091,3 +1091,1800 @@ msgstr ""
 "supprimer des contenus, limiter des fonctionnalités, suspendre ou fermer des"
 " comptes. La réponse tient compte de la gravité, du contexte, de la "
 "répétition, du risque pour les tiers et des obligations applicables."
+
+msgid "Definições"
+msgstr "Paramètres"
+
+msgid "Perfil"
+msgstr "Profil"
+
+msgid "Segurança"
+msgstr "Sécurité"
+
+msgid "Completa o teu perfil"
+msgstr "Complète ton profil"
+
+msgid "Um perfil completo ajuda outros membros a conhecer o teu percurso."
+msgstr "Un profil complet aide les autres membres à découvrir ton parcours."
+
+msgid "Continuar perfil"
+msgstr "Continuer le profil"
+
+msgid "A tua visibilidade"
+msgstr "Ta visibilité"
+
+msgid "Gerir privacidade"
+msgstr "Gérer la confidentialité"
+
+msgid "Pesquisas guardadas"
+msgstr "Recherches enregistrées"
+
+msgid ""
+"Ainda não guardaste pesquisas. Usa o directório para encontrar membros."
+msgstr ""
+"Tu n’as pas encore enregistré de recherches. Utilise l’annuaire pour trouver"
+" des membres."
+
+msgid "Ver favoritos"
+msgstr "Voir les favoris"
+
+msgid "A Rede Kalitica é um espaço seguro e profissional."
+msgstr "Le Réseau Kalitica est un espace sûr et professionnel."
+
+msgid "Trata os teus contactos com respeito e confidencialidade."
+msgstr "Traite tes contacts avec respect et confidentialité."
+
+msgid "A tua conta Kalitica"
+msgstr "Ton compte Kalitica"
+
+msgid ""
+"Confirma os teus dados e acompanha a candidatura. O directório fica "
+"bloqueado até a adesão ser aprovada."
+msgstr ""
+"Confirme tes informations et suis ta candidature. L’annuaire reste bloqué "
+"jusqu’à l’approbation de l’adhésion."
+
+msgid "Editar perfil"
+msgstr "Modifier le profil"
+
+msgid "Acção crítica"
+msgstr "Action critique"
+
+msgid "Desactivar conta"
+msgstr "Désactiver le compte"
+
+msgid "A conta deixa de estar disponível de imediato e o perfil fica oculto."
+msgstr "Le compte devient immédiatement indisponible et le profil est masqué."
+
+msgid "Confirma com a palavra-passe"
+msgstr "Confirme avec ton mot de passe"
+
+msgid ""
+"Terás 30 dias para pedir a recuperação da conta. Depois desse prazo, os "
+"dados pessoais serão eliminados ou anonimizados e apenas serão mantidos os "
+"registos administrativos legalmente necessários."
+msgstr ""
+"Tu disposeras de 30 jours pour demander la récupération du compte. Après ce "
+"délai, les données personnelles seront supprimées ou anonymisées et seuls "
+"les registres administratifs légalement nécessaires seront conservés."
+
+msgid "Para recuperar a conta dentro do prazo, contacta"
+msgstr "Pour récupérer le compte dans le délai prévu, contacte"
+
+msgid "Agendar eliminação da conta"
+msgstr "Programmer la suppression du compte"
+
+msgid "Eliminação agendada"
+msgstr "Suppression programmée"
+
+msgid "A tua conta está desactivada e o perfil deixou de estar visível."
+msgstr "Ton compte est désactivé et le profil n’est plus visible."
+
+msgid "A eliminação definitiva está agendada para"
+msgstr "La suppression définitive est prévue pour le"
+
+msgid ""
+"A eliminação definitiva ocorrerá depois do prazo de recuperação de 30 dias."
+msgstr ""
+"La suppression définitive aura lieu après le délai de récupération de 30 "
+"jours."
+
+msgid "Para recuperar a conta antes dessa data, contacta"
+msgstr "Pour récupérer le compte avant cette date, contacte"
+
+msgid "Voltar à página inicial"
+msgstr "Retour à la page d’accueil"
+
+msgid "Conta e segurança"
+msgstr "Compte et sécurité"
+
+msgid "Actualiza os teus dados de acesso e gere a segurança da conta."
+msgstr "Mets à jour tes données de connexion et gère la sécurité du compte."
+
+msgid "Dados da conta"
+msgstr "Informations du compte"
+
+msgid "Guardar alterações"
+msgstr "Enregistrer les modifications"
+
+msgid "A desactivação oculta o perfil e bloqueia o acesso à plataforma."
+msgstr "La désactivation masque le profil et bloque l’accès à la plateforme."
+
+msgid "Ligação indisponível"
+msgstr "Lien indisponible"
+
+msgid "Esta ligação é inválida, expirou ou já foi utilizada."
+msgstr "Ce lien est invalide, a expiré ou a déjà été utilisé."
+
+msgid "Enviar nova ligação"
+msgstr "Envoyer un nouveau lien"
+
+msgid "Voltar ao login"
+msgstr "Retour à la connexion"
+
+msgid "Palavra-passe actualizada"
+msgstr "Mot de passe mis à jour"
+
+msgid "Já podes iniciar sessão com a nova palavra-passe."
+msgstr "Tu peux maintenant te connecter avec ton nouveau mot de passe."
+
+msgid "Definir nova palavra-passe"
+msgstr "Définir un nouveau mot de passe"
+
+msgid "Escolhe uma palavra-passe segura para a tua conta."
+msgstr "Choisis un mot de passe sécurisé pour ton compte."
+
+msgid "Guardar palavra-passe"
+msgstr "Enregistrer le mot de passe"
+
+msgid "A ligação é inválida ou expirou. Solicita uma nova."
+msgstr "Le lien est invalide ou a expiré. Demande-en un nouveau."
+
+msgid "Pedir nova ligação"
+msgstr "Demander un nouveau lien"
+
+msgid "Verifica o teu email"
+msgstr "Vérifie ton adresse électronique"
+
+msgid ""
+"Se existir uma conta activa para esse endereço, enviámos uma ligação "
+"temporária."
+msgstr ""
+"Si un compte actif existe pour cette adresse, nous avons envoyé un lien "
+"temporaire."
+
+msgid "Palavra-passe alterada"
+msgstr "Mot de passe modifié"
+
+msgid "A tua palavra-passe foi actualizada com sucesso."
+msgstr "Ton mot de passe a été mis à jour."
+
+msgid "Voltar ao painel"
+msgstr "Retour au tableau de bord"
+
+msgid "Escolhe uma palavra-passe forte e exclusiva para proteger a tua conta."
+msgstr "Choisis un mot de passe robuste et unique pour protéger ton compte."
+
+msgid "Alterar palavra-passe"
+msgstr "Modifier le mot de passe"
+
+msgid "Guardar nova palavra-passe"
+msgstr "Enregistrer le nouveau mot de passe"
+
+msgid "Voltar aos favoritos"
+msgstr "Retour aux favoris"
+
+msgid "Lista privada"
+msgstr "Liste privée"
+
+msgid "Comparar membros"
+msgstr "Comparer les membres"
+
+msgid ""
+"Selecciona até quatro membros para comparar informação profissional "
+"publicada."
+msgstr ""
+"Sélectionne jusqu’à quatre membres pour comparer les informations "
+"professionnelles publiées."
+
+msgid "Critério"
+msgstr "Critère"
+
+msgid "Experiência"
+msgstr "Expérience"
+
+msgid "Modalidade"
+msgstr "Modalité"
+
+msgid "Educação"
+msgstr "Formation"
+
+msgid "Competências principais"
+msgstr "Compétences principales"
+
+msgid ""
+"A informação de contacto só é partilhada depois da aceitação de um pedido."
+msgstr ""
+"Les coordonnées ne sont partagées qu’après l’acceptation d’une demande."
+
+msgid "Sem membros para comparar"
+msgstr "Aucun membre à comparer"
+
+msgid "Selecciona até quatro perfis na tua lista de favoritos."
+msgstr "Sélectionne jusqu’à quatre profils dans ta liste de favoris."
+
+msgid "Pedidos de contacto"
+msgstr "Demandes de contact"
+
+msgid "Recebidos"
+msgstr "Reçus"
+
+msgid "Aceitar"
+msgstr "Accepter"
+
+msgid "Recusar"
+msgstr "Refuser"
+
+msgid "Bloquear"
+msgstr "Bloquer"
+
+msgid "Denunciar abuso"
+msgstr "Signaler un abus"
+
+msgid "Sem pedidos recebidos."
+msgstr "Aucune demande reçue."
+
+msgid "Enviados"
+msgstr "Envoyés"
+
+msgid "Sem pedidos enviados."
+msgstr "Aucune demande envoyée."
+
+msgid "Voltar ao perfil"
+msgstr "Retour au profil"
+
+msgid "Contacto protegido"
+msgstr "Contact protégé"
+
+msgid "Pedir contacto"
+msgstr "Demander un contact"
+
+msgid "Enviar pedido"
+msgstr "Envoyer la demande"
+
+msgid ""
+"A Kalitica receberá uma notificação e poderá aceitar ou recusar o pedido "
+"dentro da plataforma."
+msgstr ""
+"Kalitica recevra une notification et la demande pourra être acceptée ou "
+"refusée sur la plateforme."
+
+msgid "Guarda membros para referência futura. Apenas tu podes ver esta lista."
+msgstr ""
+"Enregistre des membres pour les retrouver plus tard. Toi seul peux voir "
+"cette liste."
+
+msgid "Perfil aprovado"
+msgstr "Profil approuvé"
+
+msgid "A tua lista está vazia"
+msgstr "Ta liste est vide"
+
+msgid "Guarda perfis durante a pesquisa para os encontrares aqui."
+msgstr "Enregistre des profils pendant ta recherche pour les retrouver ici."
+
+msgid ""
+"A tua lista é privada e visível apenas para ti. Podes remover membros a "
+"qualquer momento."
+msgstr ""
+"Ta liste est privée et visible uniquement par toi. Tu peux retirer des "
+"membres à tout moment."
+
+msgid "Actualizações da rede"
+msgstr "Actualités du réseau"
+
+msgid "Acompanha pedidos de contacto, favoritos e alterações importantes."
+msgstr ""
+"Suis les demandes de contact, les favoris et les modifications importantes."
+
+msgid "Marcar como lida"
+msgstr "Marquer comme lue"
+
+msgid "Sem notificações"
+msgstr "Aucune notification"
+
+msgid "As actualizações importantes da rede aparecerão aqui."
+msgstr "Les actualités importantes du réseau apparaîtront ici."
+
+msgid ""
+"A equipa analisará o caso. O profissional não recebe a tua identidade "
+"através desta denúncia."
+msgstr ""
+"L’équipe examinera le cas. Le professionnel ne reçoit pas ton identité par "
+"ce signalement."
+
+msgid "Enviar denúncia"
+msgstr "Envoyer le signalement"
+
+msgid "Perfil guardado."
+msgstr "Profil enregistré."
+
+msgid "Perfil removido dos favoritos."
+msgstr "Profil retiré des favoris."
+
+msgid "Perfil já está na shortlist."
+msgstr "Le profil figure déjà dans la présélection."
+
+msgid "Gosto registado."
+msgstr "Mention J’aime enregistrée."
+
+msgid "Gosto removido."
+msgstr "Mention J’aime supprimée."
+
+msgid "Pedido de contacto enviado com sucesso."
+msgstr "Demande de contact envoyée."
+
+msgid "Denúncia enviada para análise."
+msgstr "Signalement envoyé pour examen."
+
+msgid "Favorito actualizado."
+msgstr "Favori mis à jour."
+
+msgid "Não foi possível actualizar o favorito."
+msgstr "Impossible de mettre à jour le favori."
+
+msgid "Não foi possível guardar a pesquisa."
+msgstr "Impossible d’enregistrer la recherche."
+
+msgid "Pesquisa guardada."
+msgstr "Recherche enregistrée."
+
+msgid "Pesquisa apagada."
+msgstr "Recherche supprimée."
+
+msgid "Pedido de contacto aceite."
+msgstr "Demande de contact acceptée."
+
+msgid "Pedido de contacto recusado."
+msgstr "Demande de contact refusée."
+
+msgid "Contacto bloqueado."
+msgstr "Contact bloqué."
+
+msgid "Contacto denunciado à administração."
+msgstr "Contact signalé à l’administration."
+
+msgid "Ação inválida."
+msgstr "Action invalide."
+
+msgid "Confirma o teu email antes de enviares contactos."
+msgstr ""
+"Confirme ton adresse électronique avant d’envoyer des demandes de contact."
+
+msgid "Este profissional não está a aceitar contactos."
+msgstr "Ce professionnel n’accepte pas les demandes de contact."
+
+msgid ""
+"Atingiste o limite de mensagens para este perfil. Tenta novamente mais "
+"tarde."
+msgstr ""
+"Tu as atteint la limite de messages pour ce profil. Réessaie plus tard."
+
+msgid "Já existe uma denúncia activa para este perfil."
+msgstr "Un signalement actif existe déjà pour ce profil."
+
+msgid "Novo pedido de contacto"
+msgstr "Nouvelle demande de contact"
+
+msgid "Nova denúncia de perfil"
+msgstr "Nouveau signalement de profil"
+
+msgid "Contacto denunciado"
+msgstr "Contact signalé"
+
+msgid "Denúncia analisada"
+msgstr "Signalement examiné"
+
+msgid "A equipa concluiu a análise da tua denúncia."
+msgstr "L’équipe a terminé l’examen de ton signalement."
+
+msgid "Rastreabilidade"
+msgstr "Traçabilité"
+
+msgid "Histórico de auditoria"
+msgstr "Historique d’audit"
+
+msgid "Todas as decisões administrativas com revisor, data e contexto."
+msgstr ""
+"Toutes les décisions administratives avec responsable, date et contexte."
+
+msgid "Data"
+msgstr "Date"
+
+msgid "Administrador"
+msgstr "Administrateur"
+
+msgid "Acção"
+msgstr "Action"
+
+msgid "Alvo"
+msgstr "Cible"
+
+msgid "Contexto"
+msgstr "Contexte"
+
+msgid "Sem eventos."
+msgstr "Aucun événement."
+
+msgid "Kalitica"
+msgstr "Kalitica"
+
+msgid "Admin"
+msgstr "Admin"
+
+msgid "Candidaturas"
+msgstr "Candidatures"
+
+msgid "Perfis"
+msgstr "Profils"
+
+msgid "Membros"
+msgstr "Membres"
+
+msgid "Denúncias"
+msgstr "Signalements"
+
+msgid "Auditoria"
+msgstr "Audit"
+
+msgid "Administração Kalitica"
+msgstr "Administration Kalitica"
+
+msgid "Painel administrativo"
+msgstr "Tableau de bord administratif"
+
+msgid "Revisão manual de adesões, perfis e segurança da rede."
+msgstr "Examen manuel des adhésions, des profils et de la sécurité du réseau."
+
+msgid "Perfis pendentes"
+msgstr "Profils en attente"
+
+msgid "Ver todos"
+msgstr "Voir tout"
+
+msgid "Perfis aprovados"
+msgstr "Profils approuvés"
+
+msgid "Perfis suspensos"
+msgstr "Profils suspendus"
+
+msgid "Candidaturas pendentes"
+msgstr "Candidatures en attente"
+
+msgid "Ver todas"
+msgstr "Voir toutes"
+
+msgid "Não existem candidaturas pendentes."
+msgstr "Il n’y a aucune candidature en attente."
+
+msgid "Perfis para rever"
+msgstr "Profils à examiner"
+
+msgid "Não existem perfis pendentes."
+msgstr "Il n’y a aucun profil en attente."
+
+msgid "Adesões"
+msgstr "Adhésions"
+
+msgid "Revê pedidos de membros Efectivos e Observadores."
+msgstr "Examine les demandes des membres Effectifs et Observateurs."
+
+msgid "Todos os estados"
+msgstr "Tous les statuts"
+
+msgid "Não existem candidaturas neste estado."
+msgstr "Il n’y a aucune candidature avec ce statut."
+
+msgid "Voltar à fila"
+msgstr "Retour à la file"
+
+msgid "Revisão de adesão"
+msgstr "Examen de l’adhésion"
+
+msgid "Descrição da relação"
+msgstr "Description du lien"
+
+msgid "Nota interna ou justificação"
+msgstr "Note interne ou justification"
+
+msgid "Não existem decisões disponíveis para este estado."
+msgstr "Aucune décision n’est disponible pour ce statut."
+
+msgid "Histórico da candidatura"
+msgstr "Historique de la candidature"
+
+msgid "Sem decisões anteriores."
+msgstr "Aucune décision antérieure."
+
+msgid "Publicação profissional"
+msgstr "Publication professionnelle"
+
+msgid "Perfis para revisão"
+msgstr "Profils à examiner"
+
+msgid "A adesão e a publicação do perfil são decisões separadas."
+msgstr "L’adhésion et la publication du profil sont des décisions distinctes."
+
+msgid "Filtrar"
+msgstr "Filtrer"
+
+msgid "Não existem perfis neste estado."
+msgstr "Il n’y a aucun profil avec ce statut."
+
+msgid "Revisão de publicação"
+msgstr "Examen de la publication"
+
+msgid "Email da conta"
+msgstr "Adresse électronique du compte"
+
+msgid "Biografia"
+msgstr "Biographie"
+
+msgid "Nota interna ou orientação"
+msgstr "Note interne ou consigne"
+
+msgid "Aprovar publicação"
+msgstr "Approuver la publication"
+
+msgid "Pedir correcções"
+msgstr "Demander des corrections"
+
+msgid "Restaurar"
+msgstr "Restaurer"
+
+msgid "Suspender"
+msgstr "Suspendre"
+
+msgid "Segurança da rede"
+msgstr "Sécurité du réseau"
+
+msgid "Analisa ocorrências submetidas pelos membros."
+msgstr "Examine les incidents signalés par les membres."
+
+msgid "Todos"
+msgstr "Tous"
+
+msgid "Não existem denúncias neste estado."
+msgstr "Il n’y a aucun signalement avec ce statut."
+
+msgid "Voltar às denúncias"
+msgstr "Retour aux signalements"
+
+msgid "Estado"
+msgstr "Statut"
+
+msgid "Descrição"
+msgstr "Description"
+
+msgid "Nota de resolução"
+msgstr "Note de résolution"
+
+msgid "Assumir análise"
+msgstr "Prendre en charge l’examen"
+
+msgid "Resolver"
+msgstr "Résoudre"
+
+msgid "Arquivar"
+msgstr "Archiver"
+
+msgid "Decisão de adesão inválida."
+msgstr "Décision d’adhésion invalide."
+
+msgid "Ação de moderação inválida."
+msgstr "Action de modération invalide."
+
+msgid "Esta ação não é válida para o estado atual do perfil."
+msgstr "Cette action n’est pas valide pour le statut actuel du profil."
+
+msgid "Indica o motivo da decisão."
+msgstr "Indique le motif de la décision."
+
+msgid "Ação de denúncia inválida."
+msgstr "Action de signalement invalide."
+
+msgid "Indica a resolução da denúncia."
+msgstr "Indique la résolution du signalement."
+
+msgid "Decisão de adesão registada."
+msgstr "Décision d’adhésion enregistrée."
+
+msgid "Decisão de moderação registada."
+msgstr "Décision de modération enregistrée."
+
+msgid "Denúncia actualizada."
+msgstr "Signalement mis à jour."
+
+msgid "Candidatura"
+msgstr "Candidature"
+
+msgid "Preparar a candidatura"
+msgstr "Préparer la candidature"
+
+msgid "Escolhe o tipo de adesão e explica a tua ligação à Guiné-Bissau."
+msgstr ""
+"Choisis le type d’adhésion et explique ton lien avec la Guinée-Bissau."
+
+msgid "Etapas 1, 2 e 4 de 6"
+msgstr "Étapes 1, 2 et 4 sur 6"
+
+msgid "Escolher o tipo de adesão"
+msgstr "Choisir le type d’adhésion"
+
+msgid "Os dois tipos de membro participam na mesma rede profissional."
+msgstr "Les deux types de membres participent au même réseau professionnel."
+
+msgid "Ligação à Guiné-Bissau e elegibilidade"
+msgstr "Lien avec la Guinée-Bissau et éligibilité"
+
+msgid "Selecciona a opção que descreve melhor a tua ligação ao país."
+msgstr "Sélectionne l’option qui décrit le mieux ton lien avec le pays."
+
+msgid "Obrigatório para profissionais com ligação relevante."
+msgstr "Obligatoire pour les professionnels ayant un lien pertinent."
+
+msgid "Motivação"
+msgstr "Motivation"
+
+msgid "Representação de uma organização"
+msgstr "Représentation d’une organisation"
+
+msgid ""
+"Preenche esta secção apenas se estiveres autorizado a procurar talento em "
+"nome de uma organização. Estes dados permanecem privados durante a "
+"candidatura."
+msgstr ""
+"Remplis cette section uniquement si tu es autorisé à rechercher des talents "
+"au nom d’une organisation. Ces données restent privées pendant la "
+"candidature."
+
+msgid "Explica que talento procuras e para que finalidade."
+msgstr "Explique quels talents tu recherches et dans quel but."
+
+msgid "Privacidade e compromisso"
+msgstr "Confidentialité et engagement"
+
+msgid "Voltar"
+msgstr "Retour"
+
+msgid "Guardar e continuar"
+msgstr "Enregistrer et continuer"
+
+msgid "Passo 5 de 6"
+msgstr "Étape 5 sur 6"
+
+msgid "Rever e confirmar"
+msgstr "Vérifier et confirmer"
+
+msgid "Confirma os dados antes de submeteres a candidatura."
+msgstr "Vérifie les informations avant d’envoyer ta candidature."
+
+msgid "Completa estes pontos antes de submeter:"
+msgstr "Complète ces éléments avant l’envoi :"
+
+msgid "Tipo de adesão"
+msgstr "Type d’adhésion"
+
+msgid "Ligação à Guiné-Bissau"
+msgstr "Lien avec la Guinée-Bissau"
+
+msgid "Representa uma organização"
+msgstr "Représente une organisation"
+
+msgid "Organização"
+msgstr "Organisation"
+
+msgid "Função do representante"
+msgstr "Fonction du représentant"
+
+msgid "Objectivo na rede"
+msgstr "Objectif dans le réseau"
+
+msgid "Editar candidatura"
+msgstr "Modifier la candidature"
+
+msgid "Submeter candidatura"
+msgstr "Envoyer la candidature"
+
+msgid ""
+"Todos os pedidos são revistos pela equipa Kalitica. Receberás uma resposta "
+"por email."
+msgstr ""
+"Toutes les demandes sont examinées par l’équipe Kalitica. Tu recevras une "
+"réponse par courrier électronique."
+
+msgid ""
+"Completa cada secção e controla a informação que será revista para "
+"publicação."
+msgstr ""
+"Complète chaque section et contrôle les informations qui seront examinées "
+"avant publication."
+
+msgid "Pré-visualizar perfil"
+msgstr "Prévisualiser le profil"
+
+msgid ""
+"Apenas o nome da organização e a tua função serão incluídos no perfil após "
+"revisão."
+msgstr ""
+"Seuls le nom de l’organisation et ta fonction seront inclus dans le profil "
+"après examen."
+
+msgid "Cancelar"
+msgstr "Annuler"
+
+msgid "Guardar perfil"
+msgstr "Enregistrer le profil"
+
+msgid "Voltar aos resultados"
+msgstr "Retour aux résultats"
+
+msgid "Pré-visualização privada. Este perfil ainda não aparece na pesquisa."
+msgstr ""
+"Prévisualisation privée. Ce profil n’apparaît pas encore dans la recherche."
+
+msgid "Organização representada"
+msgstr "Organisation représentée"
+
+msgid "Sobre"
+msgstr "À propos"
+
+msgid "Sem experiência publicada."
+msgstr "Aucune expérience publiée."
+
+msgid "Sem formação publicada."
+msgstr "Aucune formation publiée."
+
+msgid ""
+"Envia um pedido de contacto privado. Os endereços de email ficam ocultos até"
+" à aceitação."
+msgstr ""
+"Envoie une demande de contact privée. Les adresses électroniques restent "
+"masquées jusqu’à l’acceptation."
+
+msgid "Contacto indisponível"
+msgstr "Contact indisponible"
+
+msgid "Em revisão"
+msgstr "En cours d’examen"
+
+msgid "Currículo"
+msgstr "CV"
+
+msgid "Descarregar currículo"
+msgstr "Télécharger le CV"
+
+msgid "Currículo protegido."
+msgstr "CV protégé."
+
+msgid ""
+"A localização exacta, o telefone, o email e o CV só são partilhados conforme"
+" as opções de privacidade e depois de o pedido de contacto ser aceite."
+msgstr ""
+"La localisation exacte, le téléphone, l’adresse électronique et le CV ne "
+"sont partagés que selon les paramètres de confidentialité et après "
+"l’acceptation de la demande de contact."
+
+msgid "Eliminar"
+msgstr "Supprimer"
+
+msgid "Guardar"
+msgstr "Enregistrer"
+
+msgid "Áreas profissionais"
+msgstr "Domaines professionnels"
+
+msgid "Explora as áreas de especialização dos membros aprovados."
+msgstr "Explore les domaines de spécialisation des membres approuvés."
+
+msgid "Ainda não existem áreas activas"
+msgstr "Il n’y a pas encore de domaines actifs"
+
+msgid "A equipa Kalitica está a preparar a taxonomia profissional."
+msgstr "L’équipe Kalitica prépare la taxonomie professionnelle."
+
+msgid ""
+"Não encontras a tua área? Contacta a equipa para sugerires uma nova área "
+"profissional."
+msgstr ""
+"Tu ne trouves pas ton domaine ? Contacte l’équipe pour proposer un nouveau "
+"domaine professionnel."
+
+msgid "Voltar às áreas"
+msgstr "Retour aux domaines"
+
+msgid "Profissionais que trabalham nesta área e nas respectivas subáreas."
+msgstr "Professionnels travaillant dans ce domaine et ses spécialisations."
+
+msgid "Subáreas nesta área"
+msgstr "Spécialisations dans ce domaine"
+
+msgid "Sem subáreas registadas."
+msgstr "Aucune spécialisation enregistrée."
+
+msgid "Membros nesta área"
+msgstr "Membres dans ce domaine"
+
+msgid "Ainda não existem perfis publicados"
+msgstr "Il n’y a pas encore de profils publiés"
+
+msgid "Volta em breve ou explora outras áreas."
+msgstr "Reviens bientôt ou explore d’autres domaines."
+
+msgid "Explorar mais"
+msgstr "Explorer davantage"
+
+msgid "Pesquisa toda a rede por competências, localização e disponibilidade."
+msgstr ""
+"Recherche dans tout le réseau par compétences, localisation et "
+"disponibilité."
+
+msgid "Pesquisar nesta área"
+msgstr "Rechercher dans ce domaine"
+
+msgid "Presencial"
+msgstr "Sur site"
+
+msgid "Remoto"
+msgstr "À distance"
+
+msgid "Híbrido"
+msgstr "Hybride"
+
+msgid "Entrada"
+msgstr "Débutant"
+
+msgid "Júnior"
+msgstr "Junior"
+
+msgid "Intermédio"
+msgstr "Intermédiaire"
+
+msgid "Sénior"
+msgstr "Senior"
+
+msgid "Liderança"
+msgstr "Direction"
+
+msgid "Básico"
+msgstr "Élémentaire"
+
+msgid "Avançado"
+msgstr "Avancé"
+
+msgid "Fluente"
+msgstr "Courant"
+
+msgid "Nativo"
+msgstr "Langue maternelle"
+
+msgid "A candidatura está bloqueada enquanto decorre a análise."
+msgstr "La candidature est verrouillée pendant son examen."
+
+msgid "A candidatura já foi submetida."
+msgstr "La candidature a déjà été envoyée."
+
+msgid "A transição de %(from_status)s para %(to_status)s não é permitida."
+msgstr "La transition de %(from_status)s à %(to_status)s n’est pas autorisée."
+
+msgid "Aceita a política de privacidade"
+msgstr "Accepte la politique de confidentialité"
+
+msgid "Aceita o código de conduta"
+msgstr "Accepte le code de conduite"
+
+msgid "Aceita os consentimentos obrigatórios."
+msgstr "Accepte les consentements obligatoires."
+
+msgid "Alterações pendentes"
+msgstr "Modifications en attente"
+
+msgid "Apenas formulário"
+msgstr "Formulaire uniquement"
+
+msgid "Apenas mediante pedido"
+msgstr "Uniquement sur demande"
+
+msgid "Aprovado"
+msgstr "Approuvé"
+
+msgid "Arquivado"
+msgstr "Archivé"
+
+msgid "Candidatura submetida para análise."
+msgstr "Candidature envoyée pour examen."
+
+msgid "Completa o nome, título e resumo do perfil profissional."
+msgstr "Complète le nom, le titre et le résumé du profil professionnel."
+
+msgid "Completa os dados da organização que representas."
+msgstr "Complète les informations sur l’organisation que tu représentes."
+
+msgid "Confirma a veracidade da candidatura"
+msgstr "Confirme l’exactitude de la candidature"
+
+msgid "Confirma o teu email antes de submeter a candidatura."
+msgstr "Confirme ton adresse électronique avant d’envoyer la candidature."
+
+msgid "Eliminado"
+msgstr "Supprimé"
+
+msgid "Escolhe o tipo de adesão."
+msgstr "Choisis le type d’adhésion."
+
+msgid "Esta decisão exige uma justificação."
+msgstr "Cette décision nécessite une justification."
+
+msgid "Este campo é obrigatório para representantes de organizações."
+msgstr "Ce champ est obligatoire pour les représentants d’organisations."
+
+msgid "Explica a ligação relevante"
+msgstr "Explique le lien pertinent"
+
+msgid "Explica a tua ligação relevante à Guiné-Bissau."
+msgstr "Explique ton lien pertinent avec la Guinée-Bissau."
+
+msgid "Explica a tua motivação para aderir."
+msgstr "Explique ta motivation pour adhérer."
+
+msgid "Função na organização"
+msgstr "Fonction dans l’organisation"
+
+msgid "Indica a tua ligação à Guiné-Bissau."
+msgstr "Indique ton lien avec la Guinée-Bissau."
+
+msgid "Motivação para aderir"
+msgstr "Motivation pour adhérer"
+
+msgid "Nome da organização"
+msgstr "Nom de l’organisation"
+
+msgid "Objectivo da organização na rede"
+msgstr "Objectif de l’organisation dans le réseau"
+
+msgid "Oculto"
+msgstr "Masqué"
+
+msgid "Pendente"
+msgstr "En attente"
+
+msgid "Privacidade e visibilidade"
+msgstr "Confidentialité et visibilité"
+
+msgid "Privado"
+msgstr "Privé"
+
+msgid "Pronto para revisão"
+msgstr "Prêt pour examen"
+
+msgid "Publicado"
+msgstr "Publié"
+
+msgid "Publicação do perfil"
+msgstr "Publication du profil"
+
+msgid "Público"
+msgstr "Public"
+
+msgid "Rascunho da candidatura guardado."
+msgstr "Brouillon de candidature enregistré."
+
+msgid "Registo"
+msgstr "Inscription"
+
+msgid "Rejeitado"
+msgstr "Rejeté"
+
+msgid "Represento uma organização que procura talento"
+msgstr "Je représente une organisation qui recherche des talents"
+
+msgid "Suspenso"
+msgstr "Suspendu"
+
+msgid "Utilizadores registados"
+msgstr "Utilisateurs inscrits"
+
+msgid "mostrar organização no perfil"
+msgstr "afficher l’organisation sur le profil"
+
+msgid "%(section)s actualizada com sucesso."
+msgstr "%(section)s mise à jour avec succès."
+
+msgid "%(section)s adicionada com sucesso."
+msgstr "%(section)s ajoutée avec succès."
+
+msgid "%(section)s eliminada."
+msgstr "%(section)s supprimée."
+
+msgid "A conta já não pode ser recuperada."
+msgstr "Le compte ne peut plus être récupéré."
+
+msgid "A data de fim não pode ser anterior à data de início."
+msgstr "La date de fin ne peut pas être antérieure à la date de début."
+
+msgid "A tua adesão tem de ser aprovada antes da publicação do perfil."
+msgstr "Ton adhésion doit être approuvée avant la publication de ton profil."
+
+msgid "A validade não pode ser anterior à emissão."
+msgstr ""
+"La date d’expiration ne peut pas être antérieure à la date d’émission."
+
+msgid "Aberta"
+msgstr "Ouvert"
+
+msgid "Aceita os consentimentos obrigatórios antes de submeter."
+msgstr "Accepte les consentements obligatoires avant l’envoi."
+
+msgid "Aceite"
+msgstr "Accepté"
+
+msgid "Adesão suspensa"
+msgstr "Adhésion suspendue"
+
+msgid ""
+"Ajuda o filtro de experiência quando o teu percurso tem datas incompletas."
+msgstr ""
+"Aide le filtre d’expérience lorsque les dates de ton parcours sont "
+"incomplètes."
+
+msgid ""
+"Ajuda recrutadores a distinguir entrada, júnior, intermédio, sénior e "
+"liderança."
+msgstr ""
+"Aide les recruteurs à distinguer les niveaux débutant, junior, "
+"intermédiaire, senior et direction."
+
+msgid "Arquivada"
+msgstr "Archivée"
+
+msgid "Bloqueado"
+msgstr "Bloqué"
+
+msgid "Cada etiqueta pode ter no máximo 80 caracteres."
+msgstr "Chaque étiquette peut contenir au maximum 80 caractères."
+
+msgid "Cancelada"
+msgstr "Annulée"
+
+msgid "Candidatura em análise"
+msgstr "Candidature en cours d’examen"
+
+msgid ""
+"Cargos pelos quais queres ser encontrado. Ex.: Engenheiro civil, gestor de "
+"projectos, consultor técnico."
+msgstr ""
+"Fonctions pour lesquelles tu souhaites être trouvé. Ex. ingénieur civil, "
+"chef de projet, consultant technique."
+
+msgid "Certificação"
+msgstr "Certification"
+
+msgid "Completa todas as secções obrigatórias antes de submeter."
+msgstr "Complète toutes les sections obligatoires avant l’envoi."
+
+msgid "Confirma o novo endereço de email."
+msgstr "Confirme la nouvelle adresse électronique."
+
+msgid "Confirma o teu email antes de submeter o perfil."
+msgstr "Confirme ton adresse électronique avant d’envoyer ton profil."
+
+msgid "Conta restaurada"
+msgstr "Compte restauré"
+
+msgid "Conta suspensa"
+msgstr "Compte suspendu"
+
+msgid "Contactado"
+msgstr "Contacté"
+
+msgid "Conteúdo proibido"
+msgstr "Contenu interdit"
+
+msgid "Conteúdo promocional ou spam"
+msgstr "Contenu promotionnel ou indésirable"
+
+msgid "Contratado"
+msgstr "Recruté"
+
+msgid "Correcções solicitadas"
+msgstr "Corrections demandées"
+
+msgid "Dados da conta actualizados."
+msgstr "Informations du compte mises à jour."
+
+msgid "Dados de outra pessoa"
+msgstr "Données d’une autre personne"
+
+msgid "Decisão sobre a adesão"
+msgstr "Décision concernant l’adhésion"
+
+msgid "Demasiadas tentativas. Tenta novamente dentro de 15 minutos."
+msgstr "Trop de tentatives. Réessaie dans 15 minutes."
+
+msgid "Denunciado"
+msgstr "Signalé"
+
+msgid "Email confirmado com sucesso."
+msgstr "Adresse électronique confirmée avec succès."
+
+msgid "Entrevista"
+msgstr "Entretien"
+
+msgid "Enviámos uma ligação para confirmares o teu email."
+msgstr "Nous t’avons envoyé un lien pour confirmer ton adresse électronique."
+
+msgid "Enviámos uma nova ligação de confirmação."
+msgstr "Nous t’avons envoyé un nouveau lien de confirmation."
+
+msgid "Este perfil não está disponível."
+msgstr "Ce profil n’est pas disponible."
+
+msgid "Etiqueta com mais de %(max_length)s caracteres."
+msgstr "Étiquette de plus de %(max_length)s caractères."
+
+msgid "Ex.: AutoCAD, orçamento, fiscalização, betão armado, MS Project"
+msgstr "Ex. AutoCAD, budget, supervision, béton armé, MS Project"
+
+msgid "Ex.: Engenheiro civil, director de obra, fiscal de construção"
+msgstr "Ex. ingénieur civil, conducteur de travaux, superviseur de chantier"
+
+msgid "Experiência profissional"
+msgstr "Expérience professionnelle"
+
+msgid "Formação"
+msgstr "Formation"
+
+msgid "Guardado"
+msgstr "Enregistré"
+
+msgid "Idioma"
+msgstr "Langue"
+
+msgid ""
+"Inclui termos que recrutadores podem escrever na pesquisa. Separa por "
+"vírgulas. Ex.: AutoCAD, orçamento, fiscalização, betão armado."
+msgstr ""
+"Inclus les termes que les recruteurs peuvent saisir dans la recherche. "
+"Sépare-les par des virgules. Ex. AutoCAD, budget, supervision, béton armé."
+
+msgid "Informação falsa"
+msgstr "Fausse information"
+
+msgid ""
+"Lista os cargos e funções pelos quais queres ser encontrado. Ex.: engenheiro"
+" civil, director de obra, fiscal de construção."
+msgstr ""
+"Liste les fonctions et postes pour lesquels tu souhaites être trouvé. Ex. "
+"ingénieur civil, conducteur de travaux, superviseur de chantier."
+
+msgid "Novo perfil para revisão"
+msgstr "Nouveau profil à examiner"
+
+msgid "Não podes executar esta ação no teu próprio perfil."
+msgstr "Tu ne peux pas effectuer cette action sur ton propre profil."
+
+msgid "O currículo deve ser um ficheiro PDF."
+msgstr "Le CV doit être un fichier PDF."
+
+msgid "O currículo não pode exceder 10 MB."
+msgstr "Le CV ne peut pas dépasser 10 Mo."
+
+msgid "Os parâmetros da pesquisa têm de ser um objeto JSON."
+msgstr "Les paramètres de recherche doivent être un objet JSON."
+
+msgid "Outro motivo"
+msgstr "Autre motif"
+
+msgid "Para contactar"
+msgstr "À contacter"
+
+msgid "Perfil guardado com sucesso."
+msgstr "Profil enregistré avec succès."
+
+msgid "Perfil rejeitado"
+msgstr "Profil rejeté"
+
+msgid "Perfil submetido para revisão."
+msgstr "Profil envoyé pour examen."
+
+msgid "Proposta"
+msgstr "Proposition"
+
+msgid "Recusado"
+msgstr "Refusé"
+
+msgid "Rejeitada"
+msgstr "Rejetée"
+
+msgid "Resolvida"
+msgstr "Résolu"
+
+msgid "Retrato profissional genérico"
+msgstr "Portrait professionnel générique"
+
+msgid "Suspeita de fraude"
+msgstr "Soupçon de fraude"
+
+msgid ""
+"Termos que recrutadores podem usar. Ex.: obras, fiscalização, AutoCAD, "
+"procurement, RH."
+msgstr ""
+"Termes que les recruteurs peuvent utiliser. Ex. travaux, supervision, "
+"AutoCAD, achats, RH."
+
+msgid "Um cargo actual não pode ter data de fim."
+msgstr "Un poste actuel ne peut pas avoir de date de fin."
+
+msgid "anos de experiência"
+msgstr "années d’expérience"
+
+msgid "biografia"
+msgstr "biographie"
+
+msgid "cargo"
+msgstr "poste"
+
+msgid "cargo atual"
+msgstr "poste actuel"
+
+msgid "certificação"
+msgstr "certification"
+
+msgid "competência"
+msgstr "compétence"
+
+msgid "competências"
+msgstr "compétences"
+
+msgid "consentimento de marketing"
+msgstr "consentement marketing"
+
+msgid "currículo em PDF"
+msgstr "CV au format PDF"
+
+msgid "data de emissão"
+msgstr "date d’émission"
+
+msgid "data de fim"
+msgstr "date de fin"
+
+msgid "data de início"
+msgstr "date de début"
+
+msgid "data de validade"
+msgstr "date d’expiration"
+
+msgid "descrição"
+msgstr "description"
+
+msgid "disponibilidade"
+msgstr "disponibilité"
+
+msgid "disponível para mudança"
+msgstr "disponible pour une mobilité"
+
+msgid "entidade emissora"
+msgstr "organisme émetteur"
+
+msgid "especialização"
+msgstr "spécialisation"
+
+msgid "especializações"
+msgstr "spécialisations"
+
+msgid "estado"
+msgstr "statut"
+
+msgid "estado da publicação"
+msgstr "statut de publication"
+
+msgid "experiência"
+msgstr "expérience"
+
+msgid "formação"
+msgstr "formation"
+
+msgid "fotografia"
+msgstr "photographie"
+
+msgid "funções alvo"
+msgstr "fonctions recherchées"
+
+msgid "idioma"
+msgstr "langue"
+
+msgid "instituição"
+msgstr "établissement"
+
+msgid "ligação da credencial"
+msgstr "lien du certificat"
+
+msgid "localização"
+msgstr "localisation"
+
+msgid "mostrar localização"
+msgstr "afficher la localisation"
+
+msgid "nome público"
+msgstr "nom public"
+
+msgid "nota de revisão"
+msgstr "note d’examen"
+
+msgid "nível"
+msgstr "niveau"
+
+msgid "nível profissional"
+msgstr "niveau professionnel"
+
+msgid "organização"
+msgstr "organisation"
+
+msgid "palavras-chave de pesquisa"
+msgstr "mots-clés de recherche"
+
+msgid "país"
+msgstr "pays"
+
+msgid "preferência de trabalho"
+msgstr "préférence de travail"
+
+msgid "qualificação"
+msgstr "qualification"
+
+msgid "slug público"
+msgstr "identifiant public"
+
+msgid "telefone"
+msgstr "téléphone"
+
+msgid "título profissional"
+msgstr "titre professionnel"
+
+msgid "utilizador"
+msgstr "utilisateur"
+
+msgid "visibilidade do currículo"
+msgstr "visibilité du CV"
+
+msgid "visibilidade dos contactos"
+msgstr "visibilité des contacts"
+
+msgid "visível na rede"
+msgstr "visible dans le réseau"
+
+msgid "Área de estudo"
+msgstr "Domaine d’études"
+
+msgid "área de estudo"
+msgstr "domaine d’études"
+
+msgid "A rede profissional da Guiné-Bissau"
+msgstr "Le réseau professionnel de Guinée-Bissau"
+
+msgid "Contactar %(name)s"
+msgstr "Contacter %(name)s"
+
+msgid ""
+"Envia um pedido de contacto a %(name)s. O email permanece privado até o "
+"pedido ser aceite."
+msgstr ""
+"Envoie une demande de contact à %(name)s. L’adresse électronique reste "
+"privée jusqu’à l’acceptation de la demande."
+
+msgid "Perfil profissional de %(name)s na rede privada Kalitica."
+msgstr "Profil professionnel de %(name)s dans le réseau privé Kalitica."
+
+msgid "Fotografia de %(name)s"
+msgstr "Photographie de %(name)s"
+
+msgid "Eliminar %(section)s"
+msgstr "Supprimer %(section)s"
+
+msgid "Confirma que queres eliminar “%(item)s”."
+msgstr "Confirme que tu souhaites supprimer « %(item)s »."
+
+msgid ""
+"A Kalitica liga profissionais na Guiné-Bissau, na diáspora e pessoas com uma"
+" relação relevante ao país."
+msgstr ""
+"Kalitica relie les professionnels en Guinée-Bissau, dans la diaspora et les "
+"personnes ayant un lien pertinent avec le pays."
+
+msgid ""
+"A aprovação da adesão e a publicação do perfil são processos independentes. "
+"O perfil só aparece na rede depois de uma revisão específica."
+msgstr ""
+"L’approbation de l’adhésion et la publication du profil sont des processus "
+"distincts. Le profil n’apparaît dans le réseau qu’après un examen "
+"spécifique."
+
+msgid "A minha adesão"
+msgstr "Mon adhésion"
+
+msgid "A tua candidatura está a ser revista pela equipa Kalitica."
+msgstr "Ta candidature est en cours d’examen par l’équipe Kalitica."
+
+msgid ""
+"A tua candidatura será revista manualmente pela equipa Kalitica. O acesso ao"
+" directório só fica disponível depois da aprovação."
+msgstr ""
+"Ta candidature sera examinée manuellement par l’équipe Kalitica. L’accès à "
+"l’annuaire ne sera disponible qu’après approbation."
+
+msgid "Abrir conta"
+msgstr "Créer un compte"
+
+msgid "Aceder à rede"
+msgstr "Accéder au réseau"
+
+msgid "Aceder à rede profissional como membro"
+msgstr "Accéder au réseau professionnel en tant que membre"
+
+msgid "Administração"
+msgstr "Administration"
+
+msgid "Analisar denúncia"
+msgstr "Examiner le signalement"
+
+msgid "Anterior"
+msgstr "Précédent"
+
+msgid "Candidatura submetida"
+msgstr "Candidature envoyée"
+
+msgid "Concluir e rever o perfil profissional"
+msgstr "Compléter et examiner le profil professionnel"
+
+msgid "Confirmas a recusa deste perfil?"
+msgstr "Confirmes-tu le refus de ce profil ?"
+
+msgid "Confirmas a suspensão deste perfil?"
+msgstr "Confirmes-tu la suspension de ce profil ?"
+
+msgid "Confirmas esta decisão?"
+msgstr "Confirmes-tu cette décision ?"
+
+msgid "Confirmas o arquivo desta denúncia?"
+msgstr "Confirmes-tu l’archivage de ce signalement ?"
+
+msgid "Conta Kalitica"
+msgstr "Compte Kalitica"
+
+msgid "Decisão da adesão"
+msgstr "Décision d’adhésion"
+
+msgid "Definir palavra-passe"
+msgstr "Définir le mot de passe"
+
+msgid "Denunciar perfil"
+msgstr "Signaler le profil"
+
+msgid ""
+"Directório privado de profissionais ligados à Guiné-Bissau e à diáspora "
+"guineense."
+msgstr ""
+"Annuaire privé de professionnels liés à la Guinée-Bissau et à sa diaspora."
+
+msgid "Durante a análise"
+msgstr "Pendant l’examen"
+
+msgid "Email enviado"
+msgstr "Courrier électronique envoyé"
+
+msgid "Etapas da área de candidatura"
+msgstr "Étapes de l’espace de candidature"
+
+msgid "Filtros activos"
+msgstr "Filtres actifs"
+
+msgid "Filtros do directório"
+msgstr "Filtres de l’annuaire"
+
+msgid "Francês"
+msgstr "Français"
+
+msgid "Inglês"
+msgstr "Anglais"
+
+msgid "Ligação inválida"
+msgstr "Lien invalide"
+
+msgid "Mostrar palavra-passe"
+msgstr "Afficher le mot de passe"
+
+msgid "Navegação da candidatura"
+msgstr "Navigation de la candidature"
+
+msgid "Navegação do rodapé"
+msgstr "Navigation du pied de page"
+
+msgid "Navegação pública"
+msgstr "Navigation publique"
+
+msgid ""
+"Não terás acesso ao directório de membros. Serás notificado por email sobre "
+"qualquer actualização."
+msgstr ""
+"Tu n’auras pas accès à l’annuaire des membres. Tu seras informé par courrier"
+" électronique de toute mise à jour."
+
+msgid "Paginação"
+msgstr "Pagination"
+
+msgid "Pesquisar acção"
+msgstr "Rechercher une action"
+
+msgid "Português"
+msgstr "Portugais"
+
+msgid "Princípios da rede"
+msgstr "Principes du réseau"
+
+msgid "Processos separados"
+msgstr "Processus distincts"
+
+msgid "Progresso da candidatura"
+msgstr "Progression de la candidature"
+
+msgid "Próximos passos"
+msgstr "Prochaines étapes"
+
+msgid "Receberás a decisão por email."
+msgstr "Tu recevras la décision par courrier électronique."
+
+msgid "Rede Kalitica"
+msgstr "Réseau Kalitica"
+
+msgid "Remover dos favoritos"
+msgstr "Retirer des favoris"
+
+msgid "Rever adesão"
+msgstr "Examiner l’adhésion"
+
+msgid "Rever perfil"
+msgstr "Examiner le profil"
+
+msgid "Seguinte"
+msgstr "Suivant"
+
+msgid "Submeter o perfil para revisão antes da publicação"
+msgstr "Envoyer le profil pour examen avant publication"
+
+msgid ""
+"Uma comunidade profissional privada para a Guiné-Bissau, a diáspora "
+"guineense e profissionais com ligação relevante ao país."
+msgstr ""
+"Une communauté professionnelle privée pour la Guinée-Bissau, sa diaspora et "
+"les professionnels ayant un lien pertinent avec le pays."
+
+msgid "É um processo separado e exige uma revisão específica."
+msgstr "Il s’agit d’un processus distinct qui nécessite un examen spécifique."
+
+msgid "Conectar, colaborar e contribuir."
+msgstr "Se connecter, collaborer et contribuer."
+
+msgid "Bem-vindo"
+msgstr "Bienvenue"
+
+msgid "%(member_type)s na rede Kalitica."
+msgstr "%(member_type)s dans le réseau Kalitica."
+
+msgid "%(counter)s membro na tua lista privada."
+msgid_plural "%(counter)s membros na tua lista privada."
+msgstr[0] "%(counter)s membre dans ta liste privée."
+msgstr[1] "%(counter)s membres dans ta liste privée."
+
+msgid "%(counter)s membros na tua lista privada."
+msgstr "%(counter)s membres dans ta liste privée."
+
+msgid "%(count)s de 6 etapas concluídas"
+msgstr "%(count)s étapes sur 6 terminées"
+
+msgid "Conta de %(name)s"
+msgstr "Compte de %(name)s"
+
+msgid "Nome público"
+msgstr "Nom public"
+
+msgid "Título profissional"
+msgstr "Titre professionnel"
+
+msgid "Funções alvo"
+msgstr "Fonctions recherchées"
+
+msgid "Palavras-chave de pesquisa"
+msgstr "Mots-clés de recherche"
+
+msgid "Mostrar localização"
+msgstr "Afficher la localisation"
+
+msgid "País"
+msgstr "Pays"
+
+msgid "Fotografia"
+msgstr "Photographie"
+
+msgid "Especializações"
+msgstr "Spécialisations"
+
+msgid "Preferência de trabalho"
+msgstr "Préférence de travail"
+
+msgid "Anos de experiência"
+msgstr "Années d’expérience"
+
+msgid "Nível profissional"
+msgstr "Niveau professionnel"
+
+msgid "Disponível para mudança"
+msgstr "Disponible pour une mobilité"
+
+msgid "Telefone"
+msgstr "Téléphone"
+
+msgid "Visibilidade dos contactos"
+msgstr "Visibilité des contacts"
+
+msgid "Visível na rede"
+msgstr "Visible dans le réseau"
+
+msgid "Currículo em PDF"
+msgstr "CV au format PDF"
+
+msgid "Visibilidade do currículo"
+msgstr "Visibilité du CV"
+
+msgid "Consentimento de marketing"
+msgstr "Consentement marketing"
+
+msgid "Mostrar organização no perfil"
+msgstr "Afficher l’organisation sur le profil"
+
+msgid "Cargo"
+msgstr "Poste"
+
+msgid "Data de início"
+msgstr "Date de début"
+
+msgid "Data de fim"
+msgstr "Date de fin"
+
+msgid "Cargo actual"
+msgstr "Poste actuel"
+
+msgid "Instituição"
+msgstr "Établissement"
+
+msgid "Qualificação"
+msgstr "Qualification"
+
+msgid "Data de emissão"
+msgstr "Date d’émission"
+
+msgid "Data de validade"
+msgstr "Date d’expiration"
+
+msgid "Entidade emissora"
+msgstr "Organisme émetteur"
+
+msgid "Ligação da credencial"
+msgstr "Lien du certificat"
+
+msgid "Nível"
+msgstr "Niveau"
+
+msgid "Comparar %(name)s"
+msgstr "Comparer %(name)s"
+
+msgid "Adicionado há %(elapsed)s"
+msgstr "Ajouté il y a %(elapsed)s"
+
+msgid "Não indicada"
+msgstr "Non indiquée"
+
+msgid "Não indicadas"
+msgstr "Non indiquées"
+
+msgid "Não indicados"
+msgstr "Non indiqués"
+
+msgid "Não pública"
+msgstr "Non publique"
+
+msgid "Conta removida"
+msgstr "Compte supprimé"
+
+msgid "Tipo por preencher"
+msgstr "Type à compléter"
+
+msgid "Ligação por preencher"
+msgstr "Lien à compléter"
+
+msgid "Por definir"
+msgstr "À définir"
+
+msgid "Sem título"
+msgstr "Sans titre"
+
+msgid "Sem descrição"
+msgstr "Sans description"
+
+msgid "Sem título profissional"
+msgstr "Sans titre professionnel"
+
+msgid "Nenhuma"
+msgstr "Aucune"
+
+msgid "Não aplicável"
+msgstr "Sans objet"
+
+msgid "Sistema"
+msgstr "Système"
+
+msgid "Experiência mínima"
+msgstr "Expérience minimale"
+
+msgid "Currículo disponível"
+msgstr "CV disponible"
+
+msgid "Relação"
+msgstr "Lien"
+
+msgid "1 ano ou mais"
+msgstr "1 an ou plus"
+
+msgid "3 anos ou mais"
+msgstr "3 ans ou plus"
+
+msgid "5 anos ou mais"
+msgstr "5 ans ou plus"
+
+msgid "10 anos ou mais"
+msgstr "10 ans ou plus"
+
+msgid "Competência"
+msgstr "Compétence"
+
+msgid "Especialização"
+msgstr "Spécialisation"
+
+msgid "Pesquisa"
+msgstr "Recherche"
+
+msgid "Setor"
+msgstr "Secteur"
+
+msgid "Sim"
+msgstr "Oui"
+
+msgid "Não"
+msgstr "Non"
+
+msgid "Comentários da equipa"
+msgstr "Commentaires de l’équipe"
+
+msgid ""
+"Contacta a equipa Kalitica para obter mais informações sobre esta decisão."
+msgstr ""
+"Contacte l’équipe Kalitica pour obtenir plus d’informations sur cette "
+"décision."
+
+msgid "Contactar a equipa"
+msgstr "Contacter l’équipe"
+
+msgid "Por preencher"
+msgstr "À compléter"
+
+msgid "Revê os dados indicados e completa a informação em falta."
+msgstr "Vérifie les informations fournies et complète les données manquantes."

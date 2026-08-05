@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import gettext_lazy as _
 
 from .models import ContactRequest, Favorite, RecruitmentTag, Report, SavedSearch
 
@@ -26,7 +27,7 @@ class FavoriteUpdateForm(forms.ModelForm):
             name = " ".join(raw_name.split())
             normalized_name = RecruitmentTag.objects.normalise_name(name)
             if name and (len(name) > 80 or len(normalized_name) > 80):
-                raise forms.ValidationError("Cada etiqueta pode ter no máximo 80 caracteres.")
+                raise forms.ValidationError(_("Cada etiqueta pode ter no máximo 80 caracteres."))
         return raw_tags
 
     class Meta:

@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from django.utils.dateparse import parse_datetime
+from django.utils.translation import gettext as _
 
 from moderation.models import AuditLog
 from interactions.models import Favorite, SavedSearch
@@ -37,7 +38,7 @@ class ThrottledLoginView(LoginView):
         failures = cache.get(key, 0)
         if failures >= self.failure_limit:
             form = self.get_form()
-            form.add_error(None, "Demasiadas tentativas. Tenta novamente dentro de 15 minutos.")
+            form.add_error(None, _("Demasiadas tentativas. Tenta novamente dentro de 15 minutos."))
             return self.form_invalid(form)
         response = super().post(request, *args, **kwargs)
         if response.status_code == 302:
@@ -65,7 +66,7 @@ def signup(request):
         )
         send_verification_email(request, user)
         request.session["pending_verification_user_id"] = user.pk
-        messages.info(request, "Enviámos uma ligação para confirmares o teu email.")
+        messages.info(request, _("Enviámos uma ligação para confirmares o teu email."))
         return redirect("accounts:verification-sent")
     return render(request, "registration/signup.html", {"form": form})
 
@@ -97,7 +98,7 @@ def resend_verification(request):
         user = User.objects.filter(pk=user_id).first() if user_id else None
     if request.method == "POST" and user and not user.email_verified_at:
         send_verification_email(request, user)
-        messages.success(request, "Enviámos uma nova ligação de confirmação.")
+        messages.success(request, _("Enviámos uma nova ligação de confirmação."))
     return redirect("accounts:verification-sent")
 
 
@@ -109,7 +110,7 @@ def verify_email(request, uidb64, token):
     if user and email_verification_token.check_token(user, token):
         user.email_verified_at = timezone.now()
         user.save(update_fields=("email_verified_at",))
-        messages.success(request, "Email confirmado com sucesso.")
+        messages.success(request, _("Email confirmado com sucesso."))
         if not request.user.is_authenticated:
             login(request, user)
         request.session.pop("pending_verification_user_id", None)
@@ -130,11 +131,11 @@ def edit_account(request):
         if email_changed:
             send_verification_email(request, user)
             request.session["pending_verification_user_id"] = user.pk
-            messages.info(request, "Confirma o novo endereço de email.")
+            messages.info(request, _("Confirma o novo endereço de email."))
             logout(request)
             return redirect("accounts:verification-sent")
         else:
-            messages.success(request, "Dados da conta actualizados.")
+            messages.success(request, _("Dados da conta actualizados."))
         return redirect("accounts:dashboard")
     return render(request, "accounts/edit.html", {"form": form})
 

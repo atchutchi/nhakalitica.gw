@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{% block meta_description %}A Kalitica liga profissionais na Guiné-Bissau, na diáspora e pessoas com uma relação relevante ao país.{% endblock %}">
+    <meta name="description" content="{% block meta_description %}{% translate "A Kalitica liga profissionais na Guiné-Bissau, na diáspora e pessoas com uma relação relevante ao país." %}{% endblock %}">
     <meta name="robots" content="{% block robots %}noindex,nofollow{% endblock %}">
     {% if canonical_url %}<link rel="canonical" href="{{ canonical_url }}">{% endif %}
     <meta property="og:site_name" content="Kalitica Networking Society">
@@ -15,7 +15,7 @@
     <meta property="og:title" content="{% block og_title %}Kalitica, a rede profissional da Guiné-Bissau{% endblock %}">
     <meta property="og:description" content="{% block og_description %}Uma rede profissional privada para colaborar, partilhar conhecimento e criar oportunidades.{% endblock %}">
     {% if canonical_url %}<meta property="og:url" content="{{ canonical_url }}">{% endif %}
-    <title>{% block title %}Kalitica{% endblock %}</title>
+    <title>{% block title %}{% translate "Kalitica" %}{% endblock %}</title>
     <link rel="icon" type="image/png" href="{% static 'img/kalitica-logo.png' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,9 +39,9 @@
         <a class="member-brand" href="{% if request.user.is_authenticated %}{% url 'accounts:dashboard' %}{% else %}{% url 'home' %}{% endif %}"><img src="{% static 'img/kalitica-logo.png' %}" alt="Kalitica Networking Society"></a>
         {% if request.user.is_authenticated %}
           {% if request.user.membership.can_access_network %}
-          <nav class="member-primary-nav" aria-label="Rede Kalitica"><a href="{% url 'accounts:dashboard' %}">{% translate "Painel" %}</a><a href="{% url 'search' %}">{% translate "Directório" %}</a><a href="{% url 'area-list' %}">{% translate "Áreas" %}</a><a href="{% url 'interactions:favorites' %}">{% translate "Favoritos" %}</a><a href="{% url 'interactions:contacts' %}">{% translate "Mensagens" %}</a><a href="{% url 'interactions:notifications' %}">{% translate "Notificações" %}</a></nav>
-          {% else %}<nav class="member-primary-nav" aria-label="Conta Kalitica"><a href="{% url 'memberships:dashboard' %}">{% translate "A minha candidatura" %}</a><a href="{% url 'accounts:dashboard' %}">{% translate "A minha conta" %}</a></nav>{% endif %}
-          <div class="member-account"><form class="member-language-switch" action="{% url 'set_language' %}" method="post">{% csrf_token %}<input type="hidden" name="next" value="{{ request.path }}">{% for code, name in LANGUAGES %}<button type="submit" name="language" value="{{ code }}"{% if LANGUAGE_CODE == code %} aria-current="true"{% endif %}>{{ code|upper }}</button>{% endfor %}</form><a class="member-avatar" href="{% url 'accounts:dashboard' %}" aria-label="Abrir conta">{{ request.user.first_name|first|default:"K" }}</a><button type="button" data-member-menu aria-expanded="false" aria-controls="member-mobile-nav"><i class="bi bi-list" aria-hidden="true"></i><span class="visually-hidden">{% translate "Abrir menu" %}</span></button></div>
+          <nav class="member-primary-nav" aria-label="{% translate 'Rede Kalitica' %}"><a href="{% url 'accounts:dashboard' %}">{% translate "Painel" %}</a><a href="{% url 'search' %}">{% translate "Directório" %}</a><a href="{% url 'area-list' %}">{% translate "Áreas" %}</a><a href="{% url 'interactions:favorites' %}">{% translate "Favoritos" %}</a><a href="{% url 'interactions:contacts' %}">{% translate "Mensagens" %}</a><a href="{% url 'interactions:notifications' %}">{% translate "Notificações" %}</a></nav>
+          {% else %}<nav class="member-primary-nav" aria-label="{% translate 'Conta Kalitica' %}"><a href="{% url 'memberships:dashboard' %}">{% translate "A minha candidatura" %}</a><a href="{% url 'accounts:dashboard' %}">{% translate "A minha conta" %}</a></nav>{% endif %}
+          <div class="member-account"><form class="member-language-switch" action="{% url 'set_language' %}" method="post">{% csrf_token %}<input type="hidden" name="next" value="{{ request.path }}">{% for code, name in LANGUAGES %}<button type="submit" name="language" value="{{ code }}"{% if LANGUAGE_CODE == code %} aria-current="true"{% endif %}>{{ code|upper }}</button>{% endfor %}</form><a class="member-avatar" href="{% url 'accounts:dashboard' %}" aria-label="{% translate 'Abrir conta' %}">{{ request.user.first_name|first|default:"K" }}</a><button type="button" data-member-menu aria-expanded="false" aria-controls="member-mobile-nav"><i class="bi bi-list" aria-hidden="true"></i><span class="visually-hidden">{% translate "Abrir menu" %}</span></button></div>
         {% else %}<nav class="member-primary-nav"><a href="{% url 'accounts:login' %}">{% translate "Entrar" %}</a></nav>{% endif %}
       </div>
       {% if request.user.is_authenticated %}<div class="member-mobile-nav" id="member-mobile-nav" data-member-mobile-nav>{% if request.user.membership.can_access_network %}<a href="{% url 'accounts:dashboard' %}">{% translate "Painel" %}</a><a href="{% url 'search' %}">{% translate "Directório" %}</a><a href="{% url 'area-list' %}">{% translate "Áreas" %}</a><a href="{% url 'interactions:favorites' %}">{% translate "Favoritos" %}</a><a href="{% url 'interactions:contacts' %}">{% translate "Mensagens" %}</a><a href="{% url 'interactions:notifications' %}">{% translate "Notificações" %}</a>{% else %}<a href="{% url 'memberships:dashboard' %}">{% translate "A minha candidatura" %}</a><a href="{% url 'accounts:dashboard' %}">{% translate "A minha conta" %}</a>{% endif %}<form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button type="submit">{% translate "Sair" %}</button></form></div>{% endif %}
@@ -62,10 +62,10 @@
 
     {% block site_footer %}<footer class="site-footer">
         <div class="container footer-content">
-            <p class="mb-0">© {% now "Y" %} Kalitica Networking Society. Conectar, colaborar e contribuir.</p>
-            <nav aria-label="Navegação do rodapé">
-                <a href="{% url 'area-list' %}">Áreas</a>
-                <a href="{% url 'search' %}">Pesquisar</a>
+            <p class="mb-0">© {% now "Y" %} Kalitica Networking Society. {% translate "Conectar, colaborar e contribuir." %}</p>
+            <nav aria-label="{% translate 'Navegação do rodapé' %}">
+                <a href="{% url 'area-list' %}">{% translate "Áreas" %}</a>
+                <a href="{% url 'search' %}">{% translate "Pesquisar" %}</a>
                 <a href="{% url 'terms' %}">{% translate "Termos" %}</a>
                 <a href="{% url 'privacy' %}">{% translate "Privacidade" %}</a>
                 <a href="{% url 'code-of-conduct' %}">{% translate "Código de Conduta" %}</a>

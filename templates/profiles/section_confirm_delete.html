@@ -1,16 +1,16 @@
-{% extends "base.html" %}
+{% extends "base.html" %}{% load i18n %}
 
-{% block title %}Eliminar {{ title }} | Kalitica{% endblock %}
+{% block title %}{% blocktranslate with section=title %}Eliminar {{ section }}{% endblocktranslate %} | Kalitica{% endblock %}
 
 {% block content %}
 <section class="auth-section">
     <div class="auth-card">
-        <h1>Eliminar {{ title|lower }}</h1>
-        <p>Confirma que queres eliminar “{{ entry }}”.</p>
+        <h1>{% blocktranslate with section=title|lower %}Eliminar {{ section }}{% endblocktranslate %}</h1>
+        <p>{% blocktranslate with item=entry %}Confirma que queres eliminar “{{ item }}”.{% endblocktranslate %}</p>
         <form method="post">
             {% csrf_token %}
-            <a class="btn btn-outline-brand" href="{% url 'accounts:dashboard' %}">Cancelar</a>
-            <button class="btn btn-danger" type="submit">Eliminar</button>
+            <a class="btn btn-outline-brand" href="{% url 'accounts:dashboard' %}">{% translate "Cancelar" %}</a>
+            <button class="btn btn-danger" type="submit">{% translate "Eliminar" %}</button>
         </form>
     </div>
 </section>
