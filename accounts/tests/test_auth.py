@@ -109,6 +109,25 @@ class AuthenticationFlowTests(TestCase):
         self.assertContains(response, "Rascunho")
         self.assertContains(response, "Completa o teu perfil")
 
+    def test_authenticated_header_exposes_account_menu_and_logout(self):
+        user = get_user_model().objects.create_user(
+            email="menu@example.com",
+            password="PalavraPasseSegura2026!",
+        )
+        self.client.force_login(user)
+
+        response = self.client.get("/conta/painel/")
+
+        self.assertContains(response, 'data-account-menu')
+        self.assertContains(response, 'href="/perfil/pre-visualizar/"')
+        self.assertContains(response, 'href="/conta/editar/"')
+        self.assertContains(response, 'href="/conta/alterar-palavra-passe/"')
+        self.assertContains(response, 'action="/conta/sair/"')
+        self.assertContains(response, "O meu perfil")
+        self.assertContains(response, "Editar conta")
+        self.assertContains(response, "Alterar palavra-passe")
+        self.assertContains(response, "Sair")
+
     def test_user_can_logout_with_post(self):
         user = get_user_model().objects.create_user(
             email="fatu@example.com",

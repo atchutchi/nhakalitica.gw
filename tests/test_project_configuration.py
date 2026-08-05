@@ -78,7 +78,8 @@ class KaliticaConfigurationTests(SimpleTestCase):
                 "-c",
                 (
                     "from django.conf import settings; "
-                    "print(settings.ALLOWED_HOSTS[-1]); "
+                    "print(settings.ALLOWED_HOSTS.count('nha-kalitica-demo.up.railway.app')); "
+                    "print(settings.ALLOWED_HOSTS.count('healthcheck.railway.app')); "
                     "print(settings.CSRF_TRUSTED_ORIGINS[-1] if settings.CSRF_TRUSTED_ORIGINS else ''); "
                     "print(settings.PUBLIC_BASE_URL)"
                 ),
@@ -93,7 +94,8 @@ class KaliticaConfigurationTests(SimpleTestCase):
         self.assertEqual(
             result.stdout.splitlines(),
             [
-                "nha-kalitica-demo.up.railway.app",
+                "1",
+                "1",
                 "https://nha-kalitica-demo.up.railway.app",
                 "https://nha-kalitica-demo.up.railway.app",
             ],

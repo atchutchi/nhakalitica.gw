@@ -33,6 +33,12 @@ msgstr "Ma candidature"
 msgid "A minha conta"
 msgstr "Mon compte"
 
+msgid "O meu perfil"
+msgstr "Mon profil"
+
+msgid "Editar conta"
+msgstr "Modifier le compte"
+
 msgid "Sair"
 msgstr "Se déconnecter"
 

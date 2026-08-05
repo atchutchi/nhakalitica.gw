@@ -33,6 +33,12 @@ msgstr "My application"
 msgid "A minha conta"
 msgstr "My account"
 
+msgid "O meu perfil"
+msgstr "My profile"
+
+msgid "Editar conta"
+msgstr "Edit account"
+
 msgid "Sair"
 msgstr "Sign out"
 
