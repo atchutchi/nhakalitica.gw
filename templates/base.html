@@ -66,7 +66,10 @@
             <nav aria-label="Navegação do rodapé">
                 <a href="{% url 'area-list' %}">Áreas</a>
                 <a href="{% url 'search' %}">Pesquisar</a>
-                <a href="mailto:ferreira.atchutchi@gmail.com">Contacto</a>
+                <a href="{% url 'terms' %}">{% translate "Termos" %}</a>
+                <a href="{% url 'privacy' %}">{% translate "Privacidade" %}</a>
+                <a href="{% url 'code-of-conduct' %}">{% translate "Código de Conduta" %}</a>
+                <a href="mailto:info@nhakalitica.gw">{% translate "Contacto" %}</a>
             </nav>
         </div>
     </footer>{% endblock %}

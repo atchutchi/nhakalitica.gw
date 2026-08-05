@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from django.conf import settings
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 
@@ -88,6 +88,88 @@ class PublicVisualContractTests(TestCase):
         self.assertContains(reset_response, "Lembraste-te da palavra-passe?")
 
 
+class LegalPageTests(TestCase):
+    def select_language(self, language, next_url):
+        response = self.client.post(
+            "/i18n/setlang/",
+            {"language": language, "next": next_url},
+        )
+        self.assertRedirects(response, next_url)
+
+    def test_legal_pages_are_public_versioned_and_canonical(self):
+        expected = {
+            "/termos/": "Termos de Utilização",
+            "/privacidade/": "Política de Privacidade",
+            "/codigo-de-conduta/": "Código de Conduta",
+        }
+
+        for path, heading in expected.items():
+            with self.subTest(path=path):
+                response = self.client.get(path)
+
+                self.assertEqual(response.status_code, 200)
+                self.assertContains(response, heading)
+                self.assertContains(response, "Versão 1.0")
+                self.assertContains(response, "5 de Agosto de 2026")
+                self.assertContains(response, "info@nhakalitica.gw")
+                self.assertContains(response, 'rel="canonical"')
+
+    @override_settings(PUBLIC_BASE_URL="https://nhakalitica.gw")
+    def test_legal_canonical_uses_the_configured_public_domain(self):
+        response = self.client.get(reverse("privacy"))
+
+        self.assertContains(
+            response,
+            '<link rel="canonical" href="https://nhakalitica.gw/privacidade/">',
+            html=True,
+        )
+
+    def test_legal_pages_are_available_in_english(self):
+        self.select_language("en", "/privacidade/")
+
+        self.assertContains(self.client.get("/termos/"), "Terms of Use")
+        self.assertContains(self.client.get("/privacidade/"), "Privacy Policy")
+        self.assertContains(self.client.get("/codigo-de-conduta/"), "Code of Conduct")
+        self.assertContains(
+            self.client.get("/privacidade/"),
+            "the account is deactivated for 30 days",
+        )
+        self.assertContains(
+            self.client.get("/codigo-de-conduta/"),
+            "Respect members’ visibility choices",
+        )
+
+    def test_legal_pages_are_available_in_french(self):
+        self.select_language("fr", "/privacidade/")
+
+        self.assertContains(self.client.get("/termos/"), "Conditions d’utilisation")
+        self.assertContains(self.client.get("/privacidade/"), "Politique de confidentialité")
+        self.assertContains(self.client.get("/codigo-de-conduta/"), "Code de conduite")
+        self.assertContains(
+            self.client.get("/privacidade/"),
+            "le compte est désactivé pendant 30 jours",
+        )
+        self.assertContains(
+            self.client.get("/codigo-de-conduta/"),
+            "Respecte les choix de visibilité des membres",
+        )
+
+    def test_public_footer_links_to_legal_pages_and_official_contact(self):
+        response = self.client.get("/")
+
+        self.assertContains(response, 'href="/termos/"')
+        self.assertContains(response, 'href="/privacidade/"')
+        self.assertContains(response, 'href="/codigo-de-conduta/"')
+        self.assertContains(response, 'href="mailto:info@nhakalitica.gw"')
+        self.assertNotContains(response, "info@kalitica.org")
+
+    def test_signup_links_the_documents_the_user_accepts(self):
+        response = self.client.get(reverse("accounts:signup"))
+
+        self.assertContains(response, 'href="/termos/"')
+        self.assertContains(response, 'href="/privacidade/"')
+
+
 class SeoAndOperationsTests(TestCase):
     def setUp(self):
         sector = Sector.objects.create(name="Tecnologia", slug="tecnologia")
@@ -113,6 +195,9 @@ class SeoAndOperationsTests(TestCase):
         self.assertContains(response, reverse("about"))
         self.assertContains(response, reverse("membership-types"))
         self.assertContains(response, reverse("how-it-works"))
+        self.assertContains(response, reverse("terms"))
+        self.assertContains(response, reverse("privacy"))
+        self.assertContains(response, reverse("code-of-conduct"))
         self.assertNotContains(response, f"/profissionais/{self.profile.slug}/")
         self.assertNotContains(response, f"/areas/{self.area.slug}/")
 

@@ -1,0 +1,24 @@
+{% extends "base.html" %}{% load i18n %}
+{% block robots %}index,follow{% endblock %}
+{% block body_class %}public-page{% endblock %}
+{% block site_header %}{% include "core/_public_header.html" %}{% endblock %}
+{% block content %}
+<section class="public-main legal-page">
+  <div class="public-container legal-layout">
+    <header class="public-page-heading legal-heading">
+      <p class="public-kicker">Kalitica Networking Society</p>
+      <h1>{% block legal_title %}{% endblock %}</h1>
+      <p>{% block legal_intro %}{% endblock %}</p>
+      <p class="legal-meta">{% blocktranslate %}Versão {{ legal_version }}{% endblocktranslate %} · {% blocktranslate %}Em vigor desde {{ legal_effective_date }}{% endblocktranslate %}</p>
+    </header>
+    <article class="legal-document">
+      {% block legal_content %}{% endblock %}
+      <section>
+        <h2>{% translate "Contacto" %}</h2>
+        <p>{% blocktranslate %}Para questões sobre este documento, contacta a Kalitica Networking Society através de <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>.{% endblocktranslate %}</p>
+      </section>
+    </article>
+  </div>
+</section>
+{% endblock %}
+{% block site_footer %}{% include "core/_public_footer.html" %}{% endblock %}

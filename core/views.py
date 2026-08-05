@@ -1,8 +1,14 @@
-from django.http import HttpResponse, JsonResponse
+from django.conf import settings
 from django.db import connection
 from django.db.utils import OperationalError
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
+from django.utils.translation import gettext as _
+
+
+def canonical_url(route_name):
+    return f"{settings.PUBLIC_BASE_URL}{reverse(route_name)}"
 
 def home(request):
     return render(
@@ -36,6 +42,31 @@ def how_it_works(request):
         "core/how_it_works.html",
         {"canonical_url": request.build_absolute_uri(reverse("how-it-works"))},
     )
+
+
+def legal_page(request, template_name, route_name):
+    return render(
+        request,
+        template_name,
+        {
+            "canonical_url": canonical_url(route_name),
+            "contact_email": settings.KALITICA_CONTACT_EMAIL,
+            "legal_version": settings.LEGAL_DOCUMENT_VERSION,
+            "legal_effective_date": _("5 de Agosto de 2026"),
+        },
+    )
+
+
+def terms(request):
+    return legal_page(request, "core/terms.html", "terms")
+
+
+def privacy(request):
+    return legal_page(request, "core/privacy.html", "privacy")
+
+
+def code_of_conduct(request):
+    return legal_page(request, "core/code_of_conduct.html", "code-of-conduct")
 
 
 def robots(request):

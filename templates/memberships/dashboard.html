@@ -28,7 +28,7 @@
   <div class="onboarding-info"><strong>Durante a análise</strong><p>Não terás acesso ao directório de membros. Serás notificado por email sobre qualquer actualização.</p></div>
 </section>
 {% elif membership.status == "refused" or membership.status == "suspended" %}
-<section class="decision-panel decision-corrections"><i class="bi bi-info-circle" aria-hidden="true"></i><h2>{{ membership.get_status_display }}</h2><p>{{ latest_decision.note|default:"Contacta a equipa Kalitica para obter mais informações sobre esta decisão." }}</p><a class="k-btn k-btn-secondary" href="mailto:info@kalitica.org">Contactar a equipa</a></section>
+<section class="decision-panel decision-corrections"><i class="bi bi-info-circle" aria-hidden="true"></i><h2>{{ membership.get_status_display }}</h2><p>{{ latest_decision.note|default:"Contacta a equipa Kalitica para obter mais informações sobre esta decisão." }}</p><a class="k-btn k-btn-secondary" href="mailto:info@nhakalitica.gw">Contactar a equipa</a></section>
 {% else %}
 <section class="application-dashboard-card">
   {% include "memberships/_progress.html" %}

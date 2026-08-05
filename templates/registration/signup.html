@@ -3,13 +3,14 @@
 {% block body_class %}auth-page{% endblock %}
 {% block site_header %}{% endblock %}{% block site_footer %}{% endblock %}
 {% block content %}
+{% url 'terms' as terms_url %}{% url 'privacy' as privacy_url %}
 <section class="auth-split-shell">
   <div class="auth-form-side">
     <a class="auth-logo" href="{% url 'home' %}"><img src="{% static 'img/kalitica-logo.png' %}" alt="Kalitica Networking Society"></a>
     <div class="auth-form-card auth-form-card-wide">
       <h1>{% translate "Criar conta" %}</h1><p>{% translate "Começa a tua adesão à Kalitica Networking Society." %}</p>
       <form method="post" novalidate>{% csrf_token %}
-        {% for field in form %}<div class="auth-field{% if field.name == 'accept_terms' %} auth-check-field{% endif %}">{% if field.name != 'accept_terms' %}<label for="{{ field.id_for_label }}">{{ field.label }}</label>{% endif %}{{ field }}{% if field.name == 'accept_terms' %}<label for="{{ field.id_for_label }}">{{ field.label }}</label>{% endif %}{% for error in field.errors %}<p class="auth-error">{{ error }}</p>{% endfor %}</div>{% endfor %}
+        {% for field in form %}<div class="auth-field{% if field.name == 'accept_terms' %} auth-check-field{% endif %}">{% if field.name != 'accept_terms' %}<label for="{{ field.id_for_label }}">{{ field.label }}</label>{% endif %}{{ field }}{% if field.name == 'accept_terms' %}<label for="{{ field.id_for_label }}">{% blocktranslate with terms_url=terms_url privacy_url=privacy_url %}Li e aceito os <a href="{{ terms_url }}" target="_blank" rel="noopener">Termos de Utilização</a> e a <a href="{{ privacy_url }}" target="_blank" rel="noopener">Política de Privacidade</a>.{% endblocktranslate %}</label>{% endif %}{% for error in field.errors %}<p class="auth-error">{{ error }}</p>{% endfor %}</div>{% endfor %}
         {% for error in form.non_field_errors %}<p class="auth-error">{{ error }}</p>{% endfor %}
         <button class="k-btn k-btn-primary auth-submit" type="submit">{% translate "Criar conta" %}</button>
       </form>

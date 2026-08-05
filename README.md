@@ -21,6 +21,8 @@ A aplicação fica disponível em `http://127.0.0.1:8000/`.
 
 As variáveis suportadas estão documentadas em `.env.example`. O projecto lê as variáveis do processo.
 
+Define `PUBLIC_BASE_URL=https://nhakalitica.gw` para gerar ligações canónicas com o domínio oficial e `KALITICA_CONTACT_EMAIL=info@nhakalitica.gw` para centralizar o contacto público e legal.
+
 Para PostgreSQL, define `DATABASE_ENGINE=postgresql` e preenche `DATABASE_NAME`, `DATABASE_USER`, `DATABASE_PASSWORD`, `DATABASE_HOST` e `DATABASE_PORT`.
 
 ## Testes
@@ -29,6 +31,12 @@ Para PostgreSQL, define `DATABASE_ENGINE=postgresql` e preenche `DATABASE_NAME`,
 .\.venv\Scripts\python.exe manage.py makemigrations --check --dry-run
 .\.venv\Scripts\python.exe manage.py check
 .\.venv\Scripts\python.exe manage.py test
+```
+
+As traduções compiladas são geradas com `polib`, disponível nas dependências de desenvolvimento:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
 ```
 
 ## Estrutura

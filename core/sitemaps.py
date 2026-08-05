@@ -12,6 +12,9 @@ class StaticSitemap(Sitemap):
             "about",
             "membership-types",
             "how-it-works",
+            "terms",
+            "privacy",
+            "code-of-conduct",
         )
 
     def location(self, item):

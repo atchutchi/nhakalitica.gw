@@ -211,12 +211,23 @@
 .how-steps h2 { margin: 0 0 5px; font-size: 1.2rem; }
 .how-steps p { margin: 0; color: var(--color-muted); }
 
+.legal-layout { max-width: 940px; }
+.legal-heading { max-width: 820px; margin-bottom: 30px; }
+.legal-meta { margin: 18px 0 0; color: var(--color-navy); font-size: .9rem; font-weight: 600; }
+.legal-document { padding: 12px 38px; border: 1px solid var(--color-border); border-radius: var(--radius-panel); background: #fff; }
+.legal-document section { padding: 24px 0; border-bottom: 1px solid var(--color-border); }
+.legal-document section:last-child { border-bottom: 0; }
+.legal-document h2 { margin: 0 0 9px; color: var(--color-navy); font-size: 1.18rem; }
+.legal-document p { margin: 0; color: var(--color-muted); line-height: 1.7; }
+.legal-document a { color: var(--color-primary-deep); font-weight: 600; }
+
 .public-footer { padding: 30px 0; color: #fff; background: #07515a; }
 .public-footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 32px; }
 .public-footer-brand { display: flex; align-items: center; gap: 26px; }
 .public-footer-brand img { width: 160px; padding: 6px; border-radius: var(--radius-control); background: #fff; }
 .public-footer-brand span { max-width: 650px; font-size: .9rem; }
 .public-footer nav { display: flex; gap: 22px; }
+.public-footer-links { display: grid; justify-items: end; gap: 12px; }
 .public-footer a, .public-footer button { color: #fff; font-size: .86rem; }
 .public-footer form { margin: 0; }
 .public-footer button { padding: 0; border: 0; background: transparent; text-decoration: underline; }
@@ -253,6 +264,8 @@
   .public-main { padding: 44px 0; }
   .public-page-heading h1, .mission-copy h1 { font-size: 2.2rem; }
   .membership-type-card { min-height: 0; padding: 24px; }
+  .legal-document { padding: 6px 22px; }
   .public-footer-inner, .public-footer-brand { align-items: flex-start; flex-direction: column; }
+  .public-footer-links { justify-items: start; }
   .public-footer nav { flex-wrap: wrap; }
 }
