@@ -58,8 +58,8 @@
 - [x] **Step 1: Executar o teste focalizado e a suite completa**
 - [x] **Step 2: Executar `python manage.py check`**
 - [x] **Step 3: Verificar visualmente desktop, tablet e telemóvel**
-- [ ] **Step 4: Fazer commit e push para a branch principal**
-- [ ] **Step 5: Confirmar a versão publicada e o estado HTTP**
+- [x] **Step 4: Fazer commit e push para a branch principal**
+- [x] **Step 5: Confirmar a versão publicada e o estado HTTP**
 
 ## Self-review
 
