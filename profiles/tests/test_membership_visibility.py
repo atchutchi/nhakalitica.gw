@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+from django.urls import reverse
 
 from memberships.models import Membership
 from profiles.models import Profile
@@ -70,3 +71,24 @@ class MembershipProfileVisibilityTests(TestCase):
             new_member.profile.review_status,
             Profile.ReviewStatus.DRAFT,
         )
+
+    def test_public_profile_uses_only_approved_organization_snapshot(self):
+        self.owner.membership.represents_organization = True
+        self.owner.membership.organization_name = "Organização Aprovada"
+        self.owner.membership.organization_role = "Representante"
+        self.owner.membership.organization_purpose = "Finalidade privada"
+        self.owner.membership.save()
+        self.profile.show_organization_on_profile = True
+        self.profile.published_snapshot = self.profile.build_public_snapshot()
+        self.profile.save(update_fields=("show_organization_on_profile", "published_snapshot"))
+        self.owner.membership.organization_name = "Organização Ainda Não Revista"
+        self.owner.membership.save(update_fields=("organization_name",))
+        self.client.force_login(self.viewer)
+
+        response = self.client.get(reverse("public-profile", args=(self.profile.slug,)))
+
+        self.assertContains(response, "Organização representada")
+        self.assertContains(response, "Organização Aprovada")
+        self.assertContains(response, "Representante")
+        self.assertNotContains(response, "Organização Ainda Não Revista")
+        self.assertNotContains(response, "Finalidade privada")

@@ -12,6 +12,10 @@ class MembershipApplicationForm(forms.ModelForm):
             "relationship",
             "relationship_note",
             "motivation",
+            "represents_organization",
+            "organization_name",
+            "organization_role",
+            "organization_purpose",
             "accepts_code_of_conduct",
             "accepts_privacy",
             "confirms_truth",
@@ -21,12 +25,14 @@ class MembershipApplicationForm(forms.ModelForm):
             "relationship": _("Ligação à Guiné-Bissau"),
             "relationship_note": _("Explica a ligação relevante"),
             "motivation": _("Motivação para aderir"),
+            "represents_organization": _("Represento uma organização que procura talento"),
         }
         widgets = {
             "member_type": forms.RadioSelect,
             "relationship": forms.RadioSelect,
             "relationship_note": forms.Textarea(attrs={"rows": 4}),
             "motivation": forms.Textarea(attrs={"rows": 5}),
+            "organization_purpose": forms.Textarea(attrs={"rows": 4}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -52,4 +58,28 @@ class MembershipApplicationForm(forms.ModelForm):
                 "relationship_note",
                 _("Explica a tua ligação relevante à Guiné-Bissau."),
             )
+        if cleaned.get("represents_organization"):
+            for field_name in (
+                "organization_name",
+                "organization_role",
+                "organization_purpose",
+            ):
+                if not cleaned.get(field_name, "").strip():
+                    self.add_error(
+                        field_name,
+                        _("Este campo é obrigatório para representantes de organizações."),
+                    )
+        else:
+            cleaned["organization_name"] = ""
+            cleaned["organization_role"] = ""
+            cleaned["organization_purpose"] = ""
         return cleaned
+
+    def save(self, commit=True):
+        membership = super().save(commit=commit)
+        if commit and not membership.represents_organization:
+            profile = membership.user.profile
+            if profile.show_organization_on_profile:
+                profile.show_organization_on_profile = False
+                profile.save(update_fields=("show_organization_on_profile", "updated_at"))
+        return membership

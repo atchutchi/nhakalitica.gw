@@ -165,6 +165,10 @@ class Profile(models.Model):
     consent_profile_public = models.BooleanField("consentimento para perfil público", default=False)
     consent_contact = models.BooleanField("consentimento para contacto", default=False)
     consent_marketing = models.BooleanField("consentimento de marketing", default=False)
+    show_organization_on_profile = models.BooleanField(
+        _("mostrar organização no perfil"),
+        default=False,
+    )
     accepted_terms_version = models.CharField("versão dos termos", max_length=30, blank=True)
     accepted_terms_at = models.DateTimeField("termos aceites em", null=True, blank=True)
     accepted_privacy_version = models.CharField("versão da privacidade", max_length=30, blank=True)
@@ -223,7 +227,7 @@ class Profile(models.Model):
         )
 
     def build_public_snapshot(self):
-        return {
+        payload = {
             "public_name": self.public_name,
             "professional_title": self.professional_title,
             "bio": self.bio,
@@ -270,6 +274,16 @@ class Profile(models.Model):
                 for item in self.languages.all()
             ],
         }
+        membership = getattr(self.user, "membership", None)
+        if (
+            self.show_organization_on_profile
+            and membership
+            and membership.can_access_network
+            and membership.represents_organization
+        ):
+            payload["organization_name"] = membership.organization_name
+            payload["organization_role"] = membership.organization_role
+        return payload
 
     @property
     def public_payload(self):

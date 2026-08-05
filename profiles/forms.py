@@ -19,6 +19,13 @@ class ProfileForm(forms.ModelForm):
         )
         self.fields["years_experience"].help_text = "Ajuda o filtro de experiência quando o teu percurso tem datas incompletas."
         self.fields["seniority_level"].help_text = "Ajuda recrutadores a distinguir entrada, júnior, intermédio, sénior e liderança."
+        membership = (
+            getattr(self.instance.user, "membership", None)
+            if self.instance.user_id
+            else None
+        )
+        if not membership or not membership.represents_organization:
+            self.fields.pop("show_organization_on_profile", None)
 
     class Meta:
         model = Profile
@@ -48,6 +55,7 @@ class ProfileForm(forms.ModelForm):
             "cv_file",
             "cv_visibility",
             "consent_marketing",
+            "show_organization_on_profile",
         )
         widgets = {
             "bio": forms.Textarea(attrs={"rows": 5}),

@@ -32,6 +32,15 @@ def submission_errors(user, membership):
         errors.append(_("Explica a tua ligação relevante à Guiné-Bissau."))
     if not membership.motivation.strip():
         errors.append(_("Explica a tua motivação para aderir."))
+    if membership.represents_organization and not all(
+        value.strip()
+        for value in (
+            membership.organization_name,
+            membership.organization_role,
+            membership.organization_purpose,
+        )
+    ):
+        errors.append(_("Completa os dados da organização que representas."))
     if not all(
         (
             membership.accepts_code_of_conduct,

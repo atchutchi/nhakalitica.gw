@@ -5,9 +5,22 @@ from .models import Membership, MembershipDecision
 
 @admin.register(Membership)
 class MembershipAdmin(admin.ModelAdmin):
-    list_display = ("user", "member_type", "relationship", "status", "updated_at")
-    list_filter = ("member_type", "relationship", "status")
-    search_fields = ("user__email", "relationship_note", "motivation")
+    list_display = (
+        "user",
+        "member_type",
+        "relationship",
+        "represents_organization",
+        "status",
+        "updated_at",
+    )
+    list_filter = ("member_type", "relationship", "represents_organization", "status")
+    search_fields = (
+        "user__email",
+        "relationship_note",
+        "motivation",
+        "organization_name",
+        "organization_role",
+    )
     readonly_fields = ("submitted_at", "decided_at", "created_at", "updated_at")
 
 

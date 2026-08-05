@@ -35,6 +35,13 @@ class Membership(models.Model):
     )
     relationship_note = models.TextField(blank=True)
     motivation = models.TextField(blank=True)
+    represents_organization = models.BooleanField(
+        _("Representa uma organização"),
+        default=False,
+    )
+    organization_name = models.CharField(_("Nome da organização"), max_length=180, blank=True)
+    organization_role = models.CharField(_("Função na organização"), max_length=180, blank=True)
+    organization_purpose = models.TextField(_("Objectivo da organização na rede"), blank=True)
     accepts_code_of_conduct = models.BooleanField(
         _("Aceita o código de conduta"),
         default=False,
