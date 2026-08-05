@@ -5,19 +5,20 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.core.cache import cache
+from django.db import transaction
 from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
+from django.utils.dateparse import parse_datetime
 
 from moderation.models import AuditLog
 from interactions.models import Favorite, SavedSearch
-from profiles.models import Profile
 
 from .forms import AccountForm, PasswordConfirmationForm, SignUpForm
 from .legal import record_legal_acceptance
 from .models import LegalAcceptance, User
-from .services import send_verification_email
+from .services import schedule_account_deletion, send_verification_email
 from .tokens import email_verification_token
 
 
@@ -143,19 +144,25 @@ def deactivate_account(request):
     form = PasswordConfirmationForm(request.user, request.POST or None)
     if request.method == "POST" and form.is_valid():
         user = request.user
-        profile = user.profile
-        profile.is_public = False
-        profile.status = Profile.Status.ARCHIVED
-        profile.save(update_fields=("is_public", "status", "updated_at"))
-        AuditLog.objects.create(
-            actor=user,
-            action="account.deactivated",
-            target_type="user",
-            target_id=str(user.pk),
-            metadata={},
-        )
-        user.is_active = False
-        user.save(update_fields=("is_active",))
+        with transaction.atomic():
+            scheduled_user = schedule_account_deletion(user)
+            AuditLog.objects.create(
+                actor=user,
+                action="account.deletion_scheduled",
+                target_type="user",
+                target_id=str(user.pk),
+                metadata={"scheduled_deletion_at": scheduled_user.scheduled_deletion_at.isoformat()},
+            )
         logout(request)
-        return redirect("accounts:login")
+        request.session["scheduled_deletion_at"] = scheduled_user.scheduled_deletion_at.isoformat()
+        return redirect("accounts:deactivation-scheduled")
     return render(request, "accounts/deactivate.html", {"form": form})
+
+
+def deactivation_scheduled(request):
+    scheduled_value = request.session.get("scheduled_deletion_at", "")
+    return render(
+        request,
+        "accounts/deactivation_scheduled.html",
+        {"scheduled_deletion_at": parse_datetime(scheduled_value) if scheduled_value else None},
+    )

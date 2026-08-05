@@ -10,6 +10,17 @@ class User(AbstractUser):
     username = None
     email = models.EmailField("email", unique=True)
     email_verified_at = models.DateTimeField("email confirmado em", null=True, blank=True)
+    deletion_requested_at = models.DateTimeField(
+        "eliminação pedida em",
+        null=True,
+        blank=True,
+    )
+    scheduled_deletion_at = models.DateTimeField(
+        "eliminação agendada para",
+        null=True,
+        blank=True,
+        db_index=True,
+    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

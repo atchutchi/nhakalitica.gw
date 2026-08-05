@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% load static %}
+{% block title %}Eliminação agendada | Kalitica{% endblock %}
+{% block body_class %}auth-page{% endblock %}
+{% block site_header %}{% endblock %}{% block site_footer %}{% endblock %}
+{% block content %}<section class="auth-split-shell"><div class="auth-form-side"><a class="auth-logo" href="{% url 'home' %}"><img src="{% static 'img/kalitica-logo.png' %}" alt="Kalitica Networking Society"></a><div class="auth-form-card auth-confirm-card"><i class="bi bi-calendar-check" aria-hidden="true"></i><h1>Eliminação agendada</h1><p>A tua conta está desactivada e o perfil deixou de estar visível.</p>{% if scheduled_deletion_at %}<p>A eliminação definitiva está agendada para <strong>{{ scheduled_deletion_at|date:"j \d\e F \d\e Y" }}</strong>.</p>{% else %}<p>A eliminação definitiva ocorrerá depois do prazo de recuperação de 30 dias.</p>{% endif %}<p>Para recuperar a conta antes dessa data, contacta <a href="mailto:info@nhakalitica.gw">info@nhakalitica.gw</a>.</p><a class="k-btn k-btn-secondary" href="{% url 'home' %}">Voltar à página inicial</a></div></div>{% include "registration/_auth_brand_panel.html" %}</section>{% endblock %}

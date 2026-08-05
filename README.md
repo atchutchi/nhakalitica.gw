@@ -71,3 +71,13 @@ $env:CSRF_TRUSTED_ORIGINS='https://nhakalitica.gw,https://www.nhakalitica.gw'
 ```
 
 O endpoint `/saude/` valida a aplicação e a ligação à base de dados. Em produção usa um servidor WSGI ou ASGI, armazenamento persistente para ficheiros e cópias de segurança.
+
+## Eliminação de contas
+
+A desactivação agenda a eliminação dos dados pessoais após 30 dias. Antes de configurar a execução periódica, valida as contas elegíveis sem alterar dados:
+
+```powershell
+.\.venv\Scripts\python.exe manage.py purge_scheduled_accounts --dry-run
+```
+
+Em produção, executa diariamente o comando sem `--dry-run`. O comando elimina apenas contas inactivas cujo prazo terminou, processa cada conta numa transacção própria e mantém os registos administrativos legalmente necessários sem o vínculo ao utilizador eliminado.

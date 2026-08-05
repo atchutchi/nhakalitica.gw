@@ -1,6 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.utils import timezone
 
+from moderation.models import AuditLog
+
+from .services import restore_scheduled_account
 from .models import LegalAcceptance, User
 
 
@@ -23,6 +27,8 @@ class LegalAcceptanceAdmin(admin.ModelAdmin):
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
+    actions = ("restore_accounts_within_recovery_period",)
+    readonly_fields = ("deletion_requested_at", "scheduled_deletion_at")
     ordering = ("email",)
     list_display = ("email", "first_name", "last_name", "is_staff", "is_active")
     search_fields = ("email", "first_name", "last_name")
@@ -41,7 +47,18 @@ class CustomUserAdmin(UserAdmin):
                 )
             },
         ),
-        ("Datas importantes", {"fields": ("email_verified_at", "last_login", "date_joined")}),
+        (
+            "Datas importantes",
+            {
+                "fields": (
+                    "email_verified_at",
+                    "deletion_requested_at",
+                    "scheduled_deletion_at",
+                    "last_login",
+                    "date_joined",
+                )
+            },
+        ),
     )
     add_fieldsets = (
         (
@@ -52,3 +69,21 @@ class CustomUserAdmin(UserAdmin):
             },
         ),
     )
+
+    @admin.action(description="Restaurar contas dentro do prazo de recuperação")
+    def restore_accounts_within_recovery_period(self, request, queryset):
+        restored = 0
+        for user in queryset.filter(
+            is_active=False,
+            scheduled_deletion_at__gt=timezone.now(),
+        ):
+            restore_scheduled_account(user)
+            AuditLog.objects.create(
+                actor=request.user,
+                action="account.deletion_restored",
+                target_type="user",
+                target_id=str(user.pk),
+                metadata={},
+            )
+            restored += 1
+        self.message_user(request, f"{restored} conta(s) restaurada(s).")

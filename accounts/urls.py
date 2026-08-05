@@ -14,6 +14,7 @@ from .views import (
     ThrottledLoginView,
     dashboard,
     deactivate_account,
+    deactivation_scheduled,
     edit_account,
     resend_verification,
     signup,
@@ -39,6 +40,11 @@ urlpatterns = [
     path("painel/", dashboard, name="dashboard"),
     path("editar/", edit_account, name="edit"),
     path("desactivar/", deactivate_account, name="deactivate"),
+    path(
+        "desactivacao-agendada/",
+        deactivation_scheduled,
+        name="deactivation-scheduled",
+    ),
     path("confirmar-email/reenviar/", resend_verification, name="resend-verification"),
     path("confirmar-email/<uidb64>/<token>/", verify_email, name="verify-email"),
     path(

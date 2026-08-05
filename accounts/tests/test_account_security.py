@@ -79,10 +79,14 @@ class AccountSecurityTests(TestCase):
         self.assertTrue(user.is_active)
 
         response = self.client.post(reverse("accounts:deactivate"), {"password": "correct-pass"})
-        self.assertRedirects(response, reverse("accounts:login"))
+        self.assertRedirects(response, reverse("accounts:deactivation-scheduled"))
         user.refresh_from_db()
         self.assertFalse(user.is_active)
         self.assertFalse(user.profile.is_public)
+        self.assertIsNotNone(user.scheduled_deletion_at)
+        final_response = self.client.get(reverse("accounts:deactivation-scheduled"))
+        self.assertContains(final_response, "Eliminação agendada")
+        self.assertContains(final_response, "info@nhakalitica.gw")
 
     def test_repeated_failed_login_is_temporarily_limited(self):
         get_user_model().objects.create_user(email="login@example.com", password="correct-pass")
