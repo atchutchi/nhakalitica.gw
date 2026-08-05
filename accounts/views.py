@@ -15,7 +15,8 @@ from interactions.models import Favorite, SavedSearch
 from profiles.models import Profile
 
 from .forms import AccountForm, PasswordConfirmationForm, SignUpForm
-from .models import User
+from .legal import record_legal_acceptance
+from .models import LegalAcceptance, User
 from .services import send_verification_email
 from .tokens import email_verification_token
 
@@ -51,6 +52,16 @@ def signup(request):
     form = SignUpForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         user = form.save()
+        record_legal_acceptance(
+            user,
+            LegalAcceptance.DocumentType.TERMS,
+            LegalAcceptance.Source.SIGNUP,
+        )
+        record_legal_acceptance(
+            user,
+            LegalAcceptance.DocumentType.PRIVACY,
+            LegalAcceptance.Source.SIGNUP,
+        )
         send_verification_email(request, user)
         request.session["pending_verification_user_id"] = user.pk
         messages.info(request, "Enviámos uma ligação para confirmares o teu email.")

@@ -1,8 +1,12 @@
 from django.contrib import messages
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+
+from accounts.legal import record_legal_acceptance
+from accounts.models import LegalAcceptance
 
 from .forms import (
     CertificationForm,
@@ -88,11 +92,21 @@ def submit_profile(request):
         profile.is_discoverable = False
         profile.consent_profile_public = True
         profile.consent_contact = True
-        profile.accepted_terms_version = "1.0"
+        profile.accepted_terms_version = settings.LEGAL_DOCUMENT_VERSION
         profile.accepted_terms_at = now
-        profile.accepted_privacy_version = "1.0"
+        profile.accepted_privacy_version = settings.LEGAL_DOCUMENT_VERSION
         profile.accepted_privacy_at = now
         profile.save()
+        record_legal_acceptance(
+            request.user,
+            LegalAcceptance.DocumentType.TERMS,
+            LegalAcceptance.Source.PROFILE,
+        )
+        record_legal_acceptance(
+            request.user,
+            LegalAcceptance.DocumentType.PRIVACY,
+            LegalAcceptance.Source.PROFILE,
+        )
         record_pending_revision(profile)
         from interactions.models import Notification
 

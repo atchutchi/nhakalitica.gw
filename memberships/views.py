@@ -4,6 +4,9 @@ from django.shortcuts import redirect, render
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
+from accounts.legal import record_legal_acceptance
+from accounts.models import LegalAcceptance
+
 from .forms import MembershipApplicationForm
 from .models import Membership
 from .services import transition_membership
@@ -166,6 +169,16 @@ def submit(request):
         membership,
         request.user,
         Membership.Status.SUBMITTED,
+    )
+    record_legal_acceptance(
+        request.user,
+        LegalAcceptance.DocumentType.PRIVACY,
+        LegalAcceptance.Source.MEMBERSHIP,
+    )
+    record_legal_acceptance(
+        request.user,
+        LegalAcceptance.DocumentType.CODE,
+        LegalAcceptance.Source.MEMBERSHIP,
     )
     messages.success(request, _("Candidatura submetida para análise."))
     return redirect("memberships:dashboard")
