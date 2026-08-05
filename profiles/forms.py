@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from django import forms
 from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
@@ -104,6 +106,21 @@ class ProfileForm(forms.ModelForm):
 
     def clean_cv_visibility(self):
         return self.cleaned_data.get("cv_visibility") or self.instance.cv_visibility
+
+    def clean_photo(self):
+        upload = self.cleaned_data.get("photo")
+        if not upload:
+            return upload
+        allowed_extensions = {".jpg", ".jpeg", ".png", ".webp"}
+        allowed_content_types = {"image/jpeg", "image/png", "image/webp"}
+        if (
+            Path(upload.name).suffix.lower() not in allowed_extensions
+            or getattr(upload, "content_type", "") not in allowed_content_types
+        ):
+            raise ValidationError(_("A fotografia deve estar em formato JPEG, PNG ou WebP."))
+        if upload.size > 5 * 1024 * 1024:
+            raise ValidationError(_("A fotografia não pode exceder 5 MB."))
+        return upload
 
 
 class DateInput(forms.DateInput):

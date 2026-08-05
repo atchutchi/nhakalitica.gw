@@ -2828,3 +2828,9 @@ msgstr "To be completed"
 
 msgid "Revê os dados indicados e completa a informação em falta."
 msgstr "Review the details provided and complete the missing information."
+
+msgid "A fotografia deve estar em formato JPEG, PNG ou WebP."
+msgstr "The photograph must be in JPEG, PNG or WebP format."
+
+msgid "A fotografia não pode exceder 5 MB."
+msgstr "The photograph cannot exceed 5 MB."

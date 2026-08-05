@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from unittest.mock import patch
 
 from django.conf import settings
@@ -16,7 +17,7 @@ class KaliticaConfigurationTests(SimpleTestCase):
         self.assertEqual(settings.TIME_ZONE, "Africa/Bissau")
         self.assertEqual(
             settings.DEFAULT_FROM_EMAIL,
-            "Kalitica <noreply@nhakalitica.gw>",
+            "Kalitica Networking Society <noreply@nhakalitica.gw>",
         )
         self.assertIn("memberships", settings.INSTALLED_APPS)
 
@@ -24,6 +25,30 @@ class KaliticaConfigurationTests(SimpleTestCase):
         self.assertEqual(settings.AUTH_USER_MODEL, "accounts.User")
         self.assertIn(settings.BASE_DIR / "templates", settings.TEMPLATES[0]["DIRS"])
         self.assertIn(settings.BASE_DIR / "static", settings.STATICFILES_DIRS)
+        self.assertEqual(settings.MEDIA_ROOT, settings.BASE_DIR / "media")
+
+    def test_source_has_no_encoding_artifacts(self):
+        suspicious = (
+            chr(0xFFFD),
+            "".join(chr(value) for value in (0x00E2, 0x20AC, 0x2122)),
+            "?" * 2,
+            *(
+                chr(0x00C3) + chr(second)
+                for second in (0x00A0, 0x00A1, 0x00A2, 0x00A3, 0x00A7, 0x00A9, 0x00AD, 0x00B3, 0x00B5)
+            ),
+        )
+        roots = ("accounts", "config", "core", "interactions", "memberships", "moderation", "profiles", "taxonomy", "templates")
+        failures = []
+        for root in roots:
+            for path in (settings.BASE_DIR / root).rglob("*"):
+                if path.suffix not in {".py", ".html"} or "migrations" in path.parts:
+                    continue
+                if path.name in {"text_encoding.py", "test_encoding.py"}:
+                    continue
+                text = path.read_text(encoding="utf-8")
+                if any(marker in text for marker in suspicious):
+                    failures.append(str(path.relative_to(settings.BASE_DIR)))
+        self.assertEqual(failures, [])
 
     @patch.dict(os.environ, {}, clear=True)
     def test_development_can_use_local_secret_key(self):

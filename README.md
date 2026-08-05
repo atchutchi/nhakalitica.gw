@@ -27,6 +27,8 @@ Define `KALITICA_ADMIN_EMAILS` com um ou mais endereços separados por vírgulas
 
 Para PostgreSQL, define `DATABASE_ENGINE=postgresql` e preenche `DATABASE_NAME`, `DATABASE_USER`, `DATABASE_PASSWORD`, `DATABASE_HOST` e `DATABASE_PORT`.
 
+Define `MEDIA_ROOT` para um volume persistente fora do contentor da aplicação. As fotografias e os currículos não podem depender do disco temporário de uma instância. A versão inicial suporta um volume persistente local. Se a infraestrutura não garantir persistência, configura um backend de object storage compatível com Django antes do lançamento.
+
 ## Testes
 
 ```powershell
@@ -71,6 +73,57 @@ $env:CSRF_TRUSTED_ORIGINS='https://nhakalitica.gw,https://www.nhakalitica.gw'
 ```
 
 O endpoint `/saude/` valida a aplicação e a ligação à base de dados. Em produção usa um servidor WSGI ou ASGI, armazenamento persistente para ficheiros e cópias de segurança.
+
+## Publicação em produção
+
+O ambiente de produção deve disponibilizar PostgreSQL, SMTP autenticado, TLS para `nhakalitica.gw` e `www.nhakalitica.gw`, um volume persistente para `MEDIA_ROOT` e um proxy ou CDN para servir `STATIC_ROOT`. Os ficheiros de media devem permanecer privados e ser entregues apenas pelos endpoints autorizados da aplicação ou por ligações temporárias de um object storage privado. Não exponhas `MEDIA_ROOT` como pasta pública. Não uses SQLite nem o servidor `runserver` em produção.
+
+Instala e prepara cada versão com:
+
+```powershell
+python -m pip install -r requirements.txt
+python manage.py check --deploy
+python manage.py migrate
+python manage.py collectstatic --noinput
+```
+
+Inicia a aplicação num servidor Linux com:
+
+```text
+gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 60
+```
+
+Cria o primeiro administrador apenas numa consola protegida:
+
+```powershell
+python manage.py createsuperuser
+```
+
+Antes de abrir o registo ao público confirma estes pontos:
+
+1. `DEBUG=False` e `SECRET_KEY` contém uma chave longa, aleatória e exclusiva.
+2. `ALLOWED_HOSTS`, `CSRF_TRUSTED_ORIGINS` e `PUBLIC_BASE_URL` usam o domínio oficial.
+3. A migração da base de dados e `collectstatic` terminaram sem erros.
+4. O envio SMTP foi testado com confirmação de email, decisão de adesão e pedido de contacto.
+5. O volume de media continua acessível depois de reiniciar ou substituir a instância.
+6. O endpoint `/saude/` responde com sucesso através de HTTPS.
+7. Os acessos ao painel administrativo e aos registos do fornecedor estão limitados à equipa autorizada.
+
+## Cópias de segurança e recuperação
+
+Cria diariamente uma cópia cifrada da base PostgreSQL e do volume de media. Mantém pelo menos uma cópia fora do fornecedor principal. A retenção deve respeitar a política de privacidade e não prolongar dados pessoais sem fundamento.
+
+Testa a restauração num ambiente isolado antes do lançamento e depois em intervalos regulares. Um backup que nunca foi restaurado não constitui prova de recuperação. O teste deve confirmar a base de dados, as fotografias, os currículos, o acesso administrativo e o endpoint `/saude/`. Regista a data, a duração e o resultado do teste.
+
+## Operações agendadas
+
+Executa diariamente, através do agendador do fornecedor, o comando:
+
+```text
+python manage.py purge_scheduled_accounts
+```
+
+Executa primeiro com `--dry-run` em cada ambiente novo. Monitoriza o código de saída e conserva o registo operacional do processo. Não registes conteúdo pessoal eliminado nos logs.
 
 ## Eliminação de contas
 

@@ -1,11 +1,26 @@
+from io import BytesIO
+
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+from PIL import Image
 
 from profiles.forms import CertificationForm, EducationForm, ExperienceForm, ProfileForm
 
 
 class ProfileFormTests(TestCase):
+    @staticmethod
+    def image_upload(filename, image_format, *, large=False):
+        image = (
+            Image.effect_noise((3500, 3500), 100).convert("RGB")
+            if large
+            else Image.new("RGB", (2, 2), "white")
+        )
+        output = BytesIO()
+        image.save(output, format=image_format, quality=100)
+        content_type = f"image/{image_format.lower()}"
+        return SimpleUploadedFile(filename, output.getvalue(), content_type)
+
     def test_organization_visibility_is_only_offered_to_representatives(self):
         user = get_user_model().objects.create_user(
             email="representative@example.com",
@@ -41,6 +56,21 @@ class ProfileFormTests(TestCase):
         form = ProfileForm(data={}, files={"cv_file": upload})
 
         self.assertIn("cv_file", form.errors)
+
+    def test_rejects_photo_larger_than_five_megabytes(self):
+        upload = self.image_upload("photo.jpg", "JPEG", large=True)
+        self.assertGreater(upload.size, 5 * 1024 * 1024)
+        form = ProfileForm(data={}, files={"photo": upload})
+
+        self.assertIn("photo", form.errors)
+        self.assertIn("5 MB", form.errors["photo"][0])
+
+    def test_rejects_unsupported_photo_type(self):
+        upload = self.image_upload("photo.gif", "GIF")
+        form = ProfileForm(data={}, files={"photo": upload})
+
+        self.assertIn("photo", form.errors)
+        self.assertIn("JPEG, PNG ou WebP", form.errors["photo"][0])
 
     def test_experience_end_date_cannot_precede_start_date(self):
         form = ExperienceForm(

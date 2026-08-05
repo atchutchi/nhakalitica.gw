@@ -29,5 +29,17 @@ jobs:
       - name: Validar configuração
         run: python manage.py check
 
+      - name: Validar configuração de produção
+        env:
+          DEBUG: "False"
+          SECRET_KEY: "ci-only-secret-key-with-more-than-fifty-characters-and-random-content"
+          ALLOWED_HOSTS: "nhakalitica.gw,www.nhakalitica.gw"
+          CSRF_TRUSTED_ORIGINS: "https://nhakalitica.gw,https://www.nhakalitica.gw"
+          PUBLIC_BASE_URL: "https://nhakalitica.gw"
+        run: python manage.py check --deploy
+
+      - name: Detectar artefactos de codificação
+        run: python manage.py test tests.test_project_configuration.KaliticaConfigurationTests.test_source_has_no_encoding_artifacts
+
       - name: Executar testes
         run: python manage.py test

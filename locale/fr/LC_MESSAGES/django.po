@@ -2888,3 +2888,9 @@ msgstr "À compléter"
 
 msgid "Revê os dados indicados e completa a informação em falta."
 msgstr "Vérifie les informations fournies et complète les données manquantes."
+
+msgid "A fotografia deve estar em formato JPEG, PNG ou WebP."
+msgstr "La photographie doit être au format JPEG, PNG ou WebP."
+
+msgid "A fotografia não pode exceder 5 MB."
+msgstr "La photographie ne peut pas dépasser 5 Mo."
