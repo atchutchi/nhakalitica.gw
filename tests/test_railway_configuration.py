@@ -5,6 +5,9 @@ from django.test import TestCase, override_settings
 
 
 class RailwayConfigurationTests(TestCase):
+    def test_railway_healthcheck_hostname_is_allowed(self):
+        self.assertIn("healthcheck.railway.app", settings.ALLOWED_HOSTS)
+
     @override_settings(SECURE_SSL_REDIRECT=True)
     def test_healthcheck_accepts_railway_internal_http_request(self):
         response = self.client.get("/saude/")
