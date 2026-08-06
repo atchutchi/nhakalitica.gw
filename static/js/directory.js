@@ -5,6 +5,9 @@
     menuButton.addEventListener("click", () => {
       const open = mobileNav.classList.toggle("is-open");
       menuButton.setAttribute("aria-expanded", String(open));
+      menuButton.querySelector(".visually-hidden").textContent = open
+        ? menuButton.dataset.closeLabel
+        : menuButton.dataset.openLabel;
     });
   }
   const filterButton = document.querySelector("[data-filter-toggle]");

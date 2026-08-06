@@ -21,6 +21,7 @@
 .member-account-dropdown form { margin: 4px 0 0; padding-top: 4px; border-top: 1px solid var(--color-border); }
 .member-account-dropdown i { color: var(--color-primary); font-size: 1rem; }
 .member-account button { display: none; width: 44px; height: 44px; border: 1px solid var(--color-border); border-radius: var(--radius-control); color: var(--color-navy); background: #fff; font-size: 24px; }
+.member-account > button:focus-visible { outline: 3px solid var(--color-primary); outline-offset: 3px; }
 .member-account .member-language-switch button { display: grid; width: 28px; height: 28px; min-height: 0; padding: 0; place-items: center; border: 0; color: var(--color-muted); background: transparent; font-size: .7rem; font-weight: 600; }
 .member-account .member-language-switch button[aria-current="true"] { color: var(--color-primary-deep); background: var(--color-surface-mint); }
 .member-mobile-nav { display: none; }

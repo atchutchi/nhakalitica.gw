@@ -52,7 +52,7 @@
                 <form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button type="submit"><i class="bi bi-box-arrow-right" aria-hidden="true"></i>{% translate "Sair" %}</button></form>
               </div>
             </details>
-            <button type="button" data-member-menu aria-expanded="false" aria-controls="member-mobile-nav"><i class="bi bi-list" aria-hidden="true"></i><span class="visually-hidden">{% translate "Abrir menu" %}</span></button>
+            <button type="button" data-member-menu aria-expanded="false" aria-controls="member-mobile-nav" data-open-label="{% translate 'Abrir menu' %}" data-close-label="{% translate 'Fechar menu' %}"><i class="bi bi-list" aria-hidden="true"></i><span class="visually-hidden">{% translate "Abrir menu" %}</span></button>
           </div>
         {% else %}<nav class="member-primary-nav"><a href="{% url 'accounts:login' %}">{% translate "Entrar" %}</a></nav>{% endif %}
       </div>

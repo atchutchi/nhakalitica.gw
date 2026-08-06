@@ -16,6 +16,7 @@ def home(request):
         "core/home.html",
         {
             "canonical_url": request.build_absolute_uri(reverse("home")),
+            "public_signup_enabled": settings.PUBLIC_SIGNUP_ENABLED,
         },
     )
 

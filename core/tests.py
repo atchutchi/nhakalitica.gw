@@ -35,6 +35,25 @@ class HomeViewTests(TestCase):
         self.assertNotContains(response, 'class="site-header"')
 
 
+    @override_settings(PUBLIC_SIGNUP_ENABLED=False)
+    def test_closed_signup_is_announced_before_the_hero_actions(self):
+        response = self.client.get(reverse("home"))
+        html = response.content.decode()
+
+        self.assertContains(response, "Registos temporariamente encerrados")
+        self.assertLess(
+            html.index("Registos temporariamente encerrados"),
+            html.index('class="hero-network-actions"'),
+        )
+        self.assertNotContains(response, ">Pedir adesão<")
+
+    def test_public_menu_exposes_translated_open_and_close_labels(self):
+        response = self.client.get(reverse("home"))
+
+        self.assertContains(response, 'data-open-label="Abrir menu"')
+        self.assertContains(response, 'data-close-label="Fechar menu"')
+
+
 class PublicVisualContractTests(TestCase):
     def test_public_brand_assets_are_not_clipped_and_hero_mark_is_prominent(self):
         public_css = (Path(settings.BASE_DIR) / "static" / "css" / "public.css").read_text(
@@ -55,6 +74,14 @@ class PublicVisualContractTests(TestCase):
         self.assertContains(response, reverse("accounts:signup"))
         self.assertNotContains(response, "CVLink")
         self.assertNotContains(response, "10€/mês")
+
+    def test_navy_information_card_has_explicit_heading_contrast(self):
+        public_css = (Path(settings.BASE_DIR) / "static" / "css" / "public.css").read_text(
+            encoding="utf-8"
+        )
+
+        self.assertIn(".public-info-card-navy h2", public_css)
+        self.assertIn("color: #fff;", public_css)
 
     def test_institutional_pages_use_public_navigation(self):
         for route_name, heading in (

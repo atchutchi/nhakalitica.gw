@@ -130,6 +130,8 @@
   line-height: 1.55;
 }
 .hero-network-actions { display: flex; gap: 14px; margin-top: 30px; }
+.public-signup-notice { display: grid; max-width: 580px; gap: 2px; margin: 0 0 22px; padding: 12px 15px; border-left: 4px solid var(--color-primary); color: var(--color-navy); background: var(--color-surface-mint); }
+.public-signup-notice span { color: var(--color-muted); font-size: .9rem; }
 .hero-leaf-mark { position: relative; height: 370px; overflow: hidden; }
 .hero-leaf-mark img {
   position: absolute;
@@ -172,6 +174,8 @@
 .public-info-card a { color: inherit; font-size: .88rem; font-weight: 600; text-decoration: none; }
 .public-info-card-soft { color: #173f46; background: #eef8f5; }
 .public-info-card-navy { border-color: var(--color-navy); color: #fff; background: var(--color-navy); }
+.public-info-card-navy h2 { color: #fff; }
+.public-menu-toggle:focus-visible { outline: 3px solid var(--color-primary); outline-offset: 3px; }
 
 .public-main { min-height: 620px; padding: 66px 0; }
 .public-page-heading { max-width: 760px; margin-bottom: 42px; }

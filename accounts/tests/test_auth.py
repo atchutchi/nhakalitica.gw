@@ -128,6 +128,18 @@ class AuthenticationFlowTests(TestCase):
         self.assertContains(response, "Alterar palavra-passe")
         self.assertContains(response, "Sair")
 
+    def test_member_mobile_menu_exposes_translated_open_and_close_labels(self):
+        user = get_user_model().objects.create_user(
+            email="mobile-menu@example.com",
+            password="PalavraPasseSegura2026!",
+        )
+        self.client.force_login(user)
+
+        response = self.client.get("/conta/painel/")
+
+        self.assertContains(response, 'data-open-label="Abrir menu"')
+        self.assertContains(response, 'data-close-label="Fechar menu"')
+
     def test_user_can_logout_with_post(self):
         user = get_user_model().objects.create_user(
             email="fatu@example.com",
