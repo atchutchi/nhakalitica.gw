@@ -1,3 +1,6 @@
+from pathlib import Path
+
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
@@ -127,6 +130,14 @@ class ModerationViewTests(TestCase):
         self.assertContains(response, "Pesquisar no histórico de auditoria")
         self.assertContains(response, 'data-label="Data"')
         self.assertContains(response, 'data-label="Acção"')
+
+    def test_admin_filter_form_can_shrink_inside_a_mobile_workspace(self):
+        admin_css = (Path(settings.BASE_DIR) / "static" / "css" / "admin.css").read_text(
+            encoding="utf-8"
+        )
+
+        self.assertIn(".admin-page-heading form { grid-template-columns: minmax(0, 1fr) auto; }", admin_css)
+        self.assertIn(".admin-page-heading input { min-width: 0; width: 100%; }", admin_css)
 
     def test_member_list_requires_staff_access(self):
         self.assertEqual(self.client.get(reverse("moderation:member-list")).status_code, 302)

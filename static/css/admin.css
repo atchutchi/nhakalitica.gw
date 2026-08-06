@@ -94,6 +94,9 @@
   .admin-topbar { align-items: flex-start; flex-direction: column; gap: 8px; padding-block: 12px; }
   .admin-topbar-actions { flex-wrap: wrap; gap: 7px 12px; }
   .admin-page-heading { align-items: stretch; flex-direction: column; }
+  .admin-page-heading form { display: grid; }
+  .admin-page-heading form { grid-template-columns: minmax(0, 1fr) auto; }
+  .admin-page-heading input { min-width: 0; width: 100%; }
   .admin-metric-grid, .admin-dashboard-grid { grid-template-columns: 1fr; }
   .admin-review-data { grid-template-columns: 1fr; }
   .admin-review-data .is-wide { grid-column: auto; }
