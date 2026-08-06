@@ -2,7 +2,44 @@
 
 Data: 5 de Agosto de 2026
 
-Estado: área pública, experiência de membro aprovado e administração auditadas. Correcções e validação final pendentes.
+Estado: auditoria concluída, 16 problemas corrigidos e versão final validada em produção a 6 de Agosto de 2026.
+
+## Resultado da correcção
+
+Os 16 problemas prioritários ficaram corrigidos e cobertos por testes automatizados. A validação integral executou 299 testes sem falhas. Depois da publicação foram ainda executados 27 testes de moderação para a correcção do overflow mobile e do versionamento do CSS administrativo.
+
+- A página inicial apresenta o encerramento dos registos antes das acções do hero e não oferece “Pedir adesão” enquanto o registo público estiver desactivado.
+- O título do cartão azul usa branco calculado como `rgb(255, 255, 255)`.
+- Os menus público e privado alternam os nomes acessíveis “Abrir menu” e “Fechar menu” e usam foco turquesa.
+- O painel distingue perfil publicado, perfil aprovado mas oculto, perfil em revisão, perfil com correcções e perfil em rascunho.
+- A navegação de definições marca apenas a secção actual com `aria-current="page"` e deixou de criar overflow global.
+- Mensagens vazias apresentam uma acção para o Directório.
+- A comparação só fica disponível com pelo menos dois favoritos.
+- As respostas de permissão e formulário expirado usam páginas Kalitica e não expõem detalhes técnicos.
+- A página de Áreas liga directamente a `info@nhakalitica.gw` e explica a revisão da sugestão.
+- A Administração Kalitica inclui regresso à rede, saída por POST, navegação activa e filtros com nomes acessíveis.
+- A revisão de perfis mostra apenas transições válidas. Um perfil aprovado apresenta “Suspender” e não apresenta “Aprovar publicação”.
+- A Auditoria transforma as linhas em cartões no mobile e o filtro pode encolher sem provocar deslocamento horizontal.
+- “Membros” abre uma página própria da Administração Kalitica com pesquisa, filtros, detalhe de conta, adesão e perfil.
+- A recuperação de uma conta dentro dos 30 dias exige POST, mantém o perfil privado em rascunho e grava auditoria na mesma transacção.
+
+## Validação final em produção
+
+Produção validada em `https://nhakaliticagw-production.up.railway.app/` depois dos commits `44067a6`, `c9a1a2d` e `d598cdb`.
+
+- `/saude/` respondeu `{"status": "ok"}` depois de cada deployment concluído.
+- Home pública a 375 px: largura do documento dentro do viewport, aviso antes das acções, zero ligações “Pedir adesão” e menu com os dois nomes acessíveis.
+- Painel do membro a 375 px: perfil publicado anunciado como visível e menu privado com os dois nomes acessíveis.
+- Definições a 375 px: apenas “A minha conta” com `aria-current="page"` e sem overflow.
+- Mensagens a 375 px: estado vazio com ligação `/pesquisar/`.
+- Favoritos a 375 px: zero favoritos e comparação ausente.
+- Áreas a 375 px: ligação `mailto:info@nhakalitica.gw` e nota traduzida confirmada em inglês e francês.
+- Administração a 1440 px: perfil aprovado com apenas a acção “Suspender” e largura do documento igual ao viewport.
+- Membros a 1440 px e 375 px: quatro contas de demonstração, quatro filtros nomeados, secção activa e ausência de overflow.
+- Detalhe de Membro a 375 px: secções Conta, Adesão e Perfil profissional, sem acção de recuperação para uma conta activa.
+- Auditoria a 375 px: `admin.css?v=20260806-1`, filtro em grelha com colunas de 179,9 px e 90,3 px e largura do documento igual a 375 px.
+
+A captura visual do browser integrado voltou a expirar durante a validação final. Por esse motivo, a confirmação final combina estrutura acessível, estilos calculados, medições de viewport, respostas HTTP e os testes automatizados. Não foram executadas decisões administrativas nem recuperações de conta em produção.
 
 ## Âmbito verificado
 
