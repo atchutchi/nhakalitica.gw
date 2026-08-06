@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from django.conf import settings
-from django.test import TestCase, override_settings
+from django.test import Client, TestCase, override_settings
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 
@@ -34,7 +34,6 @@ class HomeViewTests(TestCase):
         self.assertContains(response, "Bem-vindo de volta à Kalitica")
         self.assertNotContains(response, 'class="site-header"')
 
-
     @override_settings(PUBLIC_SIGNUP_ENABLED=False)
     def test_closed_signup_is_announced_before_the_hero_actions(self):
         response = self.client.get(reverse("home"))
@@ -52,6 +51,31 @@ class HomeViewTests(TestCase):
 
         self.assertContains(response, 'data-open-label="Abrir menu"')
         self.assertContains(response, 'data-close-label="Fechar menu"')
+
+
+class BrandedErrorPageTests(TestCase):
+    def test_permission_denied_uses_the_kalitica_error_page(self):
+        user = get_user_model().objects.create_user(
+            email="sem-permissao@example.com", password="test-pass"
+        )
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("moderation:dashboard"))
+
+        self.assertEqual(response.status_code, 403)
+        self.assertContains(response, "Não tens permissão para aceder a esta página", status_code=403)
+        self.assertContains(response, "Kalitica Networking Society", status_code=403)
+        self.assertContains(response, reverse("accounts:dashboard"), status_code=403)
+
+    def test_expired_form_uses_the_kalitica_csrf_page(self):
+        csrf_client = Client(enforce_csrf_checks=True)
+
+        response = csrf_client.post(reverse("accounts:logout"))
+
+        self.assertEqual(response.status_code, 403)
+        self.assertContains(response, "O formulário expirou", status_code=403)
+        self.assertContains(response, "Actualizar e tentar novamente", status_code=403)
+        self.assertNotContains(response, "CSRF", status_code=403)
 
 
 class PublicVisualContractTests(TestCase):

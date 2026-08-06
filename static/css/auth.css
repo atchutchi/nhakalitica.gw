@@ -52,3 +52,8 @@
   .auth-form-card h1 { font-size: 1.75rem; }
   .auth-form-row { align-items: flex-start; flex-direction: column; gap: 10px; }
 }
+/* Páginas de erro usam a mesma estrutura segura da autenticação. */
+.error-page-shell .auth-confirm-card { max-width: 560px; }
+.error-page-shell .auth-confirm-card > i { color: var(--color-primary); font-size: 2.4rem; }
+.error-page-shell .auth-confirm-card h1 { color: var(--color-navy); }
+.error-page-shell .auth-confirm-card p { color: var(--color-muted); }

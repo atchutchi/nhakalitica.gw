@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% translate "Formulário expirado" %} | Kalitica{% endblock %}
+{% block site_header %}{% endblock %}{% block site_footer %}{% endblock %}
+{% block content %}<section class="auth-split-shell error-page-shell"><div class="auth-form-side"><a class="auth-logo" href="{% url 'home' %}"><span class="visually-hidden">Kalitica Networking Society</span></a><div class="auth-form-card auth-confirm-card"><i class="bi bi-arrow-clockwise" aria-hidden="true"></i><p class="member-eyebrow">{% translate "Sessão protegida" %}</p><h1>{% translate "O formulário expirou" %}</h1><p>{% translate "A página ficou aberta durante demasiado tempo ou a sessão foi renovada. Os dados não foram enviados." %}</p><a class="k-btn k-btn-primary" href="{{ retry_url }}">{% translate "Actualizar e tentar novamente" %}</a></div></div>{% include "registration/_auth_brand_panel.html" %}</section>{% endblock %}
