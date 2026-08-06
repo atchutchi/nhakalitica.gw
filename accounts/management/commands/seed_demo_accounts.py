@@ -146,7 +146,7 @@ class Command(BaseCommand):
 
             now = timezone.now()
             for item in DEMO_ACCOUNTS:
-                user, _ = User.objects.update_or_create(
+                user, created = User.objects.update_or_create(
                     email=item["email"],
                     defaults={
                         "first_name": item["first_name"],
@@ -157,8 +157,9 @@ class Command(BaseCommand):
                         "email_verified_at": now,
                     },
                 )
-                user.set_password(os.environ[item["password_env"]])
-                user.save(update_fields=("password",))
+                if created:
+                    user.set_password(os.environ[item["password_env"]])
+                    user.save(update_fields=("password",))
 
                 Membership.objects.update_or_create(
                     user=user,

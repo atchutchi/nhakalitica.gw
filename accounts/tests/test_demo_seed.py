@@ -79,6 +79,18 @@ class DemoAccountSeedTests(TestCase):
         self.assertEqual(second_ids, first_ids)
         self.assertEqual(len(second_ids), 4)
 
+    @patch.dict(os.environ, DEMO_PASSWORDS, clear=False)
+    def test_command_preserves_an_existing_demo_password(self):
+        call_command("seed_demo_accounts")
+        admin = get_user_model().objects.get(email="admin.rede@demo.nhakalitica.gw")
+        admin.set_password("Credencial-entregue-ao-administrador-2026!")
+        admin.save(update_fields=("password",))
+
+        call_command("seed_demo_accounts")
+
+        admin.refresh_from_db()
+        self.assertTrue(admin.check_password("Credencial-entregue-ao-administrador-2026!"))
+
     @patch.dict(os.environ, {"DEMO_SEED_ENABLED": "False"}, clear=False)
     def test_command_does_nothing_when_demo_seed_is_disabled(self):
         call_command("seed_demo_accounts")
