@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
 
 from moderation.models import AuditLog
 from profiles.models import Profile
@@ -126,3 +127,42 @@ class ModerationViewTests(TestCase):
         self.assertContains(response, "Pesquisar no histórico de auditoria")
         self.assertContains(response, 'data-label="Data"')
         self.assertContains(response, 'data-label="Acção"')
+
+    def test_member_list_requires_staff_access(self):
+        self.assertEqual(self.client.get(reverse("moderation:member-list")).status_code, 302)
+
+        self.client.force_login(self.member)
+        self.assertEqual(self.client.get(reverse("moderation:member-list")).status_code, 403)
+
+    def test_member_list_searches_and_filters_accounts(self):
+        self.member.first_name = "Binta"
+        self.member.last_name = "Sambu"
+        self.member.save()
+        self.member.membership.member_type = "observer"
+        self.member.membership.status = "approved"
+        self.member.membership.save()
+        self.client.force_login(self.staff)
+
+        response = self.client.get(
+            reverse("moderation:member-list"),
+            {"q": "Binta", "account_state": "active", "member_type": "observer", "membership_status": "approved"},
+        )
+
+        self.assertContains(response, "Binta Sambu")
+        self.assertContains(response, self.member.email)
+        self.assertNotContains(response, self.superuser.email)
+
+    def test_member_detail_shows_account_membership_and_profile_state(self):
+        self.member.email_verified_at = timezone.now()
+        self.member.save(update_fields=("email_verified_at",))
+        self.client.force_login(self.staff)
+
+        response = self.client.get(
+            reverse("moderation:member-detail", args=(self.member.pk,))
+        )
+
+        self.assertContains(response, "Email confirmado")
+        self.assertContains(response, "Adesão")
+        self.assertContains(response, "Perfil profissional")
+        self.assertContains(response, reverse("moderation:membership-review", args=(self.member.membership.pk,)))
+        self.assertContains(response, reverse("moderation:profile-review", args=(self.member.profile.pk,)))

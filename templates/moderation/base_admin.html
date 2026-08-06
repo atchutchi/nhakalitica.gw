@@ -11,7 +11,7 @@
       <a{% if current_url == 'dashboard' %} class="is-active" aria-current="page"{% endif %} href="{% url 'moderation:dashboard' %}"><i class="bi bi-grid" aria-hidden="true"></i>{% translate "Painel" %}</a>
       <a{% if current_url == 'membership-list' or current_url == 'membership-review' %} class="is-active" aria-current="page"{% endif %} href="{% url 'moderation:membership-list' %}"><i class="bi bi-file-earmark-check" aria-hidden="true"></i>{% translate "Candidaturas" %}</a>
       <a{% if current_url == 'profile-list' or current_url == 'profile-review' %} class="is-active" aria-current="page"{% endif %} href="{% url 'moderation:profile-list' %}"><i class="bi bi-person-check" aria-hidden="true"></i>{% translate "Perfis" %}</a>
-      <a href="{% url 'admin:accounts_user_changelist' %}"><i class="bi bi-people" aria-hidden="true"></i>{% translate "Membros" %}</a>
+      <a{% if current_url == 'member-list' or current_url == 'member-detail' or current_url == 'member-restore' %} class="is-active" aria-current="page"{% endif %} href="{% url 'moderation:member-list' %}"><i class="bi bi-people" aria-hidden="true"></i>{% translate "Membros" %}</a>
       <a{% if current_url == 'report-list' or current_url == 'report-review' %} class="is-active" aria-current="page"{% endif %} href="{% url 'moderation:report-list' %}"><i class="bi bi-shield-exclamation" aria-hidden="true"></i>{% translate "Denúncias" %}</a>
       {% if request.user.is_superuser %}<a{% if current_url == 'audit-list' %} class="is-active" aria-current="page"{% endif %} href="{% url 'moderation:audit-list' %}"><i class="bi bi-clipboard-data" aria-hidden="true"></i>{% translate "Auditoria" %}</a>{% endif %}
     </nav>

@@ -3,10 +3,15 @@ from functools import wraps
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied, ValidationError
-from django.db.models import Count
+from django.db import transaction
+from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 from django.utils.translation import gettext as _
+from django.views.decorators.http import require_POST
 
+from accounts.models import User
+from accounts.services import restore_scheduled_account
 from memberships.models import Membership
 from memberships.services import VALID_TRANSITIONS
 from profiles.models import Profile
@@ -80,6 +85,93 @@ def dashboard(request):
         .order_by("updated_at")[:8],
     }
     return render(request, "moderation/dashboard.html", context)
+
+
+@staff_required
+def member_list(request):
+    members = User.objects.select_related("membership", "profile")
+    query = request.GET.get("q", "").strip()
+    account_state = request.GET.get("account_state", "").strip()
+    member_type = request.GET.get("member_type", "").strip()
+    membership_status = request.GET.get("membership_status", "").strip()
+    if query:
+        members = members.filter(
+            Q(email__icontains=query)
+            | Q(first_name__icontains=query)
+            | Q(last_name__icontains=query)
+        )
+    if account_state in {"active", "inactive"}:
+        members = members.filter(is_active=account_state == "active")
+    else:
+        account_state = ""
+    if member_type in Membership.Type.values:
+        members = members.filter(membership__member_type=member_type)
+    else:
+        member_type = ""
+    if membership_status in Membership.Status.values:
+        members = members.filter(membership__status=membership_status)
+    else:
+        membership_status = ""
+    return render(
+        request,
+        "moderation/member_list.html",
+        {
+            "members": members.order_by("first_name", "last_name", "email"),
+            "query": query,
+            "account_state": account_state,
+            "member_type": member_type,
+            "membership_status": membership_status,
+            "member_type_choices": Membership.Type.choices,
+            "membership_status_choices": Membership.Status.choices,
+        },
+    )
+
+
+@staff_required
+def member_detail(request, pk):
+    member = get_object_or_404(
+        User.objects.select_related("membership", "profile"), pk=pk
+    )
+    recoverable = bool(
+        not member.is_active
+        and member.scheduled_deletion_at
+        and member.scheduled_deletion_at > timezone.now()
+    )
+    return render(
+        request,
+        "moderation/member_detail.html",
+        {"member": member, "recoverable": recoverable},
+    )
+
+
+@staff_required
+@require_POST
+def member_restore(request, pk):
+    member = get_object_or_404(User, pk=pk)
+    try:
+        if member.is_active:
+            raise ValidationError(_("A conta já está activa."))
+        scheduled_deletion_at = member.scheduled_deletion_at
+        with transaction.atomic():
+            restore_scheduled_account(member)
+            AuditLog.objects.create(
+                actor=request.user,
+                action="account.deletion_restored",
+                target_type="user",
+                target_id=str(member.pk),
+                metadata={
+                    "scheduled_deletion_at": (
+                        scheduled_deletion_at.isoformat()
+                        if scheduled_deletion_at
+                        else ""
+                    )
+                },
+            )
+    except ValidationError as exception:
+        messages.error(request, exception.messages[0])
+    else:
+        messages.success(request, _("Conta restaurada como perfil privado em rascunho."))
+    return redirect("moderation:member-detail", pk=member.pk)
 
 
 @staff_required

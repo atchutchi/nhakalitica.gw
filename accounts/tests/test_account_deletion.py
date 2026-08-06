@@ -133,3 +133,40 @@ class AccountDeletionTests(TestCase):
                 target_id=str(self.user.pk),
             ).exists()
         )
+
+    def test_kalitica_administration_restores_account_within_recovery_period(self):
+        administrator = get_user_model().objects.create_user(
+            email="staff-restore@example.com",
+            password="PalavraPasseSegura2026!",
+            is_staff=True,
+        )
+        schedule_account_deletion(self.user, now=timezone.now())
+        self.client.force_login(administrator)
+
+        get_response = self.client.get(
+            reverse("moderation:member-restore", args=(self.user.pk,))
+        )
+        response = self.client.post(
+            reverse("moderation:member-restore", args=(self.user.pk,))
+        )
+
+        self.assertEqual(get_response.status_code, 405)
+        self.assertRedirects(
+            response,
+            reverse("moderation:member-detail", args=(self.user.pk,)),
+        )
+        self.user.refresh_from_db()
+        self.user.profile.refresh_from_db()
+        self.assertTrue(self.user.is_active)
+        self.assertIsNone(self.user.deletion_requested_at)
+        self.assertIsNone(self.user.scheduled_deletion_at)
+        self.assertEqual(self.user.profile.status, Profile.Status.DRAFT)
+        self.assertFalse(self.user.profile.is_public)
+        self.assertFalse(self.user.profile.is_discoverable)
+        self.assertTrue(
+            AuditLog.objects.filter(
+                actor=administrator,
+                action="account.deletion_restored",
+                target_id=str(self.user.pk),
+            ).exists()
+        )
