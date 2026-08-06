@@ -59,6 +59,14 @@ class ProfileViewTests(TestCase):
         self.user.profile.refresh_from_db()
         self.assertEqual(self.user.profile.professional_title, "Programadora")
 
+    def test_profile_settings_marks_only_the_profile_link_as_current(self):
+        self.client.force_login(self.user)
+
+        response = self.client.get("/perfil/editar/")
+
+        self.assertContains(response, 'aria-current="page"')
+        self.assertEqual(response.content.decode().count('aria-current="page"'), 1)
+
     def test_editing_approved_profile_requires_new_review(self):
         profile = self.user.profile
         profile.public_name = "Maria Sambu"

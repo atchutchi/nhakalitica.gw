@@ -3,17 +3,19 @@
 {% block extra_head %}<link href="{% static 'css/settings.css' %}" rel="stylesheet">{% endblock %}
 {% block content %}
 <section class="settings-shell member-shell">
+  {% with current_namespace=request.resolver_match.namespace current_url=request.resolver_match.url_name %}
   <aside class="settings-sidebar">
     <h2>{% translate "Definições" %}</h2>
     <nav>
-      <a href="{% url 'accounts:dashboard' %}"><i class="bi bi-speedometer2" aria-hidden="true"></i>{% translate "Painel" %}</a>
-      <a href="{% url 'profiles:edit' %}"><i class="bi bi-person" aria-hidden="true"></i>{% translate "Perfil" %}</a>
+      <a{% if current_namespace == 'accounts' and current_url == 'dashboard' %} class="is-active" aria-current="page"{% endif %} href="{% url 'accounts:dashboard' %}"><i class="bi bi-speedometer2" aria-hidden="true"></i>{% translate "Painel" %}</a>
+      <a{% if current_namespace == 'profiles' %} class="is-active" aria-current="page"{% endif %} href="{% url 'profiles:edit' %}"><i class="bi bi-person" aria-hidden="true"></i>{% translate "Perfil" %}</a>
       <a href="{% url 'profiles:edit' %}#privacidade"><i class="bi bi-shield-check" aria-hidden="true"></i>{% translate "Privacidade" %}</a>
-      <a href="{% url 'accounts:password_change' %}"><i class="bi bi-lock" aria-hidden="true"></i>{% translate "Segurança" %}</a>
+      <a{% if current_namespace == 'accounts' and current_url == 'password_change' %} class="is-active" aria-current="page"{% endif %} href="{% url 'accounts:password_change' %}"><i class="bi bi-lock" aria-hidden="true"></i>{% translate "Segurança" %}</a>
       <a href="{% url 'interactions:notifications' %}"><i class="bi bi-bell" aria-hidden="true"></i>{% translate "Notificações" %}</a>
-      <a class="is-active" href="{% url 'accounts:edit' %}"><i class="bi bi-gear" aria-hidden="true"></i>{% translate "A minha conta" %}</a>
+      <a{% if current_namespace == 'accounts' and current_url == 'edit' or current_namespace == 'accounts' and current_url == 'deactivate' %} class="is-active" aria-current="page"{% endif %} href="{% url 'accounts:edit' %}"><i class="bi bi-gear" aria-hidden="true"></i>{% translate "A minha conta" %}</a>
     </nav>
   </aside>
+  {% endwith %}
   <main class="settings-content">{% block settings_content %}{% endblock %}</main>
 </section>
 {% endblock %}

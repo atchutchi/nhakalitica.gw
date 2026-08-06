@@ -2,6 +2,9 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase, override_settings
 from django.utils import timezone
 
+from memberships.models import Membership
+from profiles.models import Profile
+
 
 class AuthenticationFlowTests(TestCase):
     def test_signup_page_is_available(self):
@@ -151,3 +154,53 @@ class AuthenticationFlowTests(TestCase):
 
         self.assertRedirects(response, "/conta/entrar/")
         self.assertNotIn("_auth_user_id", self.client.session)
+
+
+class MemberDashboardStateTests(TestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            email="estado-perfil@example.com",
+            password="PalavraPasseSegura2026!",
+        )
+        self.user.membership.status = Membership.Status.APPROVED
+        self.user.membership.member_type = Membership.Type.EFFECTIVE
+        self.user.membership.save()
+        self.client.force_login(self.user)
+
+    def test_dashboard_reports_a_published_and_discoverable_profile_as_visible(self):
+        self.user.profile.review_status = Profile.ReviewStatus.APPROVED
+        self.user.profile.is_discoverable = True
+        self.user.profile.save()
+
+        response = self.client.get("/conta/painel/")
+
+        self.assertContains(response, "O teu perfil está visível na rede.")
+
+    def test_dashboard_reports_an_approved_hidden_profile_as_private_by_choice(self):
+        self.user.profile.review_status = Profile.ReviewStatus.APPROVED
+        self.user.profile.is_discoverable = False
+        self.user.profile.save()
+
+        response = self.client.get("/conta/painel/")
+
+        self.assertContains(response, "O teu perfil foi aprovado, mas está oculto da pesquisa.")
+
+    def test_dashboard_reports_a_profile_under_review(self):
+        self.user.profile.review_status = Profile.ReviewStatus.UNDER_REVIEW
+        self.user.profile.is_discoverable = False
+        self.user.profile.save()
+
+        response = self.client.get("/conta/painel/")
+
+        self.assertContains(response, "O teu perfil está em revisão e ainda não está publicado.")
+
+    def test_dashboard_reports_a_draft_profile_as_private(self):
+        response = self.client.get("/conta/painel/")
+
+        self.assertContains(response, "O teu perfil continua privado até o submeteres para revisão.")
+
+    def test_account_settings_marks_only_the_account_link_as_current(self):
+        response = self.client.get("/conta/editar/")
+
+        self.assertContains(response, 'aria-current="page"')
+        self.assertEqual(response.content.decode().count('aria-current="page"'), 1)

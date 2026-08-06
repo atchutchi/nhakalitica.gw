@@ -68,6 +68,8 @@
 .favorite-member-row small { color: var(--color-muted); }
 .favorite-member-row form button { width: 40px; height: 40px; border: 0; color: var(--color-navy); background: transparent; font-size: 18px; }
 .member-privacy-note { margin-top: 18px; }
+.member-privacy-note a { color: var(--color-primary-deep); font-weight: 600; }
+.directory-empty-compact { padding: 18px; }
 .member-back-link { display: inline-flex; align-items: center; gap: 7px; margin-bottom: 18px; color: var(--color-primary-deep); font-size: .82rem; text-decoration: none; }
 .professional-area-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; }
 .professional-area-grid > a { display: grid; min-height: 150px; place-items: center; align-content: center; gap: 7px; padding: 18px; border: 1px solid var(--color-border); border-radius: var(--radius-panel); color: var(--color-navy); background: #fff; text-align: center; text-decoration: none; }

@@ -495,10 +495,44 @@ class InteractionViewTests(TestCase):
         self.assertContains(response, "Favoritos")
         self.assertContains(response, "Lista privada")
         self.assertContains(response, 'class="member-shell')
-        self.assertContains(response, "Comparar membros")
+        self.assertNotContains(response, "Comparar membros")
         self.assertContains(response, "Adicionado há")
         self.assertNotContains(response, "atrás")
         self.assertNotContains(response, "Exportar CSV")
+
+    def test_favorites_page_enables_comparison_with_two_profiles(self):
+        second_owner = get_user_model().objects.create_user(
+            email="segundo-favorito@example.com", password="test-pass"
+        )
+        second_owner.membership.status = Membership.Status.APPROVED
+        second_owner.membership.save()
+        second_profile = second_owner.profile
+        second_profile.review_status = Profile.ReviewStatus.APPROVED
+        second_profile.is_discoverable = True
+        second_profile.save()
+        Favorite.objects.create(user=self.user, profile=self.profile)
+        Favorite.objects.create(user=self.user, profile=second_profile)
+        self.client.force_login(self.user)
+
+        response = self.client.get(reverse("interactions:favorites"))
+
+        self.assertContains(response, "Comparar membros")
+
+    def test_empty_contacts_offer_a_link_to_the_directory(self):
+        self.client.force_login(self.user)
+
+        response = self.client.get(reverse("interactions:contacts"))
+
+        self.assertContains(response, "Ainda não existem pedidos de contacto")
+        self.assertContains(response, reverse("search"))
+
+    def test_areas_note_links_to_the_official_contact(self):
+        self.client.force_login(self.user)
+
+        response = self.client.get(reverse("area-list"))
+
+        self.assertContains(response, 'href="mailto:info@nhakalitica.gw"')
+        self.assertContains(response, "A sugestão será revista pela equipa")
 
     def test_favorites_page_includes_public_profile_with_changes_pending(self):
         self.profile.status = Profile.Status.CHANGES_PENDING
