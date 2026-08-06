@@ -2,7 +2,7 @@
 
 Data: 5 de Agosto de 2026
 
-Estado: parte pública concluída. Área privada bloqueada por falta de uma credencial válida de membro aprovado.
+Estado: área pública e experiência de membro aprovado concluídas. Administração pendente de uma sessão de staff.
 
 ## Âmbito verificado
 
@@ -15,6 +15,15 @@ Estado: parte pública concluída. Área privada bloqueada por falta de uma cred
 - Termos de Utilização como amostra do padrão legal.
 - Página inicial e navegação em telemóvel.
 - Refluxo horizontal nas larguras testadas.
+- Painel do membro em desktop e telemóvel.
+- Directório, filtros e resultados.
+- Perfil de outro membro e respectivas acções privadas.
+- Áreas profissionais.
+- Favoritos, mensagens e notificações nos estados vazios.
+- Menu da conta e navegação privada móvel.
+- Perfil próprio, edição do perfil e definições da conta.
+- Fluxo de desactivação com retenção de 30 dias.
+- Bloqueio do acesso administrativo para um membro sem privilégios.
 
 ## Pontos fortes
 
@@ -24,6 +33,11 @@ Estado: parte pública concluída. Área privada bloqueada por falta de uma cred
 - O conteúdo mantém-se legível em português, inglês e francês.
 - A versão móvel não apresenta deslocamento horizontal.
 - O rodapé reorganizado mantém a hierarquia em desktop e telemóvel.
+- O directório organiza bem os filtros e os resultados nas larguras testadas.
+- Os perfis explicam de forma clara quando os contactos e documentos podem ser partilhados.
+- O menu da conta apresenta perfil, conta, segurança e saída de forma compreensível.
+- A desactivação explica a consequência imediata, o prazo de recuperação e a retenção legal.
+- Um membro comum recebe correctamente uma resposta 403 ao tentar abrir a administração.
 
 ## Problemas prioritários
 
@@ -51,9 +65,65 @@ Prioridade: média.
 
 Evidência: `09-menu-mobile.png`.
 
+### 4. Estado contraditório do perfil próprio
+
+O painel informa que o perfil está visível na rede e o directório inclui o próprio membro nos resultados. Contudo, a pré-visualização afirma que o perfil ainda não aparece na pesquisa. O texto transmite um estado falso e pode levar o membro a procurar uma acção que não é necessária.
+
+Prioridade: alta.
+
+Evidência: `12-painel-membro.png`, `13-directorio.png` e `20-meu-perfil.png`.
+
+### 5. Navegação de definições marca sempre “A minha conta”
+
+Ao editar o perfil, “A minha conta” continua visualmente seleccionada. A navegação também cria uma barra de deslocamento horizontal permanente na largura intermédia e deixa a opção activa parcialmente cortada.
+
+Prioridade: alta.
+
+Evidência: `21-editar-perfil.png` e `22-editar-conta.png`.
+
+### 6. Página de mensagens inconsistente e pouco orientadora
+
+O estado vazio apresenta dois cartões grandes sem acção para procurar membros. O rótulo laranja não pertence à paleta funcional definida e a página tem mais sombra e espaço vazio do que os restantes ecrãs privados.
+
+Prioridade: média.
+
+Evidência: `17-mensagens.png`.
+
+### 7. Comparação disponível sem favoritos
+
+“Comparar membros” permanece com aparência activa quando a lista está vazia. Deve ficar desactivado com explicação ou não aparecer até existir um número suficiente de membros.
+
+Prioridade: média.
+
+Evidência: `16-favoritos.png`.
+
+### 8. Acesso negado sem recuperação
+
+O bloqueio administrativo está correcto, mas devolve uma página técnica “403 Forbidden” sem marca Kalitica, explicação em português ou ligação para regressar ao painel.
+
+Prioridade: média.
+
+Evidência: `24-admin-bloqueado.png`.
+
+### 9. Estado do menu privado móvel pouco claro
+
+Tal como no menu público, o botão mantém o nome acessível “Abrir menu” quando está expandido. O contorno de foco laranja também diverge do foco turquesa do design system.
+
+Prioridade: média.
+
+Evidência: `26-menu-privado-mobile.png`.
+
+### 10. Sugestão de nova área sem acção
+
+A página de áreas pede ao membro que contacte a equipa para sugerir uma área, mas não oferece ligação de email ou botão de contacto.
+
+Prioridade: baixa.
+
+Evidência: `15-areas.png`.
+
 ## Limites da auditoria
 
-A área privada, o directório, os perfis, os favoritos, as mensagens, as notificações e a administração não foram capturados porque a credencial de demonstração disponível no código de testes não corresponde à credencial configurada em produção. Não foram feitas tentativas adicionais.
+A administração ainda não foi auditada porque a sessão actual pertence a um membro sem privilégios. O controlo de acesso foi confirmado pela resposta 403.
 
 As imagens permitem avaliar hierarquia, legibilidade, fluxo e riscos visíveis. Não provam conformidade integral com WCAG. Essa confirmação exige testes de teclado, nomes acessíveis, estados dinâmicos e contraste calculado.
 
@@ -71,3 +141,19 @@ As imagens permitem avaliar hierarquia, legibilidade, fluxo e riscos visíveis. 
 10. `09-menu-mobile.png`
 11. `10-home-english.png`
 12. `11-home-francais.png`
+13. `12-painel-membro.png`
+14. `13-directorio.png`
+15. `14-perfil-membro.png`
+16. `14b-perfil-contacto.png`
+17. `15-areas.png`
+18. `16-favoritos.png`
+19. `17-mensagens.png`
+20. `18-notificacoes.png`
+21. `19-menu-conta.png`
+22. `20-meu-perfil.png`
+23. `21-editar-perfil.png`
+24. `22-editar-conta.png`
+25. `23-desactivar-conta.png`
+26. `24-admin-bloqueado.png`
+27. `25-painel-mobile.png`
+28. `26-menu-privado-mobile.png`
