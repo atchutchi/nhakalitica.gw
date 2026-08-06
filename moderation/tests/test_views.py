@@ -46,6 +46,28 @@ class ModerationViewTests(TestCase):
         self.assertContains(response, "Administração Kalitica")
         self.assertContains(response, "Candidaturas pendentes")
 
+    def test_admin_shell_offers_network_return_post_logout_and_current_section(self):
+        self.client.force_login(self.staff)
+
+        response = self.client.get(reverse("moderation:profile-list"))
+
+        self.assertContains(response, "Voltar à rede")
+        self.assertContains(response, 'method="post" action="/conta/sair/"')
+        self.assertContains(response, 'aria-current="page"')
+        self.assertEqual(response.content.decode().count('aria-current="page"'), 1)
+
+    def test_admin_list_filters_have_accessible_labels(self):
+        self.client.force_login(self.staff)
+
+        for route_name, label in (
+            ("moderation:membership-list", "Filtrar candidaturas por estado"),
+            ("moderation:profile-list", "Filtrar perfis por estado"),
+            ("moderation:report-list", "Filtrar denúncias por estado"),
+        ):
+            with self.subTest(route_name=route_name):
+                response = self.client.get(reverse(route_name))
+                self.assertContains(response, label)
+
     def test_staff_can_approve_profile_using_post(self):
         self.client.force_login(self.staff)
         response = self.client.post(
@@ -57,6 +79,18 @@ class ModerationViewTests(TestCase):
         self.profile.refresh_from_db()
         self.assertEqual(self.profile.status, Profile.Status.APPROVED)
         self.assertTrue(AuditLog.objects.filter(action="profile.approved").exists())
+
+    def test_approved_profile_does_not_offer_approval_again(self):
+        self.profile.status = Profile.Status.APPROVED
+        self.profile.save(update_fields=("status",))
+        self.client.force_login(self.staff)
+
+        response = self.client.get(
+            reverse("moderation:profile-review", args=(self.profile.pk,))
+        )
+
+        self.assertNotContains(response, "Aprovar publicação")
+        self.assertContains(response, "Suspender")
 
     def test_rejection_without_reason_shows_validation_error(self):
         self.client.force_login(self.staff)
@@ -76,3 +110,19 @@ class ModerationViewTests(TestCase):
 
         self.client.force_login(self.superuser)
         self.assertEqual(self.client.get(reverse("moderation:audit-list")).status_code, 200)
+
+    def test_audit_search_is_labelled_and_table_cells_support_mobile_cards(self):
+        AuditLog.objects.create(
+            actor=self.superuser,
+            action="profile.approved",
+            target_type="profile",
+            target_id=str(self.profile.pk),
+            metadata={},
+        )
+        self.client.force_login(self.superuser)
+
+        response = self.client.get(reverse("moderation:audit-list"))
+
+        self.assertContains(response, "Pesquisar no histórico de auditoria")
+        self.assertContains(response, 'data-label="Data"')
+        self.assertContains(response, 'data-label="Acção"')

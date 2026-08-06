@@ -21,6 +21,36 @@ from .services import (
 )
 
 
+PROFILE_ACTION_LABELS = {
+    "approve": _("Aprovar publicação"),
+    "request_changes": _("Pedir correcções"),
+    "reject": _("Recusar"),
+    "suspend": _("Suspender"),
+    "restore": _("Restaurar"),
+}
+
+
+def available_profile_actions(status):
+    return [
+        {
+            "value": action,
+            "label": PROFILE_ACTION_LABELS[action],
+            "css_class": {
+                "approve": "admin-action-approved",
+                "request_changes": "admin-action-corrections_required",
+                "reject": "admin-action-refused",
+                "suspend": "admin-action-suspended",
+            }.get(action, ""),
+            "confirmation": {
+                "reject": _("Confirmas a recusa deste perfil?"),
+                "suspend": _("Confirmas a suspensão deste perfil?"),
+            }.get(action, ""),
+        }
+        for action, config in ACTION_CONFIG.items()
+        if status in config["allowed"]
+    ]
+
+
 def staff_required(view):
     @login_required
     @wraps(view)
@@ -145,7 +175,7 @@ def profile_review(request, pk):
     return render(
         request,
         "moderation/profile_review.html",
-        {"profile": profile, "actions": ACTION_CONFIG, "error": error},
+        {"profile": profile, "actions": available_profile_actions(profile.status), "error": error},
     )
 
 
