@@ -2858,3 +2858,182 @@ msgstr "This is a demo environment reserved for invited Kalitica members."
 
 msgid "Entrar com uma conta de demonstração"
 msgstr "Sign in with a demo account"
+msgid "A conta já está activa."
+msgstr "The account is already active."
+
+msgid "A página ficou aberta durante demasiado tempo ou a sessão foi renovada. Os dados não foram enviados."
+msgstr "The page was open for too long or the session was renewed. The data was not submitted."
+
+msgid "A recuperação reactiva a conta, mas mantém o perfil privado e em rascunho."
+msgstr "Recovery reactivates the account but keeps the profile private and in draft."
+
+msgid "A sugestão será revista pela equipa antes de ser publicada."
+msgstr "The suggestion will be reviewed by the team before it is published."
+
+msgid "A tua conta não tem as permissões necessárias para consultar este conteúdo."
+msgstr "Your account does not have the permissions required to view this content."
+
+msgid "Abrir revisão"
+msgstr "Open review"
+
+msgid "Acesso não autorizado"
+msgstr "Unauthorised access"
+
+msgid "Acesso protegido"
+msgstr "Protected access"
+
+msgid "Activa"
+msgstr "Active"
+
+msgid "Activas"
+msgstr "Active"
+
+msgid "Actualizar e tentar novamente"
+msgstr "Refresh and try again"
+
+msgid "Adesão"
+msgstr "Membership"
+
+msgid "Administração técnica"
+msgstr "Technical administration"
+
+msgid "Ainda não existem pedidos de contacto"
+msgstr "There are no contact requests yet"
+
+msgid "Altera a pesquisa ou remove um dos filtros."
+msgstr "Change the search or remove one of the filters."
+
+msgid "Comunidade"
+msgstr "Community"
+
+msgid "Confirmas a recuperação desta conta?"
+msgstr "Do you confirm the recovery of this account?"
+
+msgid "Consulta contas, adesões e o estado de publicação dos perfis."
+msgstr "View accounts, memberships and profile publication status."
+
+msgid "Conta"
+msgstr "Account"
+
+msgid "Conta activa"
+msgstr "Active account"
+
+msgid "Conta inactiva"
+msgstr "Inactive account"
+
+msgid "Conta restaurada como perfil privado em rascunho."
+msgstr "Account restored with a private draft profile."
+
+msgid "Contacta a equipa para sugerires uma nova área profissional."
+msgstr "Contact the team to suggest a new professional area."
+
+msgid "Eliminação pedida"
+msgstr "Deletion requested"
+
+msgid "Estado da adesão"
+msgstr "Membership status"
+
+msgid "Estado da conta"
+msgstr "Account status"
+
+msgid "Este ambiente está reservado aos membros convidados da Kalitica."
+msgstr "This environment is reserved for invited Kalitica members."
+
+msgid "Fechar menu"
+msgstr "Close menu"
+
+msgid "Filtrar candidaturas por estado"
+msgstr "Filter applications by status"
+
+msgid "Filtrar denúncias por estado"
+msgstr "Filter reports by status"
+
+msgid "Filtrar perfis por estado"
+msgstr "Filter profiles by status"
+
+msgid "Formulário expirado"
+msgstr "Form expired"
+
+msgid "Inactiva"
+msgstr "Inactive"
+
+msgid "Inactivas"
+msgstr "Inactive"
+
+msgid "Membro"
+msgstr "Member"
+
+msgid "Não encontras a tua área?"
+msgstr "Cannot find your area?"
+
+msgid "Não publicada"
+msgstr "Not published"
+
+msgid "Não tens permissão para aceder a esta página"
+msgstr "You do not have permission to access this page"
+
+msgid "O formulário expirou"
+msgstr "The form has expired"
+
+msgid "O teu perfil continua privado até o submeteres para revisão."
+msgstr "Your profile remains private until you submit it for review."
+
+msgid "O teu perfil está em revisão e ainda não está publicado."
+msgstr "Your profile is under review and has not been published yet."
+
+msgid "O teu perfil está visível na rede."
+msgstr "Your profile is visible in the network."
+
+msgid "O teu perfil foi aprovado, mas está oculto da pesquisa."
+msgstr "Your profile was approved but is hidden from search."
+
+msgid "O teu perfil precisa de correcções antes de poder ser publicado."
+msgstr "Your profile needs corrections before it can be published."
+
+msgid "Para"
+msgstr "To"
+
+msgid "Pesquisa membros da rede e envia um pedido quando encontrares uma oportunidade de colaboração."
+msgstr "Search for network members and send a request when you find an opportunity to collaborate."
+
+msgid "Pesquisar no histórico de auditoria"
+msgstr "Search the audit history"
+
+msgid "Pesquisar por nome ou email"
+msgstr "Search by name or email"
+
+msgid "Por confirmar"
+msgstr "Pending confirmation"
+
+msgid "Publicação"
+msgstr "Publication"
+
+msgid "Restaurar conta"
+msgstr "Restore account"
+
+msgid "Sem membros para estes filtros"
+msgstr "No members match these filters"
+
+msgid "Sessão protegida"
+msgstr "Protected session"
+
+msgid "Tipo"
+msgstr "Type"
+
+msgid "Tipo de membro"
+msgstr "Member type"
+
+msgid "Versão pública"
+msgstr "Public version"
+
+msgid "Visível"
+msgstr "Visible"
+
+msgid "Voltar a uma área segura"
+msgstr "Return to a safe area"
+
+msgid "Voltar aos membros"
+msgstr "Back to members"
+
+msgid "Voltar à rede"
+msgstr "Back to the network"

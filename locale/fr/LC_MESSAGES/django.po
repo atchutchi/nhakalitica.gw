@@ -2918,3 +2918,182 @@ msgstr "Cet environnement de démonstration est réservé aux membres invités d
 
 msgid "Entrar com uma conta de demonstração"
 msgstr "Se connecter avec un compte de démonstration"
+msgid "A conta já está activa."
+msgstr "Le compte est déjà actif."
+
+msgid "A página ficou aberta durante demasiado tempo ou a sessão foi renovada. Os dados não foram enviados."
+msgstr "La page est restée ouverte trop longtemps ou la session a été renouvelée. Les données n'ont pas été envoyées."
+
+msgid "A recuperação reactiva a conta, mas mantém o perfil privado e em rascunho."
+msgstr "La récupération réactive le compte, mais maintient le profil privé et à l'état de brouillon."
+
+msgid "A sugestão será revista pela equipa antes de ser publicada."
+msgstr "La suggestion sera examinée par l'équipe avant d'être publiée."
+
+msgid "A tua conta não tem as permissões necessárias para consultar este conteúdo."
+msgstr "Ton compte ne dispose pas des autorisations nécessaires pour consulter ce contenu."
+
+msgid "Abrir revisão"
+msgstr "Ouvrir l'examen"
+
+msgid "Acesso não autorizado"
+msgstr "Accès non autorisé"
+
+msgid "Acesso protegido"
+msgstr "Accès protégé"
+
+msgid "Activa"
+msgstr "Actif"
+
+msgid "Activas"
+msgstr "Actifs"
+
+msgid "Actualizar e tentar novamente"
+msgstr "Actualiser et réessayer"
+
+msgid "Adesão"
+msgstr "Adhésion"
+
+msgid "Administração técnica"
+msgstr "Administration technique"
+
+msgid "Ainda não existem pedidos de contacto"
+msgstr "Il n'y a pas encore de demandes de contact"
+
+msgid "Altera a pesquisa ou remove um dos filtros."
+msgstr "Modifie la recherche ou supprime l'un des filtres."
+
+msgid "Comunidade"
+msgstr "Communauté"
+
+msgid "Confirmas a recuperação desta conta?"
+msgstr "Confirmes-tu la récupération de ce compte ?"
+
+msgid "Consulta contas, adesões e o estado de publicação dos perfis."
+msgstr "Consulte les comptes, les adhésions et l'état de publication des profils."
+
+msgid "Conta"
+msgstr "Compte"
+
+msgid "Conta activa"
+msgstr "Compte actif"
+
+msgid "Conta inactiva"
+msgstr "Compte inactif"
+
+msgid "Conta restaurada como perfil privado em rascunho."
+msgstr "Compte restauré avec un profil privé à l'état de brouillon."
+
+msgid "Contacta a equipa para sugerires uma nova área profissional."
+msgstr "Contacte l'équipe pour proposer un nouveau domaine professionnel."
+
+msgid "Eliminação pedida"
+msgstr "Suppression demandée"
+
+msgid "Estado da adesão"
+msgstr "Statut de l'adhésion"
+
+msgid "Estado da conta"
+msgstr "Statut du compte"
+
+msgid "Este ambiente está reservado aos membros convidados da Kalitica."
+msgstr "Cet environnement est réservé aux membres invités de Kalitica."
+
+msgid "Fechar menu"
+msgstr "Fermer le menu"
+
+msgid "Filtrar candidaturas por estado"
+msgstr "Filtrer les candidatures par statut"
+
+msgid "Filtrar denúncias por estado"
+msgstr "Filtrer les signalements par statut"
+
+msgid "Filtrar perfis por estado"
+msgstr "Filtrer les profils par statut"
+
+msgid "Formulário expirado"
+msgstr "Formulaire expiré"
+
+msgid "Inactiva"
+msgstr "Inactif"
+
+msgid "Inactivas"
+msgstr "Inactifs"
+
+msgid "Membro"
+msgstr "Membre"
+
+msgid "Não encontras a tua área?"
+msgstr "Tu ne trouves pas ton domaine ?"
+
+msgid "Não publicada"
+msgstr "Non publiée"
+
+msgid "Não tens permissão para aceder a esta página"
+msgstr "Tu n'as pas l'autorisation d'accéder à cette page"
+
+msgid "O formulário expirou"
+msgstr "Le formulaire a expiré"
+
+msgid "O teu perfil continua privado até o submeteres para revisão."
+msgstr "Ton profil reste privé jusqu'à ce que tu le soumettes à l'examen."
+
+msgid "O teu perfil está em revisão e ainda não está publicado."
+msgstr "Ton profil est en cours d'examen et n'est pas encore publié."
+
+msgid "O teu perfil está visível na rede."
+msgstr "Ton profil est visible dans le réseau."
+
+msgid "O teu perfil foi aprovado, mas está oculto da pesquisa."
+msgstr "Ton profil a été approuvé, mais il est masqué dans la recherche."
+
+msgid "O teu perfil precisa de correcções antes de poder ser publicado."
+msgstr "Ton profil doit être corrigé avant de pouvoir être publié."
+
+msgid "Para"
+msgstr "À"
+
+msgid "Pesquisa membros da rede e envia um pedido quando encontrares uma oportunidade de colaboração."
+msgstr "Recherche des membres du réseau et envoie une demande lorsque tu trouves une possibilité de collaboration."
+
+msgid "Pesquisar no histórico de auditoria"
+msgstr "Rechercher dans l'historique d'audit"
+
+msgid "Pesquisar por nome ou email"
+msgstr "Rechercher par nom ou adresse email"
+
+msgid "Por confirmar"
+msgstr "À confirmer"
+
+msgid "Publicação"
+msgstr "Publication"
+
+msgid "Restaurar conta"
+msgstr "Restaurer le compte"
+
+msgid "Sem membros para estes filtros"
+msgstr "Aucun membre ne correspond à ces filtres"
+
+msgid "Sessão protegida"
+msgstr "Session protégée"
+
+msgid "Tipo"
+msgstr "Type"
+
+msgid "Tipo de membro"
+msgstr "Type de membre"
+
+msgid "Versão pública"
+msgstr "Version publique"
+
+msgid "Visível"
+msgstr "Visible"
+
+msgid "Voltar a uma área segura"
+msgstr "Retourner vers une zone sécurisée"
+
+msgid "Voltar aos membros"
+msgstr "Retour aux membres"
+
+msgid "Voltar à rede"
+msgstr "Retour au réseau"
