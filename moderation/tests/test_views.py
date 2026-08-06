@@ -49,6 +49,7 @@ class ModerationViewTests(TestCase):
         self.assertContains(response, 'class="admin-shell')
         self.assertContains(response, "Administração Kalitica")
         self.assertContains(response, "Candidaturas pendentes")
+        self.assertContains(response, "css/admin.css?v=20260806-1")
 
     def test_admin_shell_offers_network_return_post_logout_and_current_section(self):
         self.client.force_login(self.staff)
