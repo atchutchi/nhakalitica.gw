@@ -2,7 +2,7 @@
 
 Data: 5 de Agosto de 2026
 
-Estado: área pública e experiência de membro aprovado concluídas. Administração pendente de uma sessão de staff.
+Estado: área pública, experiência de membro aprovado e administração auditadas. Correcções e validação final pendentes.
 
 ## Âmbito verificado
 
@@ -24,6 +24,11 @@ Estado: área pública e experiência de membro aprovado concluídas. Administra
 - Perfil próprio, edição do perfil e definições da conta.
 - Fluxo de desactivação com retenção de 30 dias.
 - Bloqueio do acesso administrativo para um membro sem privilégios.
+- Painel administrativo, candidaturas, perfis, denúncias e auditoria.
+- Estados vazios e estados aprovados das filas administrativas.
+- Detalhe de uma candidatura aprovada e acções disponíveis.
+- Detalhe de um perfil aprovado e acções disponíveis.
+- Ligação entre a administração Kalitica e a administração Django de membros.
 
 ## Pontos fortes
 
@@ -121,9 +126,59 @@ Prioridade: baixa.
 
 Evidência: `15-areas.png`.
 
+### 11. Administração sem saída directa ou regresso à rede
+
+O cabeçalho administrativo mostra apenas o endereço da conta. Não existe uma acção visível para sair, regressar ao painel do membro ou abrir o Directório. A única saída indirecta passa pela administração Django através de “Membros”, o que não é um percurso claro nem adequado para uma operação frequente.
+
+Prioridade: alta.
+
+Evidência: `28-admin-painel.png`, `29-admin-candidaturas.png` e `31-admin-perfis.png`.
+
+### 12. Filtros administrativos sem nome acessível
+
+Os selectores de estado em Candidaturas, Perfis e Denúncias não têm `label` nem nome acessível. Um leitor de ecrã anuncia apenas “combobox”, sem explicar se o controlo filtra candidaturas, perfis ou denúncias.
+
+Prioridade: alta para acessibilidade.
+
+Evidência: passos `29-admin-candidaturas.png` e `31-admin-perfis.png`, confirmados pela estrutura acessível capturada no browser.
+
+### 13. Perfil aprovado continua a oferecer “Aprovar publicação”
+
+O detalhe de um perfil que já está aprovado continua a apresentar a acção “Aprovar publicação”. A acção redundante não corresponde ao estado actual e aumenta o risco de uma decisão administrativa repetida. Neste estado devem existir apenas acções válidas, como pedir correcções, suspender ou outra transição explicitamente permitida.
+
+Prioridade: alta.
+
+Evidência: estrutura acessível do detalhe `/administracao/perfis/1/`. A captura visual desta página bloqueou repetidamente no browser e não foi aceite como evidência gráfica.
+
+### 14. Tabela de auditoria força deslocamento horizontal
+
+Na largura intermédia auditada, a tabela mantém uma largura mínima de 800 px. A coluna “Contexto” fica fora do ecrã e surge uma barra de deslocamento horizontal dentro do cartão. Um registo de auditoria precisa de permitir leitura rápida sem esconder a informação que explica a decisão.
+
+Prioridade: média.
+
+Evidência: `27-admin-auditoria.png`.
+
+### 15. Gestão de membros quebra a experiência Kalitica
+
+A ligação “Membros” abre a administração Django padrão. O destino usa outra estrutura visual, apresenta nomenclatura técnica e mistura português com rótulos em inglês, como “Accounts”, “Legal acceptances” e “Membership decisions”. A equipa deixa de ter uma experiência administrativa coerente e fica exposta a operações técnicas que não fazem parte do fluxo normal de revisão.
+
+Prioridade: média.
+
+Evidência: estrutura acessível de `/admin/accounts/user/`. A captura visual deixou de estar disponível após a falha de captura descrita nos limites.
+
+### 16. Navegação administrativa não indica a secção activa
+
+A barra lateral mantém o mesmo aspecto em Painel, Candidaturas, Perfis, Denúncias e Auditoria. O administrador não recebe indicação visual nem `aria-current` sobre a secção onde se encontra.
+
+Prioridade: baixa.
+
+Evidência: `27-admin-auditoria.png`, `28-admin-painel.png`, `29-admin-candidaturas.png` e `31-admin-perfis.png`.
+
 ## Limites da auditoria
 
-A administração ainda não foi auditada porque a sessão actual pertence a um membro sem privilégios. O controlo de acesso foi confirmado pela resposta 403.
+A administração foi auditada com uma conta de demonstração com privilégios de staff. Nenhuma candidatura, perfil, denúncia, utilizador ou registo foi alterado durante a auditoria.
+
+As capturas das páginas de detalhe de perfil, denúncias e administração Django falharam repetidamente depois de o browser deixar de conseguir capturar a superfície. A estrutura acessível e os destinos foram inspeccionados, mas estas páginas ficam registadas como lacunas de evidência visual. A validação final deve repetir as capturas depois das correcções.
 
 As imagens permitem avaliar hierarquia, legibilidade, fluxo e riscos visíveis. Não provam conformidade integral com WCAG. Essa confirmação exige testes de teclado, nomes acessíveis, estados dinâmicos e contraste calculado.
 
@@ -157,3 +212,11 @@ As imagens permitem avaliar hierarquia, legibilidade, fluxo e riscos visíveis. 
 26. `24-admin-bloqueado.png`
 27. `25-painel-mobile.png`
 28. `26-menu-privado-mobile.png`
+29. `27-admin-auditoria.png`
+30. `28-admin-painel.png`
+31. `29-admin-candidaturas.png`
+32. `29b-admin-candidaturas-aprovadas.png`
+33. `30-admin-candidatura-detalhe.png`
+34. `30b-admin-candidatura-accoes.png`
+35. `31-admin-perfis.png`
+36. `31b-admin-perfis-aprovados.png`
