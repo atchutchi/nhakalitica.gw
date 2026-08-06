@@ -272,6 +272,25 @@ class PublicSearchTests(TestCase):
         self.assertContains(response, "Relação com a Guiné-Bissau")
         self.assertNotContains(response, "Talentos PALOP")
 
+    def test_own_directory_card_reserves_the_favorite_action_space(self):
+        viewer = get_user_model().objects.get(email="viewer@example.com")
+        viewer.profile.public_name = "Perfil do próprio membro"
+        viewer.profile.status = Profile.Status.APPROVED
+        viewer.profile.review_status = Profile.ReviewStatus.APPROVED
+        viewer.profile.is_public = True
+        viewer.profile.is_discoverable = True
+        viewer.profile.save()
+
+        response = self.client.get("/pesquisar/")
+
+        self.assertContains(response, "Perfil do próprio membro")
+        self.assertContains(
+            response,
+            '<span class="directory-member-action-placeholder" aria-hidden="true"></span>',
+            count=1,
+            html=True,
+        )
+
     def test_directory_filters_by_membership_relationship(self):
         self.public_profile.user.membership.relationship = Membership.Relationship.CITIZEN
         self.public_profile.user.membership.save(update_fields=("relationship",))

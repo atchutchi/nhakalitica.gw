@@ -32,6 +32,7 @@
 .directory-skill-list { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
 .directory-skill-list span { padding: 3px 7px; border: 1px solid #d9e9e5; border-radius: 999px; color: #45605d; font-size: .66rem; }
 .directory-member-actions { display: flex; align-items: center; gap: 8px; }
+.directory-member-action-placeholder { display: block; width: 40px; height: 40px; }
 .directory-member-actions form button { width: 40px; height: 40px; border: 1px solid var(--color-border); border-radius: var(--radius-control); color: var(--color-navy); background: #fff; }
 .directory-empty { padding: 50px 20px; border: 1px dashed var(--color-border); border-radius: var(--radius-control); text-align: center; }
 .directory-empty > i { color: var(--color-primary); font-size: 32px; }
